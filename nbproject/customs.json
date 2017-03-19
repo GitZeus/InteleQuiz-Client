@@ -1,0 +1,15 @@
+{
+    "elements": {
+        "ion-nav-view": {},
+        "ion-header-bar": {},
+        "ion-md-input": {},
+        "ion-content": {},
+        "ion-pane": {},
+        "ion-view": {}
+    },
+    "attributes": {
+        "ui-sref": {
+            "context": "button"
+        }
+    }
+}
