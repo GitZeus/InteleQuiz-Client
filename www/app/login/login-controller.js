@@ -4,10 +4,10 @@
     angular
             .module('intelequiz')
             .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['$scope', '$ionicPopup', '$ionicLoading', '$timeout', '$state', 'LoginService', 'AppService'];
-    function loginCtrl($scope, $ionicPopup, $ionicLoading, $timeout, $state, LoginService, AppService) {
+    loginCtrl.$inject = ['$scope', '$ionicPopup', '$ionicLoading', '$timeout', '$state', 'loginSrvc', 'AppService'];
+    function loginCtrl($scope, $ionicPopup, $ionicLoading, $timeout, $state, loginSrvc, AppService) {
         var loginCtrl = this;
-        var loginService = LoginService;
+        var loginSrvc = loginSrvc;
 
         loginCtrl.autenticar = autenticar;
 
@@ -15,29 +15,24 @@
             $ionicLoading.show({
                 template: 'Loading <br/> <ion-spinner></ion-spinner>'
             });
-            loginService.autenticar(usuario).then(function (response) {
-                        if (response) {
-                            if (response.cod_usuario) {
-                                $timeout(function () {
-                                    $ionicLoading.hide();
-                                    AppService.usuarioLogado = response;
-                                    $state.go('menu.home');
-                                }, 2000);
-                            } else {
-                                $ionicLoading.hide();
-                                $ionicPopup.alert({
-                                    title: 'Atenção',
-                                    template: 'Usuário ou senha incorretos'
-                                });
-                            }
-                        } else {
-                            $ionicLoading.hide();
-                            $ionicPopup.alert({
-                                title: 'Atenção',
-                                template: 'Usuário ou senha incorretos'
-                            });
-                        }
-                    }, function () {
+            loginSrvc.autenticar(usuario).then(function (response) {
+                $timeout(function () {
+                    $ionicLoading.hide();
+                    if (response.data) {
+                        AppService.usuarioLogado = response.data;
+                        $state.go('menu.home');
+                    } else if (response.message) {
+                        $ionicPopup.alert({
+                            title: 'Atenção',
+                            template: response.message.text,
+                            buttons: [{
+                                    text: '<b>Fechar</b>',
+                                    type: 'button-assertive',
+                                }]
+                        });
+                    }
+                }, 2000);
+            }, function () {
                 $ionicLoading.hide();
                 $ionicPopup.alert({
                     title: 'Atenção',
