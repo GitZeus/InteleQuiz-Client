@@ -1,7 +1,12 @@
 {
     "elements": {
+        "ion-side-menus": {},
+        "ion-side-menu": {},
+        "a": {},
         "ion-nav-view": {},
+        "ion-list": {},
         "ion-header-bar": {},
+        "ion-item": {},
         "ion-md-input": {},
         "ion-content": {},
         "ion-pane": {},

@@ -23,8 +23,7 @@
                             Perfil
                         </span>
                         <select required data-ng-model="loginCtrl.usuario.perfil">
-                            <option>Aluno</option>
-                            <option>Professor</option>
+                            <option value="{{item.codigo}}" data-ng-repeat="item in loginCtrl.listarPerfis">{{item.nome}}</option>
                         </select>
                     </label>
                 </div>

@@ -10,6 +10,7 @@
         var loginSrvc = loginSrvc;
 
         loginCtrl.autenticar = autenticar;
+        loginCtrl.listarPerfis = loginSrvc.listarPerfis();
 
         function autenticar(usuario) {
             $ionicLoading.show({
@@ -19,7 +20,7 @@
                 $timeout(function () {
                     $ionicLoading.hide();
                     if (response.data) {
-                        AppService.usuarioLogado = response.data;
+                        AppService.usuarioLogado = response;
                         $state.go('menu.home');
                     } else if (response.message) {
                         $ionicPopup.alert({
@@ -27,19 +28,12 @@
                             template: response.message.text,
                             buttons: [{
                                     text: '<b>Fechar</b>',
-                                    type: 'button-assertive',
+                                    type: 'button-assertive'
                                 }]
                         });
                     }
                 }, 2000);
-            }, function () {
-                $ionicLoading.hide();
-                $ionicPopup.alert({
-                    title: 'Atenção',
-                    template: 'Serviço indisponível, tente mais tarde'
-                });
             });
         }
-        ;
     }
 })();

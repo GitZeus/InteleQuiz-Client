@@ -9,12 +9,21 @@
 
     function loginSrvc($http, $log) {
         var service = {
-            autenticar: autenticar
+            autenticar: autenticar,
+            listarPerfis:   listarPerfis
         };
         return service;
 
         function autenticar(usuario) {
             return $http.post('http://192.168.0.3:8084/intelequiz-srv/autenticar', usuario).then(success, error);
+        }
+
+        function listarPerfis() {
+            return [
+                {nome: 'Professor', codigo: '1'},
+                {nome: 'Aluno', codigo: '2'},
+                {nome: 'Coordenador', codigo: '3'}
+            ]
         }
 
         function success(response) {
@@ -23,7 +32,7 @@
         }
         function error(response) {
             $log.error(response);
-            return null;
+            return {data: null, message: {type: 'ERROR', text: 'Serviço indisponível, tente mais tarde'}};
         }
     }
 })();
