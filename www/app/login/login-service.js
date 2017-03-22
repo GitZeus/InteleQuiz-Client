@@ -15,7 +15,7 @@
         return service;
 
         function autenticar(usuario) {
-            return $http.post('http://192.168.0.3:8084/intelequiz-srv/autenticar', usuario).then(success, error);
+            return $http.post('http://192.168.0.4:8084/intelequiz-srv/autenticar', usuario).then(success, error);
         }
 
         function listarPerfis() {

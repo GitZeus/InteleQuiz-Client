@@ -17,7 +17,7 @@
                 template: 'Loading <br/> <ion-spinner></ion-spinner>'
             });
             loginSrvc.autenticar(usuario).then(function (response) {
-                $timeout(function () {
+//                $timeout(function () {
                     $ionicLoading.hide();
                     if (response.data) {
                         AppService.usuarioLogado = response;
@@ -32,7 +32,7 @@
                                 }]
                         });
                     }
-                }, 2000);
+//                }, 2000);
             });
         }
     }
