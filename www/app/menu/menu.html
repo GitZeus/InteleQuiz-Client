@@ -8,24 +8,31 @@
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
             </ion-nav-buttons>
         </ion-nav-bar>
-        
+
         <ion-nav-view name="conteudo"></ion-nav-view>
 
     </ion-side-menu-content>
 
     <ion-side-menu side="left">
         <ion-header-bar class="bar-assertive" align-title="center">
-            <h1 class="title">Menu</h1>
+            <h1 class="title">Menu {{menuCtrl.usuarioLogado.nome}}</h1>
         </ion-header-bar>
         <ion-content>
-            <ul class="list">
-                <a href="#/menu/perfil" class="item" menu-close>Questão</a>
-                <a href="#/menu/home" class="item" menu-close>Quiz</a>
-                <a href="#/menu/list-disciplina" class="item" menu-close>Treino</a>
-                <a href="#/menu/list-questao" class="item" menu-close>Rankings</a>
-                <a href="#/menu/list-quiz" class="item" menu-close>Avaliar Desempenho</a>
+            <div class="list">
+                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR' || menuCtrl.usuarioLogado.perfil == 'COORDENADOR'">
+                    <a href="#/menu/manter-questao" class="item" menu-close>Questão</a>
+                    <a href="#/menu/manter-quiz" class="item" menu-close>Quiz</a>
+                </div>
+                
+                <div  data-ng-if="menuCtrl.usuarioLogado.perfil == 'ALUNO'">
+                    <a href="#/menu/manter-treino" class="item" menu-close>Treino</a>
+                </div>
+                
+                <a href="#/menu/rankings" class="item" menu-close>Rankings</a>
+                <a href="#/menu/desempenho" class="item" menu-close>Desempenho</a>
+                
                 <a href="#/login" class="item" menu-close>Sair</a>
-            </ul>
+            </div>
         </ion-content>
     </ion-side-menu>
 

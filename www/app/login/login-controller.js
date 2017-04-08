@@ -9,30 +9,43 @@
         var loginCtrl = this;
         var loginSrvc = loginSrvc;
 
+        loginCtrl.usuario = {};
+        
         loginCtrl.autenticar = autenticar;
-        loginCtrl.listarPerfis = loginSrvc.listarPerfis();
+        
+        loginSrvc.tiposUsuario().then(function (response) {
+            if (response.data) {
+                loginCtrl.listarPerfis = response.data;
+                loginCtrl.usuario.perfil = loginCtrl.listarPerfis[0];
+                loginCtrl.usuario.login = "MA123";
+                loginCtrl.usuario.senha = "123";
+            } else if (response.message) {
+                $ionicPopup.alert({
+                    title: 'Atenção',
+                    template: response.message.text,
+                    buttons: [{
+                            text: '<b>Fechar</b>',
+                            type: 'button-assertive'
+                        }]
+                });
+            }
+        });
 
         function autenticar(usuario) {
-            $ionicLoading.show({
-                template: 'Loading <br/> <ion-spinner></ion-spinner>'
-            });
             loginSrvc.autenticar(usuario).then(function (response) {
-//                $timeout(function () {
-                    $ionicLoading.hide();
-                    if (response.data) {
-                        AppService.usuarioLogado = response;
-                        $state.go('menu.home');
-                    } else if (response.message) {
-                        $ionicPopup.alert({
-                            title: 'Atenção',
-                            template: response.message.text,
-                            buttons: [{
-                                    text: '<b>Fechar</b>',
-                                    type: 'button-assertive'
-                                }]
-                        });
-                    }
-//                }, 2000);
+                if (response.data) {
+                    AppService.usuarioLogado = response.data;
+                    $state.go('menu.home'); //,{}, {reload: true}
+                } else if (response.message) {
+                    $ionicPopup.alert({
+                        title: 'Atenção',
+                        template: response.message.text,
+                        buttons: [{
+                                text: '<b>Fechar</b>',
+                                type: 'button-assertive'
+                            }]
+                    });
+                }
             });
         }
     }

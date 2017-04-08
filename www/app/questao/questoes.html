@@ -1,0 +1,18 @@
+<ion-view view-title="Questões">
+    <button id="fab-activity" class="button button-fab button-fab-bottom-right expanded button-energized-900 flap pane on" nav-view="active" style="opacity: 1; box-shadow: 0px 0px 10px rgba(0, 0, 0, 0); transform: translate3d(0%, 0px, 0px);">
+        <i class="icon ion-plus-round"></i>
+    </button>
+    <ion-content>
+        <div class="list">
+            <div class="item item-input item-select">
+                <span class="input-label">Disciplina</span>
+                <select class="item-text-wrap" data-ng-options="disciplina as disciplina.sigla for disciplina in questaoCtrl.listDisciplinas" data-ng-model="questaoCtrl.filtroDisciplina" data-ng-change="questaoCtrl.listTagsByDisciplina(questaoCtrl.filtroDisciplina)"></select>
+            </div>
+            <div class="item item-input item-select">
+                <span class="input-label">Tag</span>
+                <select data-ng-options="tag as tag.nome for tag in questaoCtrl.listTags" data-ng-model="questaoCtrl.filtroTag"></select>
+            </div>
+        </div>
+    </ion-content>
+
+</ion-view>

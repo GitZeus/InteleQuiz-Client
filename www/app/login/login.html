@@ -22,8 +22,8 @@
                         <span class="input-label">
                             Perfil
                         </span>
-                        <select required data-ng-model="loginCtrl.usuario.perfil">
-                            <option value="{{item.codigo}}" data-ng-repeat="item in loginCtrl.listarPerfis">{{item.nome}}</option>
+                        <select required data-ng-options="item for item in loginCtrl.listarPerfis" data-ng-model="loginCtrl.usuario.perfil">
+                            <!--<option value="{{item}}" data-ng-repeat="item in loginCtrl.listarPerfis">{{item}}</option>-->
                         </select>
                     </label>
                 </div>

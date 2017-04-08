@@ -18,7 +18,10 @@
                 .state('menu', {
                     url: "/menu",
                     abstract: true,
-                    templateUrl: "app/menu/menu.html"
+                    templateUrl: "app/menu/menu.html",
+                    controller: 'menuCtrl',
+                    controllerAs: 'menuCtrl',
+                    cache: false
                 })
 
                 .state('menu.home', {
@@ -26,6 +29,17 @@
                     views: {
                         'conteudo': {
                             templateUrl: 'app/menu/home.html'
+                        }
+                    }
+                })
+                
+                .state('menu.manter-questao', {
+                    url: '/manter-questao',
+                    views: {
+                        'conteudo': {
+                            templateUrl: 'app/questao/questoes.html',
+                            controller: 'questaoCtrl',
+                            controllerAs: 'questaoCtrl'
                         }
                     }
                 })

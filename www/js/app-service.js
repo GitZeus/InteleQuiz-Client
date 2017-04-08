@@ -14,6 +14,7 @@
 
         data.disciplinas = [];
         data.questoes = [];
+        data.URL_BASE = "http://192.168.0.4:8084" + "/intelequiz-srv/";
 
         return data;
     }

@@ -5,25 +5,22 @@
             .module('intelequiz')
             .factory('loginSrvc', loginSrvc);
 
-    loginSrvc.$inject = ['$http', '$log'];
+    loginSrvc.$inject = ['$http', '$log', 'AppData'];
 
-    function loginSrvc($http, $log) {
+    function loginSrvc($http, $log, AppData) {
+        var URL_BASE = AppData.URL_BASE;
         var service = {
             autenticar: autenticar,
-            listarPerfis:   listarPerfis
+            tiposUsuario:   tiposUsuario
         };
         return service;
 
         function autenticar(usuario) {
-            return $http.post('http://192.168.0.4:8084/intelequiz-srv/autenticar', usuario).then(success, error);
+            return $http.post(URL_BASE + 'usuario/autenticacao', usuario).then(success, error);
         }
 
-        function listarPerfis() {
-            return [
-                {nome: 'Professor', codigo: '1'},
-                {nome: 'Aluno', codigo: '2'},
-                {nome: 'Coordenador', codigo: '3'}
-            ]
+        function tiposUsuario() {
+            return $http.get(URL_BASE + 'usuario/tipo').then(success, error);
         }
 
         function success(response) {
