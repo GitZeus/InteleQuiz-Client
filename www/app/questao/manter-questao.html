@@ -1,0 +1,68 @@
+<ion-view view-title="Manter Questão">
+    <button class="button button-fab button-fab-bottom-right expanded button-calm-900 flap pane on" data-ui-sref="menu.manter-questao">
+        <i class="icon ion-plus-round"></i>
+    </button>
+    <ion-content>
+        <div class="list card">
+            <div class="item item-input item-select">
+                <div class="input-label">
+                    Disciplina
+                </div>
+                <select data-ng-options="disciplina as disciplina.sigla for disciplina in manterQuestaoCtrl.listDisciplinas" data-ng-model="manterQuestaoCtrl.filtroDisciplinaQuestao"></select>
+            </div>
+            <div class="item item-input item-select">
+                <div class="input-label">
+                    Tipo
+                </div>
+                <select data-ng-options="tipo as tipo for tipo in manterQuestaoCtrl.listTiposQuestao" data-ng-model="manterQuestaoCtrl.filtroTipoQuestao"></select>
+            </div>
+            <div class="item item-input item-select">
+                <div class="input-label">
+                    Nível
+                </div>
+                <select data-ng-options="nivel as nivel for nivel in manterQuestaoCtrl.listNiveisQuestao" data-ng-model="manterQuestaoCtrl.filtroNivelQuestao"></select>
+            </div>
+        </div>
+
+        <div class="list card">
+
+            <label class="item item-input">
+                <input type="text" placeholder="Texto da Questão">
+            </label>
+
+            <label class="item item-icon-left item-icon-right">
+                <i class=""></i>
+                Verdadeiro
+                <i class="icon ion-checkmark"></i>
+            </label>
+
+            <label class="item item-icon-left item-icon-right">
+                <i class=""></i>
+                Falso
+                <i class=""></i>
+            </label>
+
+        </div>
+
+
+        <div class="list card">
+
+            <label class="item item-input">
+                <i class="icon ion-search placeholder-icon"></i>
+                <input type="text" placeholder="Buscar/Adicionar Tag">
+            </label>
+
+            <label class="item item-icon-right">
+                Java
+                <i class="icon ion-android-remove-circle"></i>
+            </label>
+
+            <label class="item item-icon-right">
+                Programação
+                <i class="icon ion-android-remove-circle"></i>
+            </label>
+
+        </div>
+    </ion-content>
+
+</ion-view>

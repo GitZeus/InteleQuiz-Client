@@ -4,47 +4,47 @@
     angular
             .module('intelequiz')
             .controller('questaoCtrl', questaoCtrl);
-    questaoCtrl.$inject = ['$scope', '$ionicPopup', '$ionicLoading', '$timeout', '$state', 'questaoSrvc', 'AppService','ionicMaterialInk','ionicMaterialMotion'];
-    function questaoCtrl($scope, $ionicPopup, $ionicLoading, $timeout, $state, questaoSrvc, AppService,ionicMaterialInk,ionicMaterialMotion) {
+    questaoCtrl.$inject = ['DADOS_GLOBAIS', 'SERVICOS_GLOBAIS', 'questaoSrvc', 'questaoDados', '$state', 'ionicMaterialInk', 'ionicMaterialMotion'];
+    function questaoCtrl(DADOS_GLOBAIS, SERVICOS_GLOBAIS, questaoSrvc, questaoDados, $state, ionicMaterialInk, ionicMaterialMotion) {
         var questaoCtrl = this;
         var questaoSrvc = questaoSrvc;
-        questaoCtrl.usuarioLogado = AppService.usuarioLogado;
-        
+        questaoCtrl.usuarioLogado = DADOS_GLOBAIS.USUARIO_LOGADO;
+
         ionicMaterialInk.displayEffect();
-        ionicMaterialMotion.ripple();
-        
+//        ionicMaterialMotion.ripple();
+
         questaoCtrl.listDisciplinas = [];
         questaoCtrl.filtroDisciplina = {};
-        questaoCtrl.listTags = [];
-        questaoCtrl.filtroTag = {};
-        
-        questaoCtrl.listTagsByDisciplina = listTagsByDisciplina;
-        
-        questaoSrvc.listDisciplinas(questaoCtrl.usuarioLogado).then(function(response){
-            if(response.data){
-                questaoCtrl.listDisciplinas = response.data;
+        questaoCtrl.listTemas = [];
+        questaoCtrl.filtroTema = {};
+        questaoCtrl.listQuestoes = [];
+
+        questaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
+
+        questaoSrvc.listDisciplinas(questaoCtrl.usuarioLogado).then(function (response) {
+            if (response.data) {
+                questaoDados.DISCIPLINAS = response.data;
+                questaoCtrl.listDisciplinas = questaoDados.DISCIPLINAS;
                 questaoCtrl.filtroDisciplina = questaoCtrl.listDisciplinas[0];
-                listTagsByDisciplina(questaoCtrl.filtroDisciplina);
+                listTemasByDisciplina(questaoCtrl.usuarioLogado.matricula, questaoCtrl.filtroDisciplina.id);
             }
         });
-        
-        function listTagsByDisciplina(disciplina){
-            questaoSrvc.listTags(disciplina).then(function(response){
-               if(response.data){
-                   questaoCtrl.listTags = response.data;
-                   questaoCtrl.filtroTag = questaoCtrl.listTags[0];
-                   listQuestoesByTag();
-               } 
+
+        function listTemasByDisciplina(matricula_professor, disciplina_id) {
+            questaoSrvc.listTemasByDisciplina(matricula_professor, disciplina_id).then(function (response) {
+                if (response.data) {
+                    questaoCtrl.listTemas = response.data;
+                    questaoCtrl.filtroTema = questaoCtrl.listTemas[0];
+                    listQuestoesByTema(questaoCtrl.filtroTema.id);
+                }
             });
         }
-        
-        function listQuestoesByTag(tag){
-            questaoSrvc.listQuestoes().then(function(response){
-               if(response.data){
-                   questaoCtrl.listTags = response.data;
-                   questaoCtrl.filtroTag = questaoCtrl.listTags[0];
-                   listQuestoesByTag();
-               } 
+
+        function listQuestoesByTema(tema_id) {
+            questaoSrvc.listQuestoesByTema(tema_id).then(function (response) {
+                if (response.data) {
+                    questaoCtrl.listQuestoes = response.data;
+                }
             });
         }
     }

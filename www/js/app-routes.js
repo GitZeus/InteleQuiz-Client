@@ -33,13 +33,23 @@
                     }
                 })
                 
-                .state('menu.manter-questao', {
-                    url: '/manter-questao',
+                .state('menu.questoes', {
+                    url: '/questoes',
                     views: {
                         'conteudo': {
                             templateUrl: 'app/questao/questoes.html',
                             controller: 'questaoCtrl',
                             controllerAs: 'questaoCtrl'
+                        }
+                    }
+                })
+                .state('menu.manter-questao', {
+                    url: '/manter-questao',
+                    views: {
+                        'conteudo': {
+                            templateUrl: 'app/questao/manter-questao.html',
+                            controller: 'manterQuestaoCtrl',
+                            controllerAs: 'manterQuestaoCtrl'
                         }
                     }
                 })

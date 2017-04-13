@@ -3,77 +3,34 @@
     'use strict';
     angular
             .module('intelequiz')
-            .factory('AppService', AppService)
-            .factory('AppData', AppData);
+            .factory('DADOS_GLOBAIS', DADOS_GLOBAIS)
+            .factory('SERVICOS_GLOBAIS', SERVICOS_GLOBAIS);
 
-    AppService.$inject = ['AppData', '$window'];
-    AppData.$inject = [];
+    DADOS_GLOBAIS.$inject = [];
+    SERVICOS_GLOBAIS.$inject = ['DADOS_GLOBAIS', '$window', '$log'];
 
-    function AppData() {
-        var data = this;
-
-        data.disciplinas = [];
-        data.questoes = [];
-        data.URL_BASE = "http://192.168.0.4:8084" + "/intelequiz-srv/";
-
+    function DADOS_GLOBAIS() {
+        var data = {
+            URL_BASE: "http://192.168.0.5:8084" + "/intelequiz-srv/",
+            USUARIO_LOGADO: {},
+            TIPOS_USUARIO:  [],
+            NIVEIS_QUESTAO: [],
+            TIPOS_QUESTAO:  [],
+        };
         return data;
     }
 
-    function AppService(AppData, $window) {
-
+    function SERVICOS_GLOBAIS(DADOS_GLOBAIS, $window, $log) {
         var service = {
-            getDisciplinas: getDisciplinas,
-            addDisciplina: addDisciplina,
-            editDisciplina: editDisciplina,
-            deleteDisciplina: deleteDisciplina,
-            
-            getQuestoes: getQuestoes,
-            addQuestao: addQuestao,
-            editQuestao: editQuestao,
-            deleteQuestao: deleteQuestao
+            success: function (response) {
+                $log.info(response);
+                return response.data;
+            },
+            error: function (response) {
+                $log.error(response);
+                return {data: null, message: {type: 'ERROR', text: 'Serviço indisponível, tente mais tarde'}};
+            },
         };
         return service;
-
-        function getDisciplinas() {
-            if ($window.localStorage.getItem('disciplinas')) {
-                AppData.disciplinas = JSON.parse($window.localStorage.getItem('disciplinas'));
-            }
-        }
-
-        function addDisciplina(disciplina) {
-            AppData.disciplinas.push(disciplina);
-            $window.localStorage.setItem('disciplinas', JSON.stringify(AppData.disciplinas));
-        }
-        
-         function editDisciplina(disciplina, indice) {
-            AppData.disciplinas[indice] = disciplina;
-            $window.localStorage.setItem('disciplinas', JSON.stringify(AppData.disciplinas));
-        }
-
-        function deleteDisciplina(indice) {
-            AppData.disciplinas.splice(indice, 1);
-            $window.localStorage.setItem('disciplinas', JSON.stringify(AppData.disciplinas));
-        }
-
-        function getQuestoes() {
-            if ($window.localStorage.getItem('questoes')) {
-                AppData.questoes = JSON.parse($window.localStorage.getItem('questoes'));
-            }
-        }
-
-        function addQuestao(questao) {
-            AppData.questoes.push(questao);
-            $window.localStorage.setItem('questoes', JSON.stringify(AppData.questoes));
-        }
-
-        function editQuestao(questao, indice) {
-            AppData.questoes[indice] = questao;
-            $window.localStorage.setItem('questoes', JSON.stringify(AppData.questoes));
-        }
-
-        function deleteQuestao(indice) {
-            AppData.questoes.splice(indice, 1);
-            $window.localStorage.setItem('questoes', JSON.stringify(AppData.questoes));
-        }
     }
 })();

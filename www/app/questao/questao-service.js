@@ -3,38 +3,40 @@
     'use strict';
     angular
             .module('intelequiz')
-            .factory('questaoSrvc', questaoSrvc);
+            .factory('questaoSrvc', questaoSrvc)
+            .factory('questaoDados', questaoDados);
 
-    questaoSrvc.$inject = ['$http', '$log','AppData'];
+    questaoSrvc.$inject = ['$http', '$log', 'DADOS_GLOBAIS', 'SERVICOS_GLOBAIS'];
 
-    function questaoSrvc($http, $log, AppData) {
-        var URL_BASE = AppData.URL_BASE;
+    function questaoSrvc($http, $log, DADOS_GLOBAIS, SERVICOS_GLOBAIS) {
         var service = {
-            listDisciplinas : listDisciplinas,
-            listTags : listTags,
-            listQuestoes:listQuestoes
+            listDisciplinas: function (professor) {
+                return $http.post(DADOS_GLOBAIS.URL_BASE + 'professor/disciplinas', professor).then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            listTemasByDisciplina: function (matricula_professor, disciplina_id) {
+                return $http.get(DADOS_GLOBAIS.URL_BASE + 'professor/' + matricula_professor + '/disciplina/' + disciplina_id + '/temas').then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            listQuestoesByTema: function (tema_id) {
+                return $http.get(DADOS_GLOBAIS.URL_BASE + 'tema/' + tema_id + '/questoes').then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            listTiposQuestao: function(){
+                return $http.get(DADOS_GLOBAIS.URL_BASE + 'questoes/tipos').then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            listNiveisQuestao: function(){
+                return $http.get(DADOS_GLOBAIS.URL_BASE + 'questoes/niveis').then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            }
         };
         return service;
-
-        function listDisciplinas(professor) {
-            return $http.post(URL_BASE + 'professor/disciplinas', professor).then(success, error);
+    }
+    
+    function questaoDados(){
+        var dados = {
+            DISCIPLINAS : [],
         }
-        
-        function listTags(disciplina) {
-            return $http.post(URL_BASE + 'disciplinaResource/listTagsByDisciplina', disciplina).then(success, error);
-        }
-        
-        function listQuestoes() {
-            return $http.post(URL_BASE + 'disciplinaResource/listQuestoesByTag').then(success, error);
-        }
-        
-        function success(response) {
-            $log.info(response);
-            return response.data;
-        }
-        function error(response) {
-            $log.error(response);
-            return {data: null, message: {type: 'ERROR', text: 'Serviço indisponível, tente mais tarde'}};
-        }
+        return dados;
     }
 })();

@@ -4,11 +4,9 @@
     angular
             .module('intelequiz')
             .controller('menuCtrl', menuCtrl);
-    menuCtrl.$inject = ['$scope', '$ionicPopup', '$ionicLoading', '$state', 'AppService'];
-    function menuCtrl($scope, $ionicPopup, $ionicLoading, $state, AppService) {
+    menuCtrl.$inject = ['DADOS_GLOBAIS', 'SERVICOS_GLOBAIS', '$state'];
+    function menuCtrl(DADOS_GLOBAIS, SERVICOS_GLOBAIS, $state) {
         var menuCtrl = this;
-        menuCtrl.usuarioLogado = AppService.usuarioLogado;
-        console.log(menuCtrl.usuarioLogado);
-        
+        menuCtrl.usuarioLogado = DADOS_GLOBAIS.USUARIO_LOGADO;
     }
 })();
