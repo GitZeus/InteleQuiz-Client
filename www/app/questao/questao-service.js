@@ -28,6 +28,14 @@
             
             listNiveisQuestao: function(){
                 return $http.get(DADOS_GLOBAIS.URL_BASE + 'questoes/niveis').then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            listStatusQuizQuestao: function(){
+                return $http.get(DADOS_GLOBAIS.URL_BASE + 'questao/status').then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            saveQuestao: function(questao){
+                return $http.post(DADOS_GLOBAIS.URL_BASE + 'questao', questao).then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
             }
         };
         return service;

@@ -16,6 +16,7 @@
             TIPOS_USUARIO:  [],
             NIVEIS_QUESTAO: [],
             TIPOS_QUESTAO:  [],
+            STATUS_QUIZ_QUESTAO: [],
         };
         return data;
     }

@@ -1,7 +1,4 @@
 <ion-view view-title="Manter Questão">
-    <button class="button button-fab button-fab-bottom-right expanded button-calm-900 flap pane on" data-ui-sref="menu.manter-questao">
-        <i class="icon ion-plus-round"></i>
-    </button>
     <ion-content>
         <div class="list card">
             <div class="item item-input item-select">
@@ -27,7 +24,7 @@
         <div class="list card">
 
             <label class="item item-input">
-                <input type="text" placeholder="Texto da Questão">
+                <input type="text" placeholder="Texto da Questão" data-ng-model="manterQuestaoCtrl.textoQuestao">
             </label>
 
             <label class="item item-icon-left item-icon-right">
@@ -45,7 +42,7 @@
         </div>
 
 
-        <div class="list card">
+<!--        <div class="list card">
 
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
@@ -62,6 +59,11 @@
                 <i class="icon ion-android-remove-circle"></i>
             </label>
 
+        </div>-->
+
+        <div class="button-bar padding">
+            <a class="button button-positive" data-ng-click="manterQuestaoCtrl.salvarQuestao()">Salvar</a>
+            <a class="button button-dark" ui-sref="menu.questoes">Cancelar</a>
         </div>
     </ion-content>
 
