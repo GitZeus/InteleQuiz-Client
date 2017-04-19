@@ -17,11 +17,12 @@
             this.nivel = "";
             this.texto = "";
             this.status = "";
-            this.resposta = new Resposta();
+            this.respostas = [];
         }
 
         function Resposta() {
-            this.texto = "32";
+            this.texto = "";
+            this.certa = false;
         }
     }
 })();

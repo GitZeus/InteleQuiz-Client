@@ -1,59 +1,72 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+        <title></title>
 
-    <link rel="manifest" href="manifest.json">
+        <link rel="manifest" href="manifest.json">
 
-    <!-- un-comment this code to enable service worker
-    <script>
-      if ('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('service-worker.js')
-          .then(() => console.log('service worker installed'))
-          .catch(err => console.log('Error', err));
-      }
-    </script>-->
+        <!-- un-comment this code to enable service worker
+        <script>
+          if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.register('service-worker.js')
+              .then(() => console.log('service worker installed'))
+              .catch(err => console.log('Error', err));
+          }
+        </script>-->
 
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
+        <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+        <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
+        <link href="lib/angularjs-toaster/toaster.min.css" rel="stylesheet" />
+        <link href="lib/angular-ui-bootstrap/src/typeahead/typeahead.css" rel="stylesheet" />
+        <link href="css/style.css" rel="stylesheet">
 
-    <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
-    <link href="css/ionic.app.css" rel="stylesheet">
-    -->
+        <!-- IF using Sass (run gulp sass first), then uncomment below and remove the CSS includes above
+        <link href="css/ionic.app.css" rel="stylesheet">
+        -->
 
-    <!-- ionic/angularjs js -->
-    <script src="lib/ionic/js/ionic.bundle.js"></script>
-    
-    <!--ionic material design-->
-    <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
+        <!-- ionic/angularjs js -->
+        <script src="lib/ionic/js/ionic.bundle.js"></script>
 
-    <!-- cordova script (this will be a 404 during development) -->
-    <script src="cordova.js"></script>
+        <!--ionic material design-->
+        <script src="lib/ionic-material/dist/ionic.material.min.js"></script>
 
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/app-classes.js"></script>
-    <script src="js/app-service.js"></script>
-    <script src="js/app-routes.js"></script>
-    <script src="js/app-directives.js"></script>
-    
-    <!--login-->
-    <script src="app/login/login-controller.js"></script>
-    <script src="app/login/login-service.js"></script>
-    
-    <!--menu-->
-    <script src="app/menu/menu-controller.js"></script>
-    
-    <!--questao-->
-    <script src="app/questao/questao-controller.js"></script>
-    <script src="app/questao/manter-questao-controller.js"></script>
-    <script src="app/questao/questao-service.js"></script>
+        <!--angular animate-->
+        <script src="lib/angular-animate/angular-animate.min.js"></script>
 
-  </head>
-  <body ng-app="intelequiz" app-loading>
-    <ion-nav-view></ion-nav-view>
-  </body>
+        <!--ng toaster-->
+        <script src="lib/angularjs-toaster/toaster.js"></script>
+
+        <!-- cordova script (this will be a 404 during development) -->
+        <script src="cordova.js"></script>
+
+        <!-- your app's js -->
+        <!--<script src="lib/angular-ui-bootstrap/src/"></script>-->
+        <script src="lib/angular-ui-bootstrap/src/position/position.js"></script>
+        <script src="lib/angular-ui-bootstrap/src/debounce/debounce.js"></script>
+        <script src="lib/angular-ui-bootstrap/src/typeahead/typeahead.js"></script>
+        <script src="js/app.js"></script>
+        <script src="js/app-classes.js"></script>
+        <script src="js/app-service.js"></script>
+        <script src="js/app-routes.js"></script>
+        <script src="js/app-directives.js"></script>
+
+        <!--login-->
+        <script src="app/login/login-controller.js"></script>
+        <script src="app/login/login-service.js"></script>
+
+        <!--menu-->
+        <script src="app/menu/menu-controller.js"></script>
+
+        <!--questao-->
+        <script src="app/questao/questao-controller.js"></script>
+        <script src="app/questao/manter-questao-controller.js"></script>
+        <script src="app/questao/questao-service.js"></script>
+
+    </head>
+    <body ng-app="intelequiz" app-loading>
+        <toaster-container toaster-options="{'position-class': 'toast-center'}"></toaster-container>
+        <ion-nav-view></ion-nav-view>
+    </body>
 </html>

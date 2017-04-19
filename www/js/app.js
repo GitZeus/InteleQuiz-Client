@@ -1,5 +1,5 @@
-angular.module('intelequiz', ['ionic', 'ionic-material'])
-        .run(function ($ionicPlatform) {
+angular.module('intelequiz', ['ionic', 'ionic-material', 'toaster', 'ngAnimate', 'ui.bootstrap.typeahead'])
+        .run(function ($ionicPlatform, $rootScope, $ionicNavBarDelegate) {
             $ionicPlatform.ready(function () {
                 if (window.cordova && window.cordova.plugins.Keyboard) {
                     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
@@ -15,4 +15,8 @@ angular.module('intelequiz', ['ionic', 'ionic-material'])
                     StatusBar.styleDefault();
                 }
             });
+
+//            $rootScope.$on('$ionicView.enter', function (e) {
+//                $ionicNavBarDelegate.showBar(true);
+//            });
         })

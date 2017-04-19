@@ -32,9 +32,10 @@
                         }
                     }
                 })
-                
+
                 .state('menu.questoes', {
                     url: '/questoes',
+                    cache: false,
                     views: {
                         'conteudo': {
                             templateUrl: 'app/questao/questoes.html',
@@ -45,6 +46,7 @@
                 })
                 .state('menu.manter-questao', {
                     url: '/manter-questao',
+                    cache: false,
                     views: {
                         'conteudo': {
                             templateUrl: 'app/questao/manter-questao.html',

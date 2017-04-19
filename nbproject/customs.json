@@ -8,6 +8,7 @@
         "ion-header-bar": {},
         "ion-item": {},
         "ion-md-input": {},
+        "toaster-container": {},
         "ion-content": {},
         "ion-pane": {},
         "ion-view": {}

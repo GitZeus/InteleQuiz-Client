@@ -6,11 +6,11 @@
         <div class="list">
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
-                <select class="item-text-wrap" data-ng-options="disciplina as disciplina.sigla for disciplina in questaoCtrl.listDisciplinas" data-ng-model="questaoCtrl.filtroDisciplina" data-ng-change="questaoCtrl.listTagsByDisciplina(questaoCtrl.filtroDisciplina)"></select>
+                <select class="item-text-wrap" data-ng-options="disciplina as disciplina.sigla for disciplina in questaoCtrl.listDisciplinas" data-ng-model="questaoCtrl.filtroDisciplina" data-ng-change="questaoCtrl.listTemasByDisciplina(questaoCtrl.usuarioLogado.matricula, questaoCtrl.filtroDisciplina.id)"></select>
             </div>
             <div class="item item-input item-select">
                 <span class="input-label">Tema</span>
-                <select data-ng-options="tema as tema.nome for tema in questaoCtrl.listTemas" data-ng-model="questaoCtrl.filtroTema"></select>
+                <select data-ng-options="tema as tema.nome for tema in questaoCtrl.listTemas" data-ng-model="questaoCtrl.filtroTema" data-ng-change="questaoCtrl.listQuestoesByTema(questaoCtrl.filtroTema.id)"></select>
             </div>
         </div>
         <div class="list">

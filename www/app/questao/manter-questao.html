@@ -1,70 +1,71 @@
-<ion-view view-title="Manter Questão">
+<ion-view view-title="Manter Questão" >
     <ion-content>
-        <div class="list card">
-            <div class="item item-input item-select">
-                <div class="input-label">
-                    Disciplina
+        <form name="formQuestao" data-ng-submit="manterQuestaoCtrl.salvarQuestao()">
+            <div class="list card">
+                <div class="item item-input item-select">
+                    <div class="input-label">
+                        Disciplina
+                    </div>
+                    <select required data-ng-options="disciplina as disciplina.sigla for disciplina in manterQuestaoCtrl.listDisciplinas" data-ng-model="manterQuestaoCtrl.filtroDisciplinaQuestao"></select>
                 </div>
-                <select data-ng-options="disciplina as disciplina.sigla for disciplina in manterQuestaoCtrl.listDisciplinas" data-ng-model="manterQuestaoCtrl.filtroDisciplinaQuestao"></select>
-            </div>
-            <div class="item item-input item-select">
-                <div class="input-label">
-                    Tipo
+                <div class="item item-input item-select">
+                    <div class="input-label">
+                        Tipo
+                    </div>
+                    <select required data-ng-options="tipo as tipo for tipo in manterQuestaoCtrl.listTiposQuestao" data-ng-model="manterQuestaoCtrl.questao.tipo"></select>
                 </div>
-                <select data-ng-options="tipo as tipo for tipo in manterQuestaoCtrl.listTiposQuestao" data-ng-model="manterQuestaoCtrl.filtroTipoQuestao"></select>
-            </div>
-            <div class="item item-input item-select">
-                <div class="input-label">
-                    Nível
+                <div class="item item-input item-select">
+                    <div class="input-label">
+                        Nível
+                    </div>
+                    <select required data-ng-options="nivel as nivel for nivel in manterQuestaoCtrl.listNiveisQuestao" data-ng-model="manterQuestaoCtrl.questao.nivel"></select>
                 </div>
-                <select data-ng-options="nivel as nivel for nivel in manterQuestaoCtrl.listNiveisQuestao" data-ng-model="manterQuestaoCtrl.filtroNivelQuestao"></select>
             </div>
-        </div>
 
-        <div class="list card">
+            <div class="list card">
 
-            <label class="item item-input">
-                <input type="text" placeholder="Texto da Questão" data-ng-model="manterQuestaoCtrl.textoQuestao">
-            </label>
+                <label class="item item-input">
+                    <input required type="text" placeholder="Texto da Questão" data-ng-model="manterQuestaoCtrl.questao.texto">
+                </label>
 
-            <label class="item item-icon-left item-icon-right">
-                <i class=""></i>
-                Verdadeiro
-                <i class="icon ion-checkmark"></i>
-            </label>
+                <!--VERDADEIRO/FALSO-->
+                <ion-list data-ng-if="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'">
+                    <ion-radio name="rdRespostaVF"
+                               data-ng-required="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'"
+                               data-ng-model="$parent.resposta"
+                               data-ng-value="resposta"
+                               data-ng-change="manterQuestaoCtrl.selecionarRespostaCerta(resposta)"
+                               data-ng-repeat="resposta in manterQuestaoCtrl.questao.respostas">{{resposta.texto}}</ion-radio>
+                </ion-list>
 
-            <label class="item item-icon-left item-icon-right">
-                <i class=""></i>
-                Falso
-                <i class=""></i>
-            </label>
+            </div>
 
-        </div>
+            <div class="list card">
+                <div class="item item-input item-select">
+                    <div class="input-label">
+                        Temas
+                    </div>
+                    <select required data-ng-options="tema.id as tema.nome for tema in manterQuestaoCtrl.temas" data-ng-model="manterQuestaoCtrl.temaEscolhido"></select>
+                </div>
 
+            </div>
 
-<!--        <div class="list card">
+<!--            <div class="list card">
+                <label class="item item-input">
+                    <i class="icon ion-search placeholder-icon"></i>
+                    <input type="text" placeholder="Temas" ng-model="selected" uib-typeahead="tema.nome for tema in manterQuestaoCtrl.temas | filter:$viewValue | limitTo:8" class="form-control" typeahead-template-url="match.html" typeahead-popup-template-url="popup.html">
+                </label>
+            </div>-->
+            <br/>
 
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="text" placeholder="Buscar/Adicionar Tag">
-            </label>
+            <script id="match.html" data-ng-include="'lib/angular-ui-bootstrap/template/typeahead/typeahead-match.html'"></script>
+            <script id="popup.html" data-ng-include="'lib/angular-ui-bootstrap/template/typeahead/typeahead-popup.html'"></script>
 
-            <label class="item item-icon-right">
-                Java
-                <i class="icon ion-android-remove-circle"></i>
-            </label>
-
-            <label class="item item-icon-right">
-                Programação
-                <i class="icon ion-android-remove-circle"></i>
-            </label>
-
-        </div>-->
-
-        <div class="button-bar padding">
-            <a class="button button-positive" data-ng-click="manterQuestaoCtrl.salvarQuestao()">Salvar</a>
-            <a class="button button-dark" ui-sref="menu.questoes">Cancelar</a>
-        </div>
+            <div class="button-bar padding">
+                <button type="submit" class="button button-positive" >Salvar</button>
+                <a class="button button-dark" ui-sref="menu.questoes">Cancelar</a>
+            </div>
+        </form>
     </ion-content>
 
 </ion-view>
