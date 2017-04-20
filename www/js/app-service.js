@@ -11,7 +11,7 @@
 
     function DADOS_GLOBAIS() {
         var data = {
-            URL_BASE: "http://192.168.0.5:8084" + "/intelequiz-srv/",
+            URL_BASE: "http://192.168.0.4:8080/",// + "/intelequiz-srv/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
