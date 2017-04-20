@@ -6,18 +6,19 @@
             .factory('DADOS_GLOBAIS', DADOS_GLOBAIS)
             .factory('SERVICOS_GLOBAIS', SERVICOS_GLOBAIS);
 
-    DADOS_GLOBAIS.$inject = [];
+    DADOS_GLOBAIS.$inject = ['$log'];
     SERVICOS_GLOBAIS.$inject = ['DADOS_GLOBAIS', '$window', '$log', 'toaster'];
 
-    function DADOS_GLOBAIS() {
+    function DADOS_GLOBAIS($log) {
         var data = {
-            URL_BASE: "http://192.168.0.4:8080/",// + "/intelequiz-srv/",
+            URL_BASE: "http://10.61.14.64:8080/",// + "/intelequiz-srv/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
             TIPOS_QUESTAO: [],
-            STATUS_QUIZ_QUESTAO: [],
+            STATUS_QUIZ_QUESTAO: []
         };
+        $log.info("DADOS_GLOBAIS: ", data);
         return data;
     }
 
@@ -38,8 +39,8 @@
             },
             error: function (response) {
                 $log.error(response);
-                return {data: null, message: {type: 'ERROR', text: 'Serviço indisponível, tente mais tarde'}};
-            },
+                return {data: null, message: {type: 'error', text: 'Falha na comunicação com o servidor'}};
+            }
         };
         return service;
     }

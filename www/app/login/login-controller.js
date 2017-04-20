@@ -4,18 +4,12 @@
     angular
             .module('intelequiz')
             .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['DADOS_GLOBAIS', 'SERVICOS_GLOBAIS', 'loginSrvc', '$state', '$ionicPopup', '$scope', 'toaster'];
-    function loginCtrl(DADOS_GLOBAIS, SERVICOS_GLOBAIS, loginSrvc, $state, $ionicPopup, $scope, toaster) {
-
-        $scope.pop = function () {
-
-        };
-
-        $scope.pop();
+    loginCtrl.$inject = ['DADOS_GLOBAIS', 'SERVICOS_GLOBAIS', 'loginSrvc', '$state'];
+    function loginCtrl(DADOS_GLOBAIS, SERVICOS_GLOBAIS, loginSrvc, $state) {
 
         var loginCtrl = this;
         var loginSrvc = loginSrvc;
-        console.log(DADOS_GLOBAIS);
+        
         loginCtrl.usuario = {};
 
         loginCtrl.init = init;

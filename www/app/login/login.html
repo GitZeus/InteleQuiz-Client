@@ -19,10 +19,12 @@
                     </label>
 
                     <label class="item item-input item-select">
-                        <span class="input-label">
+                        <span class="input-label" data-ng-class="{'placeholder-icon' : !loginCtrl.listarPerfis || loginCtrl.listarPerfis.length === 0}">
                             Perfil
                         </span>
-                        <select required data-ng-options="item for item in loginCtrl.listarPerfis" data-ng-model="loginCtrl.usuario.perfil">
+                        <select required
+                                data-ng-disabled="!loginCtrl.listarPerfis || loginCtrl.listarPerfis.length === 0"
+                                data-ng-options="item for item in loginCtrl.listarPerfis" data-ng-model="loginCtrl.usuario.perfil">
                             <!--<option value="{{item}}" data-ng-repeat="item in loginCtrl.listarPerfis">{{item}}</option>-->
                         </select>
                     </label>
