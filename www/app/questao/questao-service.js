@@ -36,6 +36,10 @@
             
             saveQuestao: function(questao){
                 return $http.post(DADOS_GLOBAIS.URL_BASE + 'questao', questao).then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
+            },
+            
+            updateQuestao: function(questao){
+                return $http.put(DADOS_GLOBAIS.URL_BASE + 'questao', questao).then(SERVICOS_GLOBAIS.success, SERVICOS_GLOBAIS.error);
             }
         };
         return service;

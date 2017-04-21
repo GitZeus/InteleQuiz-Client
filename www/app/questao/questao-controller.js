@@ -21,6 +21,7 @@
 
         questaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
         questaoCtrl.listQuestoesByTema = listQuestoesByTema;
+        questaoCtrl.editQuestao = editQuestao;
 
         questaoSrvc.listDisciplinas(questaoCtrl.usuarioLogado).then(function (response) {
             questaoCtrl.listTemas = [];
@@ -54,6 +55,10 @@
                     }
                 });
             }
+        }
+        
+        function editQuestao(questao){
+            $state.go('menu.manter-questao',{questao: questao});
         }
     }
 })();

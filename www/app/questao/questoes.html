@@ -9,13 +9,16 @@
                 <select class="item-text-wrap" data-ng-options="disciplina as disciplina.sigla for disciplina in questaoCtrl.listDisciplinas" data-ng-model="questaoCtrl.filtroDisciplina" data-ng-change="questaoCtrl.listTemasByDisciplina(questaoCtrl.usuarioLogado.matricula, questaoCtrl.filtroDisciplina.id)"></select>
             </div>
             <div class="item item-input item-select">
-                <span class="input-label">Tema</span>
-                <select data-ng-options="tema as tema.nome for tema in questaoCtrl.listTemas" data-ng-model="questaoCtrl.filtroTema" data-ng-change="questaoCtrl.listQuestoesByTema(questaoCtrl.filtroTema.id)"></select>
+                <span class="input-label" data-ng-class="{'placeholder-icon' : !questaoCtrl.listTemas || questaoCtrl.listTemas.length === 0}">Tema</span>
+                <select data-ng-disabled="!questaoCtrl.listTemas || questaoCtrl.listTemas.length === 0"
+                        data-ng-options="tema as tema.nome for tema in questaoCtrl.listTemas"
+                        data-ng-model="questaoCtrl.filtroTema"
+                        data-ng-change="questaoCtrl.listQuestoesByTema(questaoCtrl.filtroTema.id)"></select>
             </div>
         </div>
         <div class="list">
 
-            <a class="item item-icon-right" href="#" data-ng-repeat="questao in questaoCtrl.listQuestoes track by $index">
+            <a class="item item-icon-right" data-ng-click="questaoCtrl.editQuestao(questao)" data-ng-repeat="questao in questaoCtrl.listQuestoes track by $index">
                 {{questao.texto}}
                 <i class="icon ion-unlocked" data-ng-if="questao.status=='CADASTRADO'"></i>
                 <i class="icon ion-locked" data-ng-if="questao.status=='REALIZADO'"></i>

@@ -23,8 +23,13 @@
                     certa: false
                 }];
 
-            manterQuestaoCtrl.questao = new CLASSES.Questao();
-            manterQuestaoCtrl.questao.respostas = manterQuestaoCtrl.respostasVF;
+            if ($state.params.questao) {
+                manterQuestaoCtrl.questao = $state.params.questao;
+                console.log($state.params.questao);
+            } else {
+                manterQuestaoCtrl.questao = new CLASSES.Questao();
+                manterQuestaoCtrl.questao.respostas = manterQuestaoCtrl.respostasVF;
+            }
 
             manterQuestaoCtrl.listDisciplinas = questaoDados.DISCIPLINAS;
             manterQuestaoCtrl.filtroDisciplinaQuestao = manterQuestaoCtrl.listDisciplinas[0];
@@ -96,15 +101,26 @@
                 }];
 
             manterQuestaoCtrl.questao.temas = temas;
-            questaoSrvc.saveQuestao(manterQuestaoCtrl.questao).then(function (response) {
-                if (response && response.message) {
-                    SERVICOS_GLOBAIS.showToaster(response.message);
-                    if (response.message.type !== 'error') {
-                        $state.go('menu.questoes')//, {}, {reload: true});
+            console.log(manterQuestaoCtrl.questao);
+            if (!manterQuestaoCtrl.questao.id) {
+                questaoSrvc.saveQuestao(manterQuestaoCtrl.questao).then(function (response) {
+                    if (response && response.message) {
+                        SERVICOS_GLOBAIS.showToaster(response.message);
+                        if (response.message.type !== 'error') {
+                            $state.go('menu.questoes')//, {}, {reload: true});
+                        }
                     }
-                }
-            });
-
+                });
+            } else {
+                questaoSrvc.updateQuestao(manterQuestaoCtrl.questao).then(function (response) {
+                    if (response && response.message) {
+                        SERVICOS_GLOBAIS.showToaster(response.message);
+                        if (response.message.type !== 'error') {
+                            $state.go('menu.questoes')//, {}, {reload: true});
+                        }
+                    }
+                });
+            }
         }
     }
 })();

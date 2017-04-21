@@ -32,8 +32,8 @@
                 <ion-list data-ng-if="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'">
                     <ion-radio name="rdRespostaVF"
                                data-ng-required="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'"
-                               data-ng-model="$parent.resposta"
-                               data-ng-value="resposta"
+                               data-ng-model="resposta.certa"
+                               data-ng-value="true"
                                data-ng-change="manterQuestaoCtrl.selecionarRespostaCerta(resposta)"
                                data-ng-repeat="resposta in manterQuestaoCtrl.questao.respostas">{{resposta.texto}}</ion-radio>
                 </ion-list>

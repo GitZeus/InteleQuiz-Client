@@ -47,6 +47,9 @@
                 .state('menu.manter-questao', {
                     url: '/manter-questao',
                     cache: false,
+                    params: {
+                      questao: null  
+                    },
                     views: {
                         'conteudo': {
                             templateUrl: 'app/questao/manter-questao.html',
