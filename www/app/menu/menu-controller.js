@@ -4,9 +4,9 @@
     angular
             .module('intelequiz')
             .controller('menuCtrl', menuCtrl);
-    menuCtrl.$inject = ['DADOS_GLOBAIS', 'SERVICOS_GLOBAIS', '$state'];
-    function menuCtrl(DADOS_GLOBAIS, SERVICOS_GLOBAIS, $state) {
+    menuCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
+    function menuCtrl(DADOS, SERVICE, CLASSES, $state) {
         var menuCtrl = this;
-        menuCtrl.usuarioLogado = DADOS_GLOBAIS.USUARIO_LOGADO;
+        menuCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
     }
 })();

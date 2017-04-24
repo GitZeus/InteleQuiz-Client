@@ -1,29 +1,43 @@
 <ion-view view-title="Questões">
-    <button class="button button-fab button-fab-bottom-right expanded button-energized-900 flap pane on" data-ui-sref="menu.manter-questao">
-        <i class="icon ion-plus-round"></i>
-    </button>
+
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-plus-round" data-ui-sref="menu.manter-questao"></button>
+    </ion-nav-buttons>
+    
     <ion-content>
-        <div class="list">
+        
+        <div class="list card">
+            
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
-                <select class="item-text-wrap" data-ng-options="disciplina as disciplina.sigla for disciplina in questaoCtrl.listDisciplinas" data-ng-model="questaoCtrl.filtroDisciplina" data-ng-change="questaoCtrl.listTemasByDisciplina(questaoCtrl.usuarioLogado.matricula, questaoCtrl.filtroDisciplina.id)"></select>
+                <select class="item-text-wrap"
+                        data-ng-options="disciplina as disciplina.nome for disciplina in questaoCtrl.arrayDisciplinas"
+                        data-ng-model="questaoCtrl.filtroDisciplina"
+                        data-ng-change="questaoCtrl.listTemasByDisciplina(questaoCtrl.filtroDisciplina)">
+                </select>
             </div>
-            <div class="item item-input item-select">
-                <span class="input-label" data-ng-class="{'placeholder-icon' : !questaoCtrl.listTemas || questaoCtrl.listTemas.length === 0}">Tema</span>
-                <select data-ng-disabled="!questaoCtrl.listTemas || questaoCtrl.listTemas.length === 0"
-                        data-ng-options="tema as tema.nome for tema in questaoCtrl.listTemas"
+            
+            <div class="item item-input item-select" data-ng-if="questaoCtrl.arrayDisciplinas && questaoCtrl.arrayDisciplinas.length > 0">
+                <span class="input-label" data-ng-class="{'placeholder-icon' : !questaoCtrl.arrayTemas || questaoCtrl.arrayTemas.length === 0}">Tema</span>
+                <select data-ng-disabled="!questaoCtrl.arrayTemas || questaoCtrl.arrayTemas.length === 0"
+                        data-ng-options="tema as tema.nome for tema in questaoCtrl.arrayTemas"
                         data-ng-model="questaoCtrl.filtroTema"
-                        data-ng-change="questaoCtrl.listQuestoesByTema(questaoCtrl.filtroTema.id)"></select>
+                        data-ng-change="questaoCtrl.listQuestoesByTema(questaoCtrl.filtroTema)">
+                </select>
             </div>
+            
         </div>
-        <div class="list">
-
-            <a class="item item-icon-right" data-ng-click="questaoCtrl.editQuestao(questao)" data-ng-repeat="questao in questaoCtrl.listQuestoes track by $index">
+        
+        <ion-list-card>
+            
+            <ion-item class="item-icon-right" data-ng-click="questaoCtrl.goEditQuestao(questao)" data-ng-repeat="questao in questaoCtrl.arrayQuestoes track by $index">
                 {{questao.texto}}
-                <i class="icon ion-unlocked" data-ng-if="questao.status=='CADASTRADO'"></i>
-                <i class="icon ion-locked" data-ng-if="questao.status=='REALIZADO'"></i>
-            </a>
-        </div>
+                <i class="icon ion-unlocked" data-ng-if="questao.status == 'CADASTRADO'"></i>
+                <i class="icon ion-locked" data-ng-if="questao.status == 'REALIZADO'"></i>
+            </ion-item>
+            
+        </ion-list-card>
+        
     </ion-content>
 
 </ion-view>

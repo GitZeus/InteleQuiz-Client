@@ -1,17 +1,22 @@
 {
     "elements": {
         "ion-side-menus": {},
-        "ion-side-menu": {},
         "a": {},
+        "ion-header-bar": {},
+        "ion-md-input": {},
+        "ion-list-card": {},
+        "ion-footer-bar": {},
+        "ion-tab": {},
+        "ion-content": {},
+        "ion-side-menu": {},
         "ion-nav-view": {},
         "ion-list": {},
-        "ion-header-bar": {},
         "ion-item": {},
-        "ion-md-input": {},
+        "ion-tabs": {},
         "toaster-container": {},
-        "ion-content": {},
         "ion-pane": {},
-        "ion-view": {}
+        "ion-view": {},
+        "ion-checkbox": {}
     },
     "attributes": {
         "ui-sref": {

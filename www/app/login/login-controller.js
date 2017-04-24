@@ -4,49 +4,50 @@
     angular
             .module('intelequiz')
             .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['DADOS_GLOBAIS', 'SERVICOS_GLOBAIS', 'loginSrvc', '$state'];
-    function loginCtrl(DADOS_GLOBAIS, SERVICOS_GLOBAIS, loginSrvc, $state) {
-
+    loginCtrl.$inject = ['DADOS', 'SERVICE','CLASSES', '$state'];
+    function loginCtrl(DADOS, SERVICE, CLASSES, $state) {
         var loginCtrl = this;
-        var loginSrvc = loginSrvc;
-        
-        loginCtrl.usuario = {};
 
-        loginCtrl.init = init;
-        loginCtrl.autenticar = autenticar;
-
-        loginCtrl.init();
+        init();
 
         function init() {
-            if (DADOS_GLOBAIS.TIPOS_USUARIO && DADOS_GLOBAIS.TIPOS_USUARIO.length > 0) {
-                loginCtrl.listarPerfis = DADOS_GLOBAIS.TIPOS_USUARIO;
-                loginCtrl.usuario.perfil = loginCtrl.listarPerfis[0];
-                loginCtrl.usuario.login = "MA123";
-                loginCtrl.usuario.senha = "123";
+            loginCtrl.usuario = new CLASSES.Usuario();
+            loginCtrl.init = init;
+            loginCtrl.autenticar = autenticar;
+            
+            listTiposUsuario();
+        }
+
+        function listTiposUsuario() {
+            if (DADOS.TIPOS_USUARIO && DADOS.TIPOS_USUARIO.length > 0) {
+                loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
+                loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
+                mock();
             } else {
-                loginSrvc.tiposUsuario().then(function (response) {
+                SERVICE.listTiposUsuario().then(function (response) {
                     if (response.data) {
-                        DADOS_GLOBAIS.TIPOS_USUARIO = response.data;
-                        loginCtrl.listarPerfis = DADOS_GLOBAIS.TIPOS_USUARIO;
-                        loginCtrl.usuario.perfil = loginCtrl.listarPerfis[0];
-                        loginCtrl.usuario.login = "MA123";
-                        loginCtrl.usuario.senha = "123";
-                    } else if (response.message) {
-                        SERVICOS_GLOBAIS.showToaster(response.message);
+                        DADOS.TIPOS_USUARIO = response.data;
+                        loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
+                        loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
+                        mock();
                     }
                 });
             }
         }
 
         function autenticar(usuario) {
-            loginSrvc.autenticar(usuario).then(function (response) {
+            SERVICE.autenticar(usuario).then(function (response) {
                 if (response.data) {
-                    DADOS_GLOBAIS.USUARIO_LOGADO = response.data;
-                    $state.go('menu.home'); //,{}, {reload: true}
-                } else if (response.message) {
-                    SERVICOS_GLOBAIS.showToaster(response.message);
+                    DADOS.USUARIO_LOGADO = response.data;
+                    $state.go('menu.home');
                 }
             });
+        }
+
+        function mock() {
+            loginCtrl.usuario.login = "MA123";
+            loginCtrl.usuario.senha = "123";
+            autenticar(loginCtrl.usuario);
         }
     }
 })();

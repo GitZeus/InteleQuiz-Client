@@ -19,12 +19,12 @@
                     </label>
 
                     <label class="item item-input item-select">
-                        <span class="input-label" data-ng-class="{'placeholder-icon' : !loginCtrl.listarPerfis || loginCtrl.listarPerfis.length === 0}">
+                        <span class="input-label" data-ng-class="{'placeholder-icon' : !loginCtrl.arrayTiposUsuario || loginCtrl.arrayTiposUsuario.length === 0}">
                             Perfil
                         </span>
                         <select required
-                                data-ng-disabled="!loginCtrl.listarPerfis || loginCtrl.listarPerfis.length === 0"
-                                data-ng-options="item for item in loginCtrl.listarPerfis" data-ng-model="loginCtrl.usuario.perfil">
+                                data-ng-disabled="!loginCtrl.arrayTiposUsuario || loginCtrl.arrayTiposUsuario.length === 0"
+                                data-ng-options="item for item in loginCtrl.arrayTiposUsuario" data-ng-model="loginCtrl.usuario.perfil">
                         </select>
                     </label>
                 </div>

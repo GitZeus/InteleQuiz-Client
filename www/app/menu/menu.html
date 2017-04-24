@@ -20,8 +20,9 @@
         <ion-content>
             <div class="list">
                 <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR' || menuCtrl.usuarioLogado.perfil == 'COORDENADOR'">
+                    <a href="#/menu/temas" class="item" menu-close>Tema</a>
                     <a href="#/menu/questoes" class="item" menu-close>Questão</a>
-                    <a href="#/menu/manter-quiz" class="item" menu-close>Quiz</a>
+                    <a href="#/menu/quiz" class="item" menu-close>Quiz</a>
                 </div>
                 
                 <div  data-ng-if="menuCtrl.usuarioLogado.perfil == 'ALUNO'">

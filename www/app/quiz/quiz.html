@@ -1,0 +1,33 @@
+<ion-view view-title="Quizzes">
+
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-plus-round" data-ui-sref="menu.manter-quiz"></button>
+    </ion-nav-buttons>
+    
+    <ion-content>
+        
+        <div class="list card">
+            
+            <div class="item item-input item-select">
+                <span class="input-label">Disciplina</span>
+                <select class="item-text-wrap"
+                        data-ng-options="disciplina as disciplina.nome for disciplina in quizCtrl.arrayDisciplinas"
+                        data-ng-model="quizCtrl.filtroDisciplina">
+                </select>
+            </div>
+            
+        </div>
+        
+        <ion-list-card>
+            
+            <ion-item class="item-icon-right" data-ng-click="quizCtrl.goEditQuestao(questao)" data-ng-repeat="questao in quizCtrl.arrayQuestoes track by $index">
+                {{questao.texto}}
+                <i class="icon ion-unlocked" data-ng-if="questao.status == 'CADASTRADO'"></i>
+                <i class="icon ion-locked" data-ng-if="questao.status == 'REALIZADO'"></i>
+            </ion-item>
+            
+        </ion-list-card>
+        
+    </ion-content>
+
+</ion-view>
