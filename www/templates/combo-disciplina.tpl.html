@@ -1,0 +1,6 @@
+<ion-item class="item-input item-select">
+    <span class="input-label">Disciplina</span>
+    <select class="item-text-wrap" data-ng-model="filtroDisciplina" data-ng-options="disciplina as disciplina.nome for disciplina in disciplinas| orderBy: 'nome'"
+        data-ng-change="temaCtrl.listTemasByDisciplina(temaCtrl.filtroDisciplina)">
+    </select>
+</ion-item>

@@ -12,6 +12,7 @@
             Disciplina: Disciplina,
             Questao: Questao,
             Resposta: Resposta,
+            Questionario: Questionario
         };
         return classes;
 
@@ -44,6 +45,14 @@
         function Resposta() {
             this.texto = "";
             this.certa = false;
+        }
+
+        function Questionario(){
+            this.professor = {};
+            this.disciplina = {};
+            this.questoes = [];
+            this.descricao = "";
+            this.status = 0;
         }
     }
 })();

@@ -20,18 +20,19 @@
         <ion-content>
             <div class="list">
                 <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR' || menuCtrl.usuarioLogado.perfil == 'COORDENADOR'">
-                    <a href="#/menu/temas" class="item" menu-close>Tema</a>
-                    <a href="#/menu/questoes" class="item" menu-close>Questão</a>
+                    <a href="#/menu/tema" class="item" menu-close>Tema</a>
+                    <a href="#/menu/questao" class="item" menu-close>Questão</a>
+                    <a href="#/menu/questionario" class="item" menu-close>Questionário</a>
                     <a href="#/menu/quiz" class="item" menu-close>Quiz</a>
                 </div>
-                
-                <div  data-ng-if="menuCtrl.usuarioLogado.perfil == 'ALUNO'">
-                    <a href="#/menu/manter-treino" class="item" menu-close>Treino</a>
+
+                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'ALUNO'">
+                    <a href="#/menu/treino" class="item" menu-close>Treino</a>
                 </div>
-                
+
                 <a href="#/menu/rankings" class="item" menu-close>Rankings</a>
                 <a href="#/menu/desempenho" class="item" menu-close>Desempenho</a>
-                
+
                 <a href="#/login" class="item" menu-close>Sair</a>
             </div>
         </ion-content>

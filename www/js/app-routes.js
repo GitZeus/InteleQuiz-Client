@@ -34,24 +34,24 @@
                     }
                 })
 
-                .state('menu.temas', {
-                    url: '/temas',
+                .state('menu.tema', {
+                    url: '/tema',
                     cache: false,
                     views: {
                         'conteudo': {
-                            templateUrl: 'app/tema/temas.html',
+                            templateUrl: 'app/tema/tema.html',
                             controller: 'temaCtrl',
                             controllerAs: 'temaCtrl'
                         }
                     }
                 })
 
-                .state('menu.questoes', {
-                    url: '/questoes',
+                .state('menu.questao', {
+                    url: '/questao',
                     cache: false,
                     views: {
                         'conteudo': {
-                            templateUrl: 'app/questao/questoes.html',
+                            templateUrl: 'app/questao/questao.html',
                             controller: 'questaoCtrl',
                             controllerAs: 'questaoCtrl'
                         }
@@ -69,6 +69,60 @@
                             templateUrl: 'app/questao/manter-questao.html',
                             controller: 'manterQuestaoCtrl',
                             controllerAs: 'manterQuestaoCtrl'
+                        }
+                    }
+                })
+
+                .state('menu.questionario', {
+                    url: '/questionario',
+                    cache: false,
+                    views: {
+                        'conteudo': {
+                            templateUrl: 'app/questionario/questionario.html',
+                            controller: 'questionarioCtrl',
+                            controllerAs: 'questionarioCtrl'
+                        }
+                    }
+                })
+
+                .state('menu.manter-questionario', {
+                    url: '/manter-questionario',
+                    cache: false,
+                     params: {
+                        questionario: null
+                    },
+                    views: {
+                        'conteudo': {
+                            templateUrl: 'app/questionario/manter-questionario.html',
+                            controller: 'manterQuestionarioCtrl',
+                            controllerAs: 'manterQuestionarioCtrl'
+                        }
+                    }
+                })
+
+                .state('menu.treino', {
+                    url: '/treino',
+                    cache: false,
+                    views: {
+                        'conteudo': {
+                            templateUrl: 'app/treino/treino.html',
+                            controller: 'treinoCtrl',
+                            controllerAs: 'treinoCtrl'
+                        }
+                    }
+                })
+
+                .state('menu.manter-treino', {
+                    url: '/manter-treino',
+                    cache: false,
+                     params: {
+                        treino: null
+                    },
+                    views: {
+                        'conteudo': {
+                            templateUrl: 'app/treino/manter-treino.html',
+                            controller: 'manterTreinoCtrl',
+                            controllerAs: 'manterTreinoCtrl'
                         }
                     }
                 })

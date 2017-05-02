@@ -4,68 +4,24 @@
         <ion-nav-back-button></ion-nav-back-button>
     </ion-nav-bar>
 
-    <ion-content class="has-footer">
+    <ion-content>
 
-        <div class="list card">
-
-            <div class="item item-input item-select">
-                <span class="input-label">Disciplina</span>
-                <select class="item-text-wrap"
-                        data-ng-options="disciplina as disciplina.nome for disciplina in manterQuizCtrl.arrayDisciplinas"
-                        data-ng-model="manterQuizCtrl.filtroDisciplina"
-                        data-ng-change="manterQuizCtrl.listTemasByDisciplina(manterQuizCtrl.filtroDisciplina)">
+        <ion-list class="card">
+            <ion-item class="item-input item-select">
+                <span class="input-label">Turma</span>
+                <select class="item-text-wrap" data-ng-model="manterQuizCtrl.filtroTurma" data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno ) for turma in manterQuizCtrl.arrayTurma track by turma.id"
+                    data-ng-change="manterQuizCtrl.listQuestionarioByDisciplina(manterQuizCtrl.filtroTurma.disciplina)">
                 </select>
-            </div>
-
-            <div class="item item-input item-select" data-ng-if="manterQuizCtrl.arrayDisciplinas && manterQuizCtrl.arrayDisciplinas.length > 0">
-                <span class="input-label" data-ng-class="{'placeholder-icon' : !manterQuizCtrl.arrayTemas || manterQuizCtrl.arrayTemas.length === 0}">Tema</span>
-                <select data-ng-disabled="!manterQuizCtrl.arrayTemas || manterQuizCtrl.arrayTemas.length === 0"
-                        data-ng-options="tema as tema.nome for tema in manterQuizCtrl.arrayTemas"
-                        data-ng-model="manterQuizCtrl.filtroTema"
-                        data-ng-change="manterQuizCtrl.listQuestoesByTema(manterQuizCtrl.filtroTema)">
-                </select>
-            </div>
-
-            <div class="item item-input item-select" data-ng-if="manterQuizCtrl.arrayDisciplinas && manterQuizCtrl.arrayDisciplinas.length > 0">
-                <div class="input-label">
-                    Nível
-                </div>
-                <select required data-ng-options="nivel as nivel for nivel in manterQuizCtrl.arrayNiveisQuestao" data-ng-model="manterQuizCtrl.filtroNivel"></select>
-            </div>
-
-            <ion-item class="item-input" data-ng-if="manterQuizCtrl.arrayDisciplinas && manterQuizCtrl.arrayDisciplinas.length > 0">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="search" placeholder="Filtrar Questões" data-ng-model="manterQuizCtrl.filtroTextoQuestao">
             </ion-item>
-
-        </div>
-
-        <ion-list-card>
-            <ion-item class="item-divider">Questões Disponíveis</ion-item>
-            <ion-checkbox data-ng-repeat="questao in manterQuizCtrl.arrayQuestoes| filter : {'nivel' : manterQuizCtrl.filtroNivel} | filter : {'texto' : manterQuizCtrl.filtroTextoQuestao} track by $index"
-                          data-ng-model="questao.checked"
-                          data-ng-change="manterQuizCtrl.selecionarQuestao(questao)">
-                {{questao.texto}}
-            </ion-checkbox>
-
-        </ion-list-card>
-
-        <ion-list-card>
-            <ion-item class="item-divider">Questões Selecionadas</ion-item>
-            <ion-item class="item-icon-right" data-ng-repeat="questao in manterQuizCtrl.arrayQuestoesSelecionadas track by $index" data-ng-model="questao.checked">
-                {{questao.texto}}
-                <!--<button class="button icon ion-backspace">-->
-                    <i class="icon ion-backspace-outline"></i>
-                <!--</button>-->
+        </ion-list>
+        <ion-list class="card">
+            <ion-item class="item-divider">Questionário por Disciplina</ion-item>
+            <ion-item class="item-button-right" data-ng-repeat="questionario in manterQuizCtrl.arrayQuestionario track by $index">
+                {{questionario.descricao}}
+                <button class="button icon button-icon ion-share"></button>
             </ion-item>
-
-        </ion-list-card>
+        </ion-list>
 
     </ion-content>
-
-    <ion-tabs class="tabs-positive tabs-icon-only">
-        <ion-tab icon-on="ion-checkmark-circled" icon-off="ion-checkmark-circled" data-ng-click="manterQuizCtrl.salvarQuiz()"></ion-tab>
-        <ion-tab icon-on="ion-close-circled" icon-off="ion-close-circled" ui-sref="menu.quiz"></ion-tab>
-    </ion-tabs>
 
 </ion-view>

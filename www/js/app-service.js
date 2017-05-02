@@ -2,17 +2,17 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .factory('DADOS', DADOS)
-            .factory('SERVICE', SERVICE);
+        .module('intelequiz')
+        .factory('DADOS', DADOS)
+        .factory('SERVICE', SERVICE);
 
     DADOS.$inject = ['$log'];
     SERVICE.$inject = ['DADOS', '$http', '$log', 'toaster'];
 
     function DADOS($log) {
         var data = {
-            URL_BASE: "https://intelequiz.herokuapp.com/",
-//            URL_BASE: "http://192.168.0.3:8080/",
+            // URL_BASE: "https://intelequiz.herokuapp.com/",
+            URL_BASE: "http://192.168.0.2:8080/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
@@ -46,7 +46,7 @@
             listNiveisQuestao: function () {
                 return $http.get(DADOS.URL_BASE + 'questoes/niveis').then(success, error);
             },
-            listStatusQuizQuestao: function () {
+            listStatusQuestionarioQuestao: function () {
                 return $http.get(DADOS.URL_BASE + 'questao/status').then(success, error);
             },
             listTemasByQuestao: function (questao_id) {
@@ -60,6 +60,24 @@
             },
             saveTema: function (tema) {
                 return $http.post(DADOS.URL_BASE + 'tema/', tema).then(success, error);
+            },
+            listQuestionarioByDisciplina: function (matricula_professor, disciplina_id) {
+                return $http.get(DADOS.URL_BASE + 'professor/' + matricula_professor + '/disciplina/' + disciplina_id + '/questionario').then(success, error);
+            },
+            listQuestoesByQuestionario: function (quiz_id) {
+                return $http.get(DADOS.URL_BASE + 'questionario/' + quiz_id + '/questao').then(success, error);
+            },
+            listTurmasByProfessor: function (matricula) {
+                return $http.get(DADOS.URL_BASE + 'professor/' + matricula + '/turma').then(success, error);
+            },
+            saveQuestionario: function (questionario) {
+                return $http.post(DADOS.URL_BASE + 'questionario/', questionario).then(success, error);
+            },
+            updateQuestionario: function (questionario) {
+                return $http.put(DADOS.URL_BASE + 'questionario/', questionario).then(success, error);
+            },
+            listTurmasByAluno: function (aluno) {
+                return $http.get(DADOS.URL_BASE + 'aluno/' + aluno.ra + '/disciplina').then(success, error);
             },
             showToaster: function (message) {
                 toaster.pop({

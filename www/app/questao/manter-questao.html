@@ -13,7 +13,7 @@
                         Disciplina
                     </div>
                     <select required
-                            data-ng-options="disciplina as disciplina.sigla for disciplina in manterQuestaoCtrl.arrayDisciplinas"
+                            data-ng-options="disciplina as disciplina.nome for disciplina in manterQuestaoCtrl.arrayDisciplinas"
                             data-ng-model="manterQuestaoCtrl.filtroDisciplina"
                             data-ng-change="manterQuestaoCtrl.arrayTemasByDisciplina(manterQuestaoCtrl.filtroDisciplina)"></select>
                 </div>
@@ -60,7 +60,7 @@
 
     <ion-tabs class="tabs-positive tabs-icon-only">
         <ion-tab icon-on="ion-checkmark-circled" icon-off="ion-checkmark-circled" data-ng-click="manterQuestaoCtrl.salvarQuestao()"></ion-tab>
-        <ion-tab icon-on="ion-close-circled" icon-off="ion-close-circled" ui-sref="menu.questoes"></ion-tab>
+        <ion-tab icon-on="ion-close-circled" icon-off="ion-close-circled" ui-sref="menu.questao"></ion-tab>
     </ion-tabs>
 
 </ion-view>

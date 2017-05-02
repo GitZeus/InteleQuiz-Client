@@ -2,8 +2,8 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .controller('manterQuestaoCtrl', manterQuestaoCtrl);
+        .module('intelequiz')
+        .controller('manterQuestaoCtrl', manterQuestaoCtrl);
     manterQuestaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
     function manterQuestaoCtrl(DADOS, SERVICE, CLASSES, $state) {
         var manterQuestaoCtrl = this;
@@ -24,52 +24,34 @@
             manterQuestaoCtrl.functionCount = 0;
             listTiposQuestao();
             listNiveisQuestao();
-            listStatusQuizQuestao();
+            listStatusQuestionarioQuestao();
         }
 
         function listTiposQuestao() {
-            if (DADOS.TIPOS_QUESTAO && DADOS.TIPOS_QUESTAO.length > 0) {
-                manterQuestaoCtrl.arrayTiposQuestao = DADOS.TIPOS_QUESTAO;
-                checkIsAddOrEdit();
-            } else {
-                SERVICE.listTiposQuestao().then(function (response) {
-                    if (response.data) {
-                        DADOS.TIPOS_QUESTAO = response.data;
-                        manterQuestaoCtrl.arrayTiposQuestao = DADOS.TIPOS_QUESTAO;
-                        checkIsAddOrEdit();
-                    }
-                });
-            }
+            SERVICE.listTiposQuestao().then(function (response) {
+                if (response.data) {
+                    manterQuestaoCtrl.arrayTiposQuestao = response.data;
+                    checkIsAddOrEdit();
+                }
+            });
         }
 
         function listNiveisQuestao() {
-            if (DADOS.NIVEIS_QUESTAO && DADOS.NIVEIS_QUESTAO.length > 0) {
-                manterQuestaoCtrl.arrayNiveisQuestao = DADOS.NIVEIS_QUESTAO;
-                checkIsAddOrEdit();
-            } else {
-                SERVICE.listNiveisQuestao().then(function (response) {
-                    if (response.data) {
-                        DADOS.NIVEIS_QUESTAO = response.data;
-                        manterQuestaoCtrl.arrayNiveisQuestao = DADOS.NIVEIS_QUESTAO;
-                        checkIsAddOrEdit();
-                    }
-                });
-            }
+            SERVICE.listNiveisQuestao().then(function (response) {
+                if (response.data) {
+                    manterQuestaoCtrl.arrayNiveisQuestao = response.data;
+                    checkIsAddOrEdit();
+                }
+            });
         }
 
-        function listStatusQuizQuestao() {
-            if (DADOS.STATUS_QUIZ_QUESTAO && DADOS.STATUS_QUIZ_QUESTAO.length > 0) {
-                manterQuestaoCtrl.arrayStatusQuizQuestao = DADOS.STATUS_QUIZ_QUESTAO;
-                checkIsAddOrEdit();
-            } else {
-                SERVICE.listStatusQuizQuestao().then(function (response) {
-                    if (response.data) {
-                        DADOS.STATUS_QUIZ_QUESTAO = response.data;
-                        manterQuestaoCtrl.arrayStatusQuizQuestao = DADOS.STATUS_QUIZ_QUESTAO;
-                        checkIsAddOrEdit();
-                    }
-                });
-            }
+        function listStatusQuestionarioQuestao() {
+            SERVICE.listStatusQuestionarioQuestao().then(function (response) {
+                if (response.data) {
+                    manterQuestaoCtrl.arrayStatusQuestionarioQuestao = response.data;
+                    checkIsAddOrEdit();
+                }
+            });
         }
 
         function checkIsAddOrEdit() {
@@ -91,9 +73,9 @@
         function getTemplateRespostas() {
             var respostasTpl = [];
             if (manterQuestaoCtrl.questao.tipo === 'VERDADEIRO_FALSO') {
-                respostasTpl = [{texto: "Verdadeiro", certa: true}, {texto: "Falso", certa: false}];
+                respostasTpl = [{ texto: "Verdadeiro", certa: true }, { texto: "Falso", certa: false }];
             } else {
-                respostasTpl = [{texto: "", certa: false}, {texto: "", certa: false}, {texto: "", certa: false}, {texto: "", certa: false}];
+                respostasTpl = [{ texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }];
             }
             return respostasTpl;
         }
@@ -143,7 +125,7 @@
                 }
             });
 
-            angular.forEach(manterQuestaoCtrl.arrayStatusQuizQuestao, function (value) {
+            angular.forEach(manterQuestaoCtrl.arrayStatusQuestionarioQuestao, function (value) {
                 if (value === 'CADASTRADO')
                     manterQuestaoCtrl.questao.status = value;
             });
@@ -153,7 +135,7 @@
                     SERVICE.saveQuestao(manterQuestaoCtrl.questao).then(function (response) {
                         if (response && response.message) {
                             if (response.message.type !== 'error') {
-                                $state.go('menu.questoes');
+                                $state.go('menu.questao');
                             }
                         }
                     });
@@ -161,7 +143,7 @@
                     SERVICE.updateQuestao(manterQuestaoCtrl.questao).then(function (response) {
                         if (response && response.message) {
                             if (response.message.type !== 'error') {
-                                $state.go('menu.questoes');
+                                $state.go('menu.questao');
                             }
                         }
                     });

@@ -47,7 +47,7 @@
         function mock() {
             loginCtrl.usuario.login = "MA123";
             loginCtrl.usuario.senha = "123";
-            autenticar(loginCtrl.usuario);
+            // autenticar(loginCtrl.usuario);
         }
     }
 })();
