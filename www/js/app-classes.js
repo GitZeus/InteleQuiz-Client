@@ -12,7 +12,7 @@
             Disciplina: Disciplina,
             Questao: Questao,
             Resposta: Resposta,
-            Questionario: Questionario
+            Quiz: Quiz
         };
         return classes;
 
@@ -47,7 +47,7 @@
             this.certa = false;
         }
 
-        function Questionario(){
+        function Quiz(){
             this.professor = {};
             this.disciplina = {};
             this.questoes = [];

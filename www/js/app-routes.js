@@ -73,29 +73,29 @@
                     }
                 })
 
-                .state('menu.questionario', {
-                    url: '/questionario',
+                .state('menu.quiz', {
+                    url: '/quiz',
                     cache: false,
                     views: {
                         'conteudo': {
-                            templateUrl: 'app/questionario/questionario.html',
-                            controller: 'questionarioCtrl',
-                            controllerAs: 'questionarioCtrl'
+                            templateUrl: 'app/quiz/quiz.html',
+                            controller: 'quizCtrl',
+                            controllerAs: 'quizCtrl'
                         }
                     }
                 })
 
-                .state('menu.manter-questionario', {
-                    url: '/manter-questionario',
+                .state('menu.manter-quiz', {
+                    url: '/manter-quiz',
                     cache: false,
                      params: {
-                        questionario: null
+                        quiz: null
                     },
                     views: {
                         'conteudo': {
-                            templateUrl: 'app/questionario/manter-questionario.html',
-                            controller: 'manterQuestionarioCtrl',
-                            controllerAs: 'manterQuestionarioCtrl'
+                            templateUrl: 'app/quiz/manter-quiz.html',
+                            controller: 'manterQuizCtrl',
+                            controllerAs: 'manterQuizCtrl'
                         }
                     }
                 })
@@ -123,30 +123,6 @@
                             templateUrl: 'app/treino/manter-treino.html',
                             controller: 'manterTreinoCtrl',
                             controllerAs: 'manterTreinoCtrl'
-                        }
-                    }
-                })
-
-                .state('menu.quiz', {
-                    url: '/quiz',
-                    cache: false,
-                    views: {
-                        'conteudo': {
-                            templateUrl: 'app/quiz/quiz.html',
-                            controller: 'quizCtrl',
-                            controllerAs: 'quizCtrl'
-                        }
-                    }
-                })
-
-                .state('menu.manter-quiz', {
-                    url: '/manter-quiz',
-                    cache: false,
-                    views: {
-                        'conteudo': {
-                            templateUrl: 'app/quiz/manter-quiz.html',
-                            controller: 'manterQuizCtrl',
-                            controllerAs: 'manterQuizCtrl'
                         }
                     }
                 })

@@ -2,20 +2,22 @@
 (function () {
     'use strict';
     angular
-        .module('intelequiz')
-        .controller('manterQuestaoCtrl', manterQuestaoCtrl);
+            .module('intelequiz')
+            .controller('manterQuestaoCtrl', manterQuestaoCtrl);
+
     manterQuestaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
+
     function manterQuestaoCtrl(DADOS, SERVICE, CLASSES, $state) {
         var manterQuestaoCtrl = this;
-
-        manterQuestaoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
 
         init();
 
         function init() {
+            SERVICE.ionicMaterialInk();
+            manterQuestaoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
             manterQuestaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS || [];
             manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.arrayDisciplinas[0];
-            manterQuestaoCtrl.arrayTemas = DADOS.TEMAS || [];
+            manterQuestaoCtrl.arrayTemas = [];
 
             manterQuestaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
             manterQuestaoCtrl.selecionarRespostaCerta = selecionarRespostaCerta;
@@ -24,7 +26,8 @@
             manterQuestaoCtrl.functionCount = 0;
             listTiposQuestao();
             listNiveisQuestao();
-            listStatusQuestionarioQuestao();
+            listStatusQuizQuestao();
+            listTemasByDisciplina(manterQuestaoCtrl.filtroDisciplina);
         }
 
         function listTiposQuestao() {
@@ -45,18 +48,36 @@
             });
         }
 
-        function listStatusQuestionarioQuestao() {
-            SERVICE.listStatusQuestionarioQuestao().then(function (response) {
+        function listStatusQuizQuestao() {
+            SERVICE.listStatusQuizQuestao().then(function (response) {
                 if (response.data) {
-                    manterQuestaoCtrl.arrayStatusQuestionarioQuestao = response.data;
+                    manterQuestaoCtrl.arrayStatusQuizQuestao = response.data;
                     checkIsAddOrEdit();
                 }
             });
         }
 
+        function listTemasByDisciplina(disciplina) {
+            manterQuestaoCtrl.arrayTemas = [];
+            if (disciplina && disciplina.id) {
+                SERVICE.listTemasByDisciplina(manterQuestaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
+                    if (response.data) {
+                        manterQuestaoCtrl.arrayTemas = response.data;
+                        checkIsAddOrEdit();
+                    }
+                });
+            } else {
+                var message = {
+                    type: 'warning',
+                    text: 'Erro ao recuperar o ID da disciplina'
+                };
+                SERVICE.showToaster(message);
+            }
+        }
+
         function checkIsAddOrEdit() {
             manterQuestaoCtrl.functionCount++;
-            if (manterQuestaoCtrl.functionCount === 3) {
+            if (manterQuestaoCtrl.functionCount === 4) {
                 if ($state.params.questao) {
                     manterQuestaoCtrl.questao = $state.params.questao;
                     console.log(manterQuestaoCtrl.questao);
@@ -73,21 +94,11 @@
         function getTemplateRespostas() {
             var respostasTpl = [];
             if (manterQuestaoCtrl.questao.tipo === 'VERDADEIRO_FALSO') {
-                respostasTpl = [{ texto: "Verdadeiro", certa: true }, { texto: "Falso", certa: false }];
+                respostasTpl = [{texto: "Verdadeiro", certa: true}, {texto: "Falso", certa: false}];
             } else {
-                respostasTpl = [{ texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }];
+                respostasTpl = [{texto: "", certa: false}, {texto: "", certa: false}, {texto: "", certa: false}, {texto: "", certa: false}];
             }
             return respostasTpl;
-        }
-
-        function listTemasByDisciplina(disciplina) {
-            manterQuestaoCtrl.arrayTemas = [];
-            SERVICE.listTemasByDisciplina(manterQuestaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
-                if (response.data) {
-                    manterQuestaoCtrl.arrayTemas = response.data;
-                    SERVICE.TEMAS = manterQuestaoCtrl.arrayTemas;
-                }
-            });
         }
 
         function listTemasByQuestao(questao) {
@@ -125,7 +136,7 @@
                 }
             });
 
-            angular.forEach(manterQuestaoCtrl.arrayStatusQuestionarioQuestao, function (value) {
+            angular.forEach(manterQuestaoCtrl.arrayStatusQuizQuestao, function (value) {
                 if (value === 'CADASTRADO')
                     manterQuestaoCtrl.questao.status = value;
             });

@@ -3,24 +3,32 @@
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-plus-round" data-ui-sref="menu.manter-quiz"></button>
     </ion-nav-buttons>
-
+    
     <ion-content>
-
-        <ion-list class="card">
-            <ion-item class="item-input item-select">
+        
+        <div class="list">
+            
+            <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
-                <select class="item-text-wrap" data-ng-model="treinoCtrl.filtroDisciplina" data-ng-options="turma.disciplina as turma.disciplina.nome for turma in treinoCtrl.arrayTurma track by turma.id"
-                    data-ng-change="treinoCtrl.listTemasByDisciplina(treinoCtrl.filtroDisciplina)">
+                <select class="item-text-wrap"
+                        data-ng-options="disciplina as disciplina.nome for disciplina in quizCtrl.arrayDisciplinas track by disciplina.id"
+                        data-ng-model="quizCtrl.filtroDisciplina"
+                        data-ng-change="quizCtrl.listQuizByDisciplina(quizCtrl.filtroDisciplina)">
                 </select>
-            </ion-item>
-        </ion-list>
-        <ion-list class="card">
-            <ion-item class="item-divider">Disponíveis</ion-item>
-            <ion-item data-ng-repeat="tema in treinoCtrl.arrayTemas| filter : {'nome' : treinoCtrl.filtroNomeTema} | orderBy: 'nome'">
-                {{tema.nome}}
-            </ion-item>
-        </ion-list>
-
+            </div>
+            
+        </div>
+        
+        <div class="list">
+            
+            <div class="item item-icon-right" data-ng-click="quizCtrl.goEditQuiz(quiz)" data-ng-repeat="quiz in quizCtrl.arrayQuiz track by $index">
+                {{quiz.descricao}}
+<!--                <i class="icon ion-unlocked" data-ng-if="quiz.status == 'CADASTRADO'"></i>
+                <i class="icon ion-locked" data-ng-if="quiz.status == 'REALIZADO'"></i>-->
+            </div>
+            
+        </div>
+        
     </ion-content>
 
 </ion-view>

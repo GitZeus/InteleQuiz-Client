@@ -7,12 +7,12 @@
         .factory('SERVICE', SERVICE);
 
     DADOS.$inject = ['$log'];
-    SERVICE.$inject = ['DADOS', '$http', '$log', 'toaster'];
+    SERVICE.$inject = ['DADOS', '$http', '$log', 'toaster','ionicMaterialInk'];
 
     function DADOS($log) {
         var data = {
-            // URL_BASE: "https://intelequiz.herokuapp.com/",
-            URL_BASE: "http://10.61.13.37:8080/",
+             URL_BASE: "https://intelequiz.herokuapp.com/",
+//            URL_BASE: "http://10.61.13.37:8080/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
@@ -23,7 +23,7 @@
         return data;
     }
 
-    function SERVICE(DADOS, $http, $log, toaster) {
+    function SERVICE(DADOS, $http, $log, toaster, ionicMaterialInk) {
         var service = {
             autenticar: function (usuario) {
                 return $http.post(DADOS.URL_BASE + 'usuario/autenticacao', usuario).then(success, error);
@@ -46,7 +46,7 @@
             listNiveisQuestao: function () {
                 return $http.get(DADOS.URL_BASE + 'questoes/niveis').then(success, error);
             },
-            listStatusQuestionarioQuestao: function () {
+            listStatusQuizQuestao: function () {
                 return $http.get(DADOS.URL_BASE + 'questao/status').then(success, error);
             },
             listTemasByQuestao: function (questao_id) {
@@ -61,20 +61,20 @@
             saveTema: function (tema) {
                 return $http.post(DADOS.URL_BASE + 'tema/', tema).then(success, error);
             },
-            listQuestionarioByDisciplina: function (matricula_professor, disciplina_id) {
-                return $http.get(DADOS.URL_BASE + 'professor/' + matricula_professor + '/disciplina/' + disciplina_id + '/questionario').then(success, error);
+            listQuizByDisciplina: function (matricula_professor, disciplina_id) {
+                return $http.get(DADOS.URL_BASE + 'professor/' + matricula_professor + '/disciplina/' + disciplina_id + '/quiz').then(success, error);
             },
-            listQuestoesByQuestionario: function (quiz_id) {
-                return $http.get(DADOS.URL_BASE + 'questionario/' + quiz_id + '/questao').then(success, error);
+            listQuestoesByQuiz: function (quiz_id) {
+                return $http.get(DADOS.URL_BASE + 'quiz/' + quiz_id + '/questao').then(success, error);
             },
             listTurmasByProfessor: function (matricula) {
                 return $http.get(DADOS.URL_BASE + 'professor/' + matricula + '/turma').then(success, error);
             },
-            saveQuestionario: function (questionario) {
-                return $http.post(DADOS.URL_BASE + 'questionario/', questionario).then(success, error);
+            saveQuiz: function (quiz) {
+                return $http.post(DADOS.URL_BASE + 'quiz/', quiz).then(success, error);
             },
-            updateQuestionario: function (questionario) {
-                return $http.put(DADOS.URL_BASE + 'questionario/', questionario).then(success, error);
+            updateQuiz: function (quiz) {
+                return $http.put(DADOS.URL_BASE + 'quiz/', quiz).then(success, error);
             },
             listTurmasByAluno: function (aluno) {
                 return $http.get(DADOS.URL_BASE + 'aluno/' + aluno.ra + '/disciplina').then(success, error);
@@ -84,6 +84,9 @@
                     "type": message.type,
                     "body": message.text
                 });
+            },
+            ionicMaterialInk: function(){
+                ionicMaterialInk.displayEffect();
             }
         };
         return service;

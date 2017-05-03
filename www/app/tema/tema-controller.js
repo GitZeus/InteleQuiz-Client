@@ -11,6 +11,7 @@
         init();
 
         function init() {
+            SERVICE.ionicMaterialInk();
             temaCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
             temaCtrl.arrayDisciplinas = [];
             temaCtrl.arrayTemas = [];

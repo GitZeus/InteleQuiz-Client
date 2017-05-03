@@ -4,13 +4,14 @@
     angular
             .module('intelequiz')
             .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['DADOS', 'SERVICE','CLASSES', '$state'];
-    function loginCtrl(DADOS, SERVICE, CLASSES, $state) {
+    loginCtrl.$inject = ['DADOS', 'SERVICE','CLASSES', '$state','ionicMaterialInk'];
+    function loginCtrl(DADOS, SERVICE, CLASSES, $state, ionicMaterialInk) {
         var loginCtrl = this;
 
         init();
 
         function init() {
+            SERVICE.ionicMaterialInk();
             loginCtrl.usuario = new CLASSES.Usuario();
             loginCtrl.init = init;
             loginCtrl.autenticar = autenticar;

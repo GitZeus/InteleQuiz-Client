@@ -1,26 +1,31 @@
 <ion-view view-title="Temas">
     <ion-content>
 
-        <ion-list class="card">
-            <!--<combo-disciplina disciplinas="temaCtrl.arrayDisciplinas"></combo-disciplina>-->
-            <ion-item class="item-input item-select">
+        <div class="list">
+
+            <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
                 <select class="item-text-wrap"
                         data-ng-model="temaCtrl.filtroDisciplina"
                         data-ng-options="disciplina as disciplina.nome for disciplina in temaCtrl.arrayDisciplinas| orderBy: 'nome'"
                         data-ng-change="temaCtrl.listTemasByDisciplina(temaCtrl.filtroDisciplina)">
                 </select>
-            </ion-item>
-            <ion-item class="item-input item-icon-right" data-ng-if="temaCtrl.arrayDisciplinas && temaCtrl.arrayDisciplinas.length > 0">
-                <input type="text" placeholder="Novo Tema" data-ng-model="temaCtrl.filtroNomeTema">
-                <i class="icon ion-plus-round placeholder-icon" data-ng-click="temaCtrl.saveTema(temaCtrl.filtroNomeTema)"></i>
-            </ion-item>
-        </ion-list>
-        <ion-list-card>
-            <ion-item data-ng-repeat="tema in temaCtrl.arrayTemas| filter : {'nome' : temaCtrl.filtroNomeTema} | orderBy: 'nome'">   
-                {{tema.nome}}
-            </ion-item>
-        </ion-list-card>
+            </div>
+
+            <div data-ng-if="temaCtrl.arrayDisciplinas && temaCtrl.arrayDisciplinas.length > 0">
+                <div class="item item-input item-floating-label">
+                    <span class="input-label">Novo Tema</span>
+                    <input type="text" placeholder="Novo Tema"  data-ng-model="temaCtrl.filtroNomeTema">
+                </div>
+                <button class="button button-block button-assertive ink" data-ng-click="temaCtrl.saveTema(temaCtrl.filtroNomeTema)">Salvar</button>
+            </div>
+
+        </div>
+
+        <div class="list">
+            <div class="item item-divider">Temas por disciplina</div>
+            <a class="item" data-ng-repeat="tema in temaCtrl.arrayTemas| filter : {'nome' : temaCtrl.filtroNomeTema} | orderBy: 'nome'">{{tema.nome}}</a>
+        </div>
 
     </ion-content>
 

@@ -1,0 +1,27 @@
+<ion-view view-title="Manter Quiz">
+
+    <ion-nav-bar class="bar-positive" align-title="center">
+        <ion-nav-back-button></ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-content>
+
+        <ion-list class="card">
+            <ion-item class="item-input item-select">
+                <span class="input-label">Turma</span>
+                <select class="item-text-wrap" data-ng-model="manterQuizCtrl.filtroTurma" data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno ) for turma in manterQuizCtrl.arrayTurma track by turma.id"
+                    data-ng-change="manterQuizCtrl.listQuizByDisciplina(manterQuizCtrl.filtroTurma.disciplina)">
+                </select>
+            </ion-item>
+        </ion-list>
+        <ion-list class="card">
+            <ion-item class="item-divider">Quiz por Disciplina</ion-item>
+            <ion-item class="item-button-right" data-ng-repeat="quiz in manterQuizCtrl.arrayQuiz track by $index">
+                {{quiz.descricao}}
+                <button class="button icon button-icon ion-share"></button>
+            </ion-item>
+        </ion-list>
+
+    </ion-content>
+
+</ion-view>

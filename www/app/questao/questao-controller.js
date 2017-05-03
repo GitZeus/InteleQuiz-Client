@@ -11,6 +11,7 @@
         init();
 
         function init() {
+            SERVICE.ionicMaterialInk();
             questaoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
             questaoCtrl.arrayDisciplinas = [];
             questaoCtrl.filtroDisciplina = new CLASSES.Disciplina();
@@ -20,7 +21,6 @@
 
             questaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
             questaoCtrl.listQuestoesByTema = listQuestoesByTema;
-            questaoCtrl.goEditQuestao = goEditQuestao;
 
             listDisciplinasByProfessor();
         }
@@ -59,10 +59,6 @@
                     }
                 });
             }
-        }
-
-        function goEditQuestao(questao) {
-            $state.go('menu.manter-questao', {questao: questao});
         }
     }
 })();

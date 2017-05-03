@@ -1,19 +1,18 @@
 <ion-view view-title="Manter Questão" >
-    
-    <ion-nav-bar class="bar-positive" align-title="center">
+
+    <ion-nav-bar class="bar-assertive" align-title="center">
         <ion-nav-back-button></ion-nav-back-button>
     </ion-nav-bar>
-    
+
     <ion-content class="has-footer">
-        
+
         <form name="formQuestao" data-ng-submit="manterQuestaoCtrl.salvarQuestao()">
-            <div class="list card">
+            <div class="list">
                 <div class="item item-input item-select">
                     <div class="input-label">
                         Disciplina
                     </div>
-                    <select required
-                            data-ng-options="disciplina as disciplina.nome for disciplina in manterQuestaoCtrl.arrayDisciplinas"
+                    <select data-ng-options="disciplina as disciplina.nome for disciplina in manterQuestaoCtrl.arrayDisciplinas"
                             data-ng-model="manterQuestaoCtrl.filtroDisciplina"
                             data-ng-change="manterQuestaoCtrl.arrayTemasByDisciplina(manterQuestaoCtrl.filtroDisciplina)"></select>
                 </div>
@@ -21,24 +20,24 @@
                     <div class="input-label">
                         Tipo
                     </div>
-                    <select required data-ng-options="tipo as tipo for tipo in manterQuestaoCtrl.arrayTiposQuestao" data-ng-model="manterQuestaoCtrl.questao.tipo"></select>
+                    <select data-ng-options="tipo as tipo for tipo in manterQuestaoCtrl.arrayTiposQuestao" data-ng-model="manterQuestaoCtrl.questao.tipo"></select>
                 </div>
                 <div class="item item-input item-select">
                     <div class="input-label">
                         Nível
                     </div>
-                    <select required data-ng-options="nivel as nivel for nivel in manterQuestaoCtrl.arrayNiveisQuestao" data-ng-model="manterQuestaoCtrl.questao.nivel"></select>
+                    <select data-ng-options="nivel as nivel for nivel in manterQuestaoCtrl.arrayNiveisQuestao" data-ng-model="manterQuestaoCtrl.questao.nivel"></select>
                 </div>
             </div>
 
-            <div class="list card">
-                <label class="item item-input">
-                    <input required type="text" placeholder="Texto da Questão" data-ng-model="manterQuestaoCtrl.questao.texto">
-                </label>
+            <div class="list">
+                <div class="item item-input item-floating-label">
+                    <span class="input-label">Texto da Questão</span>
+                    <input type="text" placeholder="Texto da Questão"  data-ng-model="manterQuestaoCtrl.questao.texto">
+                </div>
                 <!--VERDADEIRO/FALSO-->
                 <ion-list data-ng-if="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'">
                     <ion-radio name="rdRespostaVF"
-                               data-ng-required="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'"
                                data-ng-model="resposta.certa"
                                data-ng-value="true"
                                data-ng-change="manterQuestaoCtrl.selecionarRespostaCerta(resposta)"
@@ -48,19 +47,14 @@
                 </ion-list>
             </div>
 
-            <ion-list-card>
-                <ion-item>Temas</ion-item>
+            <div class="list">
+                <div class="item item-divider">Temas por disciplina</div>
                 <ion-checkbox data-ng-repeat="tema in manterQuestaoCtrl.arrayTemas" data-ng-model="tema.checked">
                     {{tema.nome}}
                 </ion-checkbox>
-            </ion-list-card>
-
+            </div>
+            <button type="submit" class="button button-block button-assertive ink">Salvar</button>
         </form>
     </ion-content>
-
-    <ion-tabs class="tabs-positive tabs-icon-only">
-        <ion-tab icon-on="ion-checkmark-circled" icon-off="ion-checkmark-circled" data-ng-click="manterQuestaoCtrl.salvarQuestao()"></ion-tab>
-        <ion-tab icon-on="ion-close-circled" icon-off="ion-close-circled" ui-sref="menu.questao"></ion-tab>
-    </ion-tabs>
 
 </ion-view>

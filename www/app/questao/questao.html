@@ -3,11 +3,11 @@
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-plus-round" data-ui-sref="menu.manter-questao"></button>
     </ion-nav-buttons>
-    
+
     <ion-content>
-        
-        <div class="list card">
-            
+
+        <div class="list">
+
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
                 <select class="item-text-wrap"
@@ -16,7 +16,7 @@
                         data-ng-change="questaoCtrl.listTemasByDisciplina(questaoCtrl.filtroDisciplina)">
                 </select>
             </div>
-            
+
             <div class="item item-input item-select" data-ng-if="questaoCtrl.arrayDisciplinas && questaoCtrl.arrayDisciplinas.length > 0">
                 <span class="input-label" data-ng-class="{'placeholder-icon' : !questaoCtrl.arrayTemas || questaoCtrl.arrayTemas.length === 0}">Tema</span>
                 <select data-ng-disabled="!questaoCtrl.arrayTemas || questaoCtrl.arrayTemas.length === 0"
@@ -25,19 +25,18 @@
                         data-ng-change="questaoCtrl.listQuestoesByTema(questaoCtrl.filtroTema)">
                 </select>
             </div>
-            
+
         </div>
-        
-        <ion-list-card>
-            
-            <ion-item class="item-icon-right" data-ng-click="questaoCtrl.goEditQuestao(questao)" data-ng-repeat="questao in questaoCtrl.arrayQuestoes track by $index">
+
+        <div class="list">
+            <div class="item item-divider">Questões por disciplina e tema</div>
+            <a class="item"
+               data-ng-repeat="questao in questaoCtrl.arrayQuestoes track by questao.id"
+               data-ui-sref="menu.manter-questao({questao: questao})">
                 {{questao.texto}}
-                <i class="icon ion-unlocked" data-ng-if="questao.status == 'CADASTRADO'"></i>
-                <i class="icon ion-locked" data-ng-if="questao.status == 'REALIZADO'"></i>
-            </ion-item>
-            
-        </ion-list-card>
-        
+            </a>
+        </div>
+
     </ion-content>
 
 </ion-view>

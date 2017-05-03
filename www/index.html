@@ -17,7 +17,7 @@
         </script>-->
 
         <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-        <!--<link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">-->
+        <link href="lib/ionic-material/dist/ionic.material.min.css" rel="stylesheet">
         <link href="lib/angularjs-toaster/toaster.min.css" rel="stylesheet" />
         <link href="css/style.css" rel="stylesheet">
 
@@ -46,6 +46,7 @@
         <script src="lib/angular-ui-bootstrap/src/debounce/debounce.js"></script>
         <script src="lib/angular-ui-bootstrap/src/typeahead/typeahead.js"></script>
         <script src="js/app-config.js"></script>
+        <script src="js/app-controller.js"></script>
         <script src="js/app-routes.js"></script>
         <script src="js/app-service.js"></script>
         <script src="js/app-directives.js"></script>
@@ -64,20 +65,16 @@
         <script src="app/questao/questao-controller.js"></script>
         <script src="app/questao/manter-questao-controller.js"></script>
         
-        <!--questionario-->
-        <script src="app/questionario/questionario-controller.js"></script>
-        <script src="app/questionario/manter-questionario-controller.js"></script>
-
-        <!--treino-->
-        <script src="app/treino/treino-controller.js"></script>
-        <script src="app/treino/manter-treino-controller.js"></script>
-        
         <!--quiz-->
         <script src="app/quiz/quiz-controller.js"></script>
         <script src="app/quiz/manter-quiz-controller.js"></script>
 
+        <!--treino-->
+        <script src="app/treino/treino-controller.js"></script>
+        <script src="app/treino/manter-treino-controller.js"></script>
+
     </head>
-    <body ng-app="intelequiz" app-loading>
+    <body ng-app="intelequiz" app-loading data-ng-controller="appCtrl as appCtrl">
         <toaster-container toaster-options="{'position-class': 'toast-center', 'limit':1}"></toaster-container>
         <ion-nav-view></ion-nav-view>
     </body>
