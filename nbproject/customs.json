@@ -13,6 +13,7 @@
         "ion-list": {},
         "ion-item": {},
         "ion-tabs": {},
+        "ion-nav-buttons": {},
         "toaster-container": {},
         "ion-pane": {},
         "ion-view": {},

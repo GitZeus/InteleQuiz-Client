@@ -3,6 +3,9 @@
     <ion-nav-bar class="bar-positive" align-title="center">
         <ion-nav-back-button></ion-nav-back-button>
     </ion-nav-bar>
+    <ion-nav-buttons side="right">
+        <button class="button button-icon button-clear ion-checkmark-round" data-ng-click="manterQuestionarioCtrl.salvarQuestionario()"></button>
+    </ion-nav-buttons>
 
     <ion-content class="has-footer">
 
@@ -61,9 +64,9 @@
 
     </ion-content>
 
-    <ion-tabs class="tabs-positive tabs-icon-only">
+<!--    <ion-tabs class="tabs-positive tabs-icon-only">
         <ion-tab icon-on="ion-checkmark-circled" icon-off="ion-checkmark-circled" data-ng-click="manterQuestionarioCtrl.salvarQuestionario()"></ion-tab>
         <ion-tab icon-on="ion-close-circled" icon-off="ion-close-circled" ui-sref="menu.questionario"></ion-tab>
-    </ion-tabs>
+    </ion-tabs>-->
 
 </ion-view>
