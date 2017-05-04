@@ -33,22 +33,15 @@
         }
 
         function listDisciplinasByProfessor() {
-            if (DADOS.DISCIPLINAS && DADOS.DISCIPLINAS.length > 0) {
-                manterQuizCtrl.arrayDisciplinas = DADOS.DISCIPLINAS || {};
-                manterQuizCtrl.filtroDisciplina = manterQuizCtrl.arrayDisciplinas[0] ? manterQuizCtrl.arrayDisciplinas[0] : {};
-                listTemasByDisciplina(manterQuizCtrl.filtroDisciplina);
-                checkIsAddOrEdit();
-            } else {
-                SERVICE.listDisciplinasByProfessor(manterQuizCtrl.usuarioLogado).then(function (response) {
-                    if (response.data) {
-                        DADOS.DISCIPLINAS = response.data;
-                        manterQuizCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
-                        manterQuizCtrl.filtroDisciplina = manterQuizCtrl.arrayDisciplinas[0] ? manterQuizCtrl.arrayDisciplinas[0] : {};
-                        listTemasByDisciplina(manterQuizCtrl.filtroDisciplina);
-                        checkIsAddOrEdit();
-                    }
-                });
-            }
+            SERVICE.listDisciplinasByProfessor(manterQuizCtrl.usuarioLogado).then(function (response) {
+                if (response.data) {
+                    DADOS.DISCIPLINAS = response.data;
+                    manterQuizCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
+                    manterQuizCtrl.filtroDisciplina = manterQuizCtrl.arrayDisciplinas[0] ? manterQuizCtrl.arrayDisciplinas[0] : {};
+                    listTemasByDisciplina(manterQuizCtrl.filtroDisciplina);
+                    checkIsAddOrEdit();
+                }
+            });
         }
 
         function listTemasByDisciplina(disciplina) {
@@ -82,20 +75,14 @@
         }
 
         function listNiveisQuestao() {
-            if (DADOS.NIVEIS_QUESTAO && DADOS.NIVEIS_QUESTAO.length > 0) {
-                manterQuizCtrl.arrayNiveisQuestao = DADOS.NIVEIS_QUESTAO || {};
-                manterQuizCtrl.filtroNivel = manterQuizCtrl.arrayNiveisQuestao[0] ? manterQuizCtrl.arrayNiveisQuestao[0] : {};
-                checkIsAddOrEdit();
-            } else {
-                SERVICE.listNiveisQuestao().then(function (response) {
-                    if (response.data) {
-                        DADOS.NIVEIS_QUESTAO = response.data;
-                        manterQuizCtrl.arrayNiveisQuestao = DADOS.NIVEIS_QUESTAO;
-                        manterQuizCtrl.filtroNivel = manterQuizCtrl.arrayNiveisQuestao[0] ? manterQuizCtrl.arrayNiveisQuestao[0] : {};
-                        checkIsAddOrEdit();
-                    }
-                });
-            }
+            SERVICE.listNiveisQuestao().then(function (response) {
+                if (response.data) {
+                    DADOS.NIVEIS_QUESTAO = response.data;
+                    manterQuizCtrl.arrayNiveisQuestao = DADOS.NIVEIS_QUESTAO;
+                    manterQuizCtrl.filtroNivel = manterQuizCtrl.arrayNiveisQuestao[0] ? manterQuizCtrl.arrayNiveisQuestao[0] : {};
+                    checkIsAddOrEdit();
+                }
+            });
         }
 
         function checkIsAddOrEdit() {
@@ -103,8 +90,6 @@
             if (manterQuizCtrl.functionCount === 4) {
                 if ($state.params.quiz) {
                     manterQuizCtrl.quiz = $state.params.quiz;
-                    console.log(manterQuizCtrl.quiz);
-                    console.log(manterQuizCtrl.arrayDisciplinas);
                     listQuestoesByQuiz(manterQuizCtrl.quiz);
                 } else {
                     manterQuizCtrl.quiz = new CLASSES.Quiz();
@@ -176,7 +161,7 @@
 
             if (validarQuiz(manterQuizCtrl.quiz)) {
                 console.log("QUESTIONARIO: ", manterQuizCtrl.quiz);
-                if(!manterQuizCtrl.quiz.id){
+                if (!manterQuizCtrl.quiz.id) {
                     SERVICE.saveQuiz(manterQuizCtrl.quiz).then(function (response) {
                         if (response && response.message) {
                             if (response.message.type !== 'error') {
@@ -184,7 +169,7 @@
                             }
                         }
                     })
-                }else{
+                } else {
                     SERVICE.updateQuiz(manterQuizCtrl.quiz).then(function (response) {
                         if (response && response.message) {
                             if (response.message.type !== 'error') {

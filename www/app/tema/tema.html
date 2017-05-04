@@ -1,32 +1,32 @@
 <ion-view view-title="Temas">
-    <ion-content>
+    <ion-content padding="true">
+        <ion-refresher on-refresh="temaCtrl.init()"></ion-refresher>
 
         <div class="list">
 
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
-                <select class="item-text-wrap"
-                        data-ng-model="temaCtrl.filtroDisciplina"
-                        data-ng-options="disciplina as disciplina.nome for disciplina in temaCtrl.arrayDisciplinas| orderBy: 'nome'"
-                        data-ng-change="temaCtrl.listTemasByDisciplina(temaCtrl.filtroDisciplina)">
+                <select class="item-text-wrap" data-ng-model="temaCtrl.filtroDisciplina" data-ng-options="disciplina as disciplina.nome for disciplina in temaCtrl.arrayDisciplinas| orderBy: 'nome'"
+                    data-ng-change="temaCtrl.listTemasByDisciplina(temaCtrl.filtroDisciplina)">
                 </select>
             </div>
 
             <div data-ng-if="temaCtrl.arrayDisciplinas && temaCtrl.arrayDisciplinas.length > 0">
                 <div class="item item-input item-floating-label">
                     <span class="input-label">Novo Tema</span>
-                    <input type="text" placeholder="Novo Tema"  data-ng-model="temaCtrl.filtroNomeTema">
+                    <input type="text" placeholder="Novo Tema" data-ng-model="temaCtrl.filtroNomeTema">
                 </div>
-                <button class="button button-block button-assertive ink" data-ng-click="temaCtrl.saveTema(temaCtrl.filtroNomeTema)">Salvar</button>
             </div>
 
         </div>
 
-        <div class="list">
+        <div class="list animate-fade-slide-in-right">
             <div class="item item-divider">Temas por disciplina</div>
             <a class="item" data-ng-repeat="tema in temaCtrl.arrayTemas| filter : {'nome' : temaCtrl.filtroNomeTema} | orderBy: 'nome'">{{tema.nome}}</a>
         </div>
 
+        <button class="button button-block button-outline button-assertive" data-ng-click="temaCtrl.saveTema(temaCtrl.filtroNomeTema)">Salvar</button>
+        
     </ion-content>
 
 </ion-view>

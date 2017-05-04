@@ -3,32 +3,29 @@
     <ion-nav-buttons side="right">
         <button class="button button-icon button-clear ion-plus-round" data-ui-sref="menu.manter-quiz"></button>
     </ion-nav-buttons>
-    
+
     <ion-content>
-        
+        <ion-refresher on-refresh="quizCtrl.init()"></ion-refresher>
+
         <div class="list">
-            
+
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
-                <select class="item-text-wrap"
-                        data-ng-options="disciplina as disciplina.nome for disciplina in quizCtrl.arrayDisciplinas track by disciplina.id"
-                        data-ng-model="quizCtrl.filtroDisciplina"
-                        data-ng-change="quizCtrl.listQuizByDisciplina(quizCtrl.filtroDisciplina)">
+                <select class="item-text-wrap" data-ng-options="disciplina as disciplina.nome for disciplina in quizCtrl.arrayDisciplinas track by disciplina.id"
+                    data-ng-model="quizCtrl.filtroDisciplina" data-ng-change="quizCtrl.listQuizByDisciplina(quizCtrl.filtroDisciplina)">
                 </select>
             </div>
-            
+
         </div>
-        
+
         <div class="list">
-            
-            <div class="item item-icon-right" data-ng-click="quizCtrl.goEditQuiz(quiz)" data-ng-repeat="quiz in quizCtrl.arrayQuiz track by $index">
+
+            <div class="item item-icon-right" data-ui-sref="menu.manter-quiz({quiz: quiz})" data-ng-repeat="quiz in quizCtrl.arrayQuiz track by $index">
                 {{quiz.descricao}}
-<!--                <i class="icon ion-unlocked" data-ng-if="quiz.status == 'CADASTRADO'"></i>
-                <i class="icon ion-locked" data-ng-if="quiz.status == 'REALIZADO'"></i>-->
             </div>
-            
+
         </div>
-        
+
     </ion-content>
 
 </ion-view>

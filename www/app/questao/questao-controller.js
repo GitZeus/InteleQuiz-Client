@@ -2,16 +2,17 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .controller('questaoCtrl', questaoCtrl);
-    questaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
-    function questaoCtrl(DADOS, SERVICE, CLASSES, $state) {
+        .module('intelequiz')
+        .controller('questaoCtrl', questaoCtrl);
+    questaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope'];
+    function questaoCtrl(DADOS, SERVICE, CLASSES, $state, $scope) {
         var questaoCtrl = this;
 
         init();
 
         function init() {
             SERVICE.ionicMaterialInk();
+            questaoCtrl.init = init;
             questaoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
             questaoCtrl.arrayDisciplinas = [];
             questaoCtrl.filtroDisciplina = new CLASSES.Disciplina();
@@ -22,24 +23,27 @@
             questaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
             questaoCtrl.listQuestoesByTema = listQuestoesByTema;
 
-            listDisciplinasByProfessor();
+            listDisciplinasByProfessor(questaoCtrl.usuarioLogado);
+            $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listDisciplinasByProfessor() {
+        function listDisciplinasByProfessor(professor) {
             questaoCtrl.arrayTemas = [];
-            SERVICE.listDisciplinasByProfessor(questaoCtrl.usuarioLogado).then(function (response) {
-                if (response.data) {
-                    DADOS.DISCIPLINAS = response.data;
-                    questaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
-                    questaoCtrl.filtroDisciplina = questaoCtrl.arrayDisciplinas[0] ? questaoCtrl.arrayDisciplinas[0] : {};
-                    listTemasByDisciplina(questaoCtrl.filtroDisciplina);
-                }
-            });
+            if (professor) {
+                SERVICE.listDisciplinasByProfessor(questaoCtrl.usuarioLogado).then(function (response) {
+                    if (response.data) {
+                        DADOS.DISCIPLINAS = response.data;
+                        questaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
+                        questaoCtrl.filtroDisciplina = questaoCtrl.arrayDisciplinas[0] ? questaoCtrl.arrayDisciplinas[0] : {};
+                        listTemasByDisciplina(questaoCtrl.filtroDisciplina);
+                    }
+                });
+            }
         }
 
         function listTemasByDisciplina(disciplina) {
             questaoCtrl.arrayQuestoes = [];
-            if (disciplina.id) {
+            if (disciplina) {
                 SERVICE.listTemasByDisciplina(questaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
                     if (response.data) {
                         questaoCtrl.arrayTemas = response.data;
@@ -52,7 +56,7 @@
         }
 
         function listQuestoesByTema(tema) {
-            if (tema.id) {
+            if (tema) {
                 SERVICE.listQuestoesByTema(tema.id).then(function (response) {
                     if (response.data) {
                         questaoCtrl.arrayQuestoes = response.data;
