@@ -4,8 +4,8 @@
     angular
         .module('intelequiz')
         .controller('quizCtrl', quizCtrl);
-    quizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope'];
-    function quizCtrl(DADOS, SERVICE, CLASSES, $state, $scope) {
+    quizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
+    function quizCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
         var quizCtrl = this;
 
         init();
@@ -43,6 +43,11 @@
                     if (response.data) {
                         DADOS.QUESTIONARIO = response.data;
                         quizCtrl.arrayQuiz = DADOS.QUESTIONARIO;
+                        $timeout(function () {
+                            ionicMaterialMotion.fadeSlideInRight({
+                                startVelocity: 1000
+                            });
+                        },2000);
                     }
                 });
             }

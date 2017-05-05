@@ -20,7 +20,7 @@
 
         </div>
 
-        <div class="list animate-fade-slide-in-right">
+        <div class="list animate-blinds">
             <div class="item item-divider">Temas por disciplina</div>
             <a class="item" data-ng-repeat="tema in temaCtrl.arrayTemas| filter : {'nome' : temaCtrl.filtroNomeTema} | orderBy: 'nome'">{{tema.nome}}</a>
         </div>

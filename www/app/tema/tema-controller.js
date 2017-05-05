@@ -44,8 +44,8 @@
                     if (response.data) {
                         temaCtrl.arrayTemas = response.data;
                         $timeout(function () {
-                            ionicMaterialMotion.fadeSlideInRight({
-                                startVelocity: 3000
+                            ionicMaterialMotion.blinds({
+                                startVelocity: 1000
                             });
                         });
                     }

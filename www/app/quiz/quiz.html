@@ -4,7 +4,7 @@
         <button class="button button-icon button-clear ion-plus-round" data-ui-sref="menu.manter-quiz"></button>
     </ion-nav-buttons>
 
-    <ion-content>
+    <ion-content class="animate-fade-slide-in-right">
         <ion-refresher on-refresh="quizCtrl.init()"></ion-refresher>
 
         <div class="list">
@@ -18,13 +18,40 @@
 
         </div>
 
-        <div class="list">
+        <!--<div class="list">
 
-            <div class="item item-icon-right" data-ui-sref="menu.manter-quiz({quiz: quiz})" data-ng-repeat="quiz in quizCtrl.arrayQuiz track by $index">
+            <div class="item item-button-right item-text-wrap" data-ui-sref="menu.manter-quiz({quiz: quiz})" data-ng-repeat="quiz in quizCtrl.arrayQuiz track by $index">
                 {{quiz.descricao}}
+                <button class="button button-assertive" data-ng-click="quizCtrl.publicarQuiz(quiz)">
+                    <i class="icon ion-share"></i>
+                </button>
             </div>
 
+        </div>-->
+
+        <div class="list card stable-bg animate-fade-slide-in-right" data-ng-repeat="quiz in quizCtrl.arrayQuiz track by quiz.id">
+            <div class="item item-body">{{quiz.descricao}}</div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.manter-quiz({quiz: quiz})"> <i class="icon ion-compose"></i> Editar</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-share"></i> Publicar </a>
+            </div>
         </div>
+
+        <!--<div class="list card stable-bg">
+            <div class="item item-avatar"> <img src="img/arya.jpg">
+                <h2>Arya Stark</h2>
+                <p>"Joffrey. Cersei. Ilyn Payne. Hound. Polliver. The Mountain."</p>
+            </div>
+            <div class="item item-body"> The quickest way to a man's heart is through Arya's needle. She has two speeds: Walk and Kill, and is the reason
+                why Waldo is still hiding.
+                <p> <a class="subdued">1 Like</a> <a class="subdued">5 Comments</a> </p>
+            </div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"><i class="icon ion-thumbsup"></i> Like</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-compose"></i> Editar</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-share"></i> Publicar </a>
+            </div>
+        </div>-->
 
     </ion-content>
 
