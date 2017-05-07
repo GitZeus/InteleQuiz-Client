@@ -1,4 +1,4 @@
-angular.module('intelequiz', ['ionic', 'ionic-material', 'toaster', 'ngAnimate', 'ui.bootstrap.typeahead'])
+angular.module('intelequiz', ['ionic', 'ionic-material', 'toaster', 'ngAnimate', 'ionic-datepicker'])
         .factory('interceptor', ['$q', '$log', 'toaster', function ($q, $log, toaster) {
                 return {
                     'request': function (config) {

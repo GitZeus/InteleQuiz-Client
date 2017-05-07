@@ -1,0 +1,34 @@
+<ion-view view-title="Publicar Quiz">
+
+    <ion-nav-bar class="bar-assertive" align-title="center">
+        <ion-nav-back-button></ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-content>
+        <ion-refresher on-refresh="publicarQuizCtrl.init()"></ion-refresher>
+
+        <div class="list">
+
+            <div class="item item-input item-select">
+                <span class="input-label">Turma</span>
+                <select class="item-text-wrap" data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno) for turma in publicarQuizCtrl.arrayTurma track by turma.id"
+                    data-ng-model="publicarQuizCtrl.filtroTurma">
+                </select>
+            </div>
+
+            <div class="item item-button-right">
+                <span>Vigência</span>
+                {{publicarQuizCtrl.data}}
+                <button class="button ion-calendar" data-ng-click="publicarQuizCtrl.selecionarData()"></button>
+                 <!--<button class="button button-assertive" data-ng-click="manterQuizCtrl.removerQuestaoSelecionada(questao, $index)">
+                    <i class="icon ion-trash-b"></i>
+                </button>-->
+            </div>
+
+        </div>
+
+        
+
+    </ion-content>
+
+</ion-view>

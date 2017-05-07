@@ -44,10 +44,10 @@
                         DADOS.QUESTIONARIO = response.data;
                         quizCtrl.arrayQuiz = DADOS.QUESTIONARIO;
                         $timeout(function () {
-                            ionicMaterialMotion.fadeSlideInRight({
+                            ionicMaterialMotion.blinds({
                                 startVelocity: 1000
                             });
-                        },2000);
+                        });
                     }
                 });
             }
