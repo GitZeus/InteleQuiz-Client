@@ -2,8 +2,8 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .factory('CLASSES', CLASSES);
+        .module('intelequiz')
+        .factory('CLASSES', CLASSES);
 
     function CLASSES() {
         var classes = {
@@ -12,7 +12,8 @@
             Disciplina: Disciplina,
             Questao: Questao,
             Resposta: Resposta,
-            Quiz: Quiz
+            Quiz: Quiz,
+            TurmaQuiz: TurmaQuiz
         };
         return classes;
 
@@ -47,12 +48,19 @@
             this.certa = false;
         }
 
-        function Quiz(){
+        function Quiz() {
             this.professor = {};
             this.disciplina = {};
             this.questoes = [];
             this.descricao = "";
             this.status = 0;
+        }
+
+        function TurmaQuiz() {
+            this.turma = {};
+            this.quiz = {};
+            this.tsPublicacao = "";
+            this.tsEncerramento = "";
         }
     }
 })();
