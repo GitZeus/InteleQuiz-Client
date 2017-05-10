@@ -7,12 +7,12 @@
         .factory('SERVICE', SERVICE);
 
     DADOS.$inject = ['$log'];
-    SERVICE.$inject = ['DADOS', '$http', '$log', 'toaster','ionicMaterialInk'];
+    SERVICE.$inject = ['DADOS', '$http', '$log', 'toaster', 'ionicMaterialInk'];
 
     function DADOS($log) {
         var data = {
              URL_BASE: "https://intelequiz.herokuapp.com/",
-        //    URL_BASE: "http://192.168.0.3:8080/",
+            // URL_BASE: "http://192.168.0.3:8080/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
@@ -85,13 +85,19 @@
             publicarQuiz: function (turmaQuiz) {
                 return $http.post(DADOS.URL_BASE + 'turmaQuiz/', turmaQuiz).then(success, error);
             },
+            listQuizPublicadoByTurma: function (id) {
+                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz', ).then(success, error);
+            },
+            listQuizEmAndamentoByTurma: function (id) {
+                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO', ).then(success, error);
+            },
             showToaster: function (message) {
                 toaster.pop({
                     "type": message.type,
                     "body": message.text
                 });
             },
-            ionicMaterialInk: function(){
+            ionicMaterialInk: function () {
                 ionicMaterialInk.displayEffect();
             }
         };

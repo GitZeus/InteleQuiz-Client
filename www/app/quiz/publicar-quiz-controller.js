@@ -4,8 +4,8 @@
     angular
         .module('intelequiz')
         .controller('publicarQuizCtrl', publicarQuizCtrl);
-    publicarQuizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion', 'ionicDatePicker', '$filter'];
-    function publicarQuizCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion, ionicDatePicker, $filter) {
+    publicarQuizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
+    function publicarQuizCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
         var publicarQuizCtrl = this;
 
         init();
@@ -14,11 +14,12 @@
             publicarQuizCtrl.init = init;
             publicarQuizCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
             publicarQuizCtrl.arrayTurma = [];
+            publicarQuizCtrl.arrayQuizPublicado = [];
             publicarQuizCtrl.quiz = $state.params.quiz;
-
 
             publicarQuizCtrl.selecionarData = selecionarData;
             publicarQuizCtrl.publicarQuiz = publicarQuiz;
+            configDatepicker();
             listTurmasByProfessorByDisciplina(publicarQuizCtrl.usuarioLogado, publicarQuizCtrl.quiz);
 
             $scope.$broadcast('scroll.refreshComplete');
@@ -44,6 +45,22 @@
                     if (response.data && response.data.length > 0) {
                         publicarQuizCtrl.arrayTurma = response.data;
                         publicarQuizCtrl.filtroTurma = publicarQuizCtrl.arrayTurma[0];
+                        listQuizPublicadoByTurma(publicarQuizCtrl.filtroTurma);
+                    }
+                });
+            }
+        }
+
+        function listQuizPublicadoByTurma(turma) {
+            if (turma && turma.id) {
+                SERVICE.listQuizPublicadoByTurma(turma.id).then(function(response){
+                    if(response && response.data){
+                        publicarQuizCtrl.arrayQuizPublicado = response.data;
+                        $timeout(function () {
+                            ionicMaterialMotion.blinds({
+                                startVelocity: 1000
+                            });
+                        });
                     }
                 });
             }
@@ -56,9 +73,9 @@
             turmaQuiz.tsEncerramento = publicarQuizCtrl.tsEncerramento;
 
             console.log(turmaQuiz);
-            if (validarTurmaQuiz(turmaQuiz) || true) {
+            if (validarTurmaQuiz(turmaQuiz)) {
                 SERVICE.publicarQuiz(turmaQuiz).then(function (response) {
-                    if (response.message && response.message.type != "error") {
+                    if (response.message && response.message.type == "success") {
                         $state.go('menu.quiz');
                     }
                 });
@@ -91,6 +108,39 @@
                 return false;
             }
             return true;
+        }
+
+
+        function configDatepicker() {
+            var startDate = new Date();
+            startDate.setDate(startDate.getDate() + 1);
+            var dataFim = new Date();
+            dataFim.setDate(dataFim.getDate() + 15);
+            
+            publicarQuizCtrl.tsEncerramento = startDate;
+
+            publicarQuizCtrl.onezoneDatepicker = {
+                date: startDate, // MANDATORY                     
+                mondayFirst: false,
+                months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
+                daysOfTheWeek: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+                // startDate: new Date(),
+                // endDate: dataFim,
+                disablePastDays: true,
+                disableSwipe: false,
+                disableWeekend: false,
+                // disableDates: [new Date()],
+                // disableDaysOfWeek: disableDaysOfWeek,
+                showDatepicker: false,
+                showTodayButton: true,
+                calendarMode: false,
+                hideCancelButton: false,
+                hideSetButton: false,
+                // highlights: highlights,
+                callback: function (value) {
+                    publicarQuizCtrl.tsEncerramento = value;
+                }
+            }
         }
     }
 })();

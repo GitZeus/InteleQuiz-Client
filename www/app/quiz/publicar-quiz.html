@@ -11,17 +11,16 @@
 
             <div class="item item-input item-select">
                 <span class="input-label">Turma</span>
-                <select class="item-text-wrap"
-                    data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno) for turma in publicarQuizCtrl.arrayTurma track by turma.id"
+                <select class="item-text-wrap" data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno) for turma in publicarQuizCtrl.arrayTurma track by turma.id"
                     data-ng-model="publicarQuizCtrl.filtroTurma">
                 </select>
             </div>
 
-            <div class="item item-button-right">
-                <span>Encerramento</span>
-                {{publicarQuizCtrl.tsEncerramento | date : 'dd/MM/yyyy'}}
-                <button class="button ion-calendar" data-ng-click="publicarQuizCtrl.selecionarData()"></button>
-            </div>
+            <onezone-datepicker datepicker-object="publicarQuizCtrl.onezoneDatepicker">
+                <button class="button button-block button-outline button-assertive show-onezone-datepicker">
+                    {{publicarQuizCtrl.onezoneDatepicker.date | date:'dd/MM/yyyy'}} 
+                </button>
+            </onezone-datepicker>
 
             <button class="button button-block button-assertive button-outline" data-ng-click="publicarQuizCtrl.publicarQuiz(publicarQuizCtrl.filtroTurma)">
                 <i class="icon ion-share"></i>
@@ -29,7 +28,13 @@
             </button>
         </div>
 
-        
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="turmaQuiz in publicarQuizCtrl.arrayQuizPublicado track by turmaQuiz.id">
+            <div class="item item-body">{{turmaQuiz.quiz.descricao}}</div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{turmaQuiz.tsPublicacao | date : 'dd/MM/yyyy'}} à {{turmaQuiz.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> {{turmaQuiz.status}} </a>
+            </div>
+        </div>
 
     </ion-content>
 

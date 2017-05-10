@@ -46,7 +46,7 @@
         }
 
         function mock() {
-            loginCtrl.usuario.login = "MA123";
+            loginCtrl.usuario.login = "21550465";
             loginCtrl.usuario.senha = "123";
             // autenticar(loginCtrl.usuario);
         }
