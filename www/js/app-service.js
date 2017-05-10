@@ -86,7 +86,7 @@
                 return $http.post(DADOS.URL_BASE + 'turmaQuiz/', turmaQuiz).then(success, error);
             },
             listQuizPublicadoByTurma: function (id) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz', ).then(success, error);
+                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz').then(success, error);
             },
             listQuizEmAndamentoByTurma: function (id) {
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO', ).then(success, error);
