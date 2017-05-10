@@ -89,7 +89,7 @@
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz').then(success, error);
             },
             listQuizEmAndamentoByTurma: function (id) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO', ).then(success, error);
+                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO').then(success, error);
             },
             showToaster: function (message) {
                 toaster.pop({
