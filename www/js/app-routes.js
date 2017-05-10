@@ -127,11 +127,11 @@
                 }
             })
 
-            .state('menu.manter-treino', {
+            .state('menu.realizar-treino', {
                 url: '/manter-treino',
                 cache: false,
                 params: {
-                    treino: null
+                    turmaQuiz: null
                 },
                 views: {
                     'conteudo': {

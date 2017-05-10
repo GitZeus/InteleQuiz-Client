@@ -15,6 +15,7 @@
             loginCtrl.usuario = new CLASSES.Usuario();
             loginCtrl.init = init;
             loginCtrl.autenticar = autenticar;
+            loginCtrl.mockUser = mockUser;
 
             listTiposUsuario();
         }
@@ -23,7 +24,7 @@
             if (DADOS.TIPOS_USUARIO && DADOS.TIPOS_USUARIO.length > 0) {
                 loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
                 loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
-                loginCtrl.mockUser();
+                mockUser();
             } else {
                 SERVICE.listTiposUsuario().then(function (response) {
                     if (response.data) {
@@ -45,7 +46,7 @@
             });
         }
 
-        loginCtrl.mockUser = function () {
+        function mockUser () {
             if (loginCtrl.usuario.perfil == 'ALUNO') {
                 loginCtrl.usuario.login = "21550465";
                 loginCtrl.usuario.senha = "123";

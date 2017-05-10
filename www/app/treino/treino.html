@@ -18,7 +18,7 @@
             <div class="item item-body">{{turmaQuiz.quiz.descricao}}</div>
             <div class="item tabs tabs-secondary tabs-icon-left">
                 <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{turmaQuiz.tsPublicacao | date : 'dd/MM/yyyy'}} à {{turmaQuiz.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
-                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.realizar-treino({quiz: turmaQuiz.quiz})"> <i class="icon ion-forward"></i> Realizar </a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.realizar-treino({turmaQuiz: turmaQuiz})"> <i class="icon ion-forward"></i> Realizar </a>
             </div>
         </div>
 
