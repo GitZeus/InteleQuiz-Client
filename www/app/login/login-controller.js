@@ -2,9 +2,9 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['DADOS', 'SERVICE','CLASSES', '$state','ionicMaterialInk'];
+        .module('intelequiz')
+        .controller('loginCtrl', loginCtrl);
+    loginCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', 'ionicMaterialInk'];
     function loginCtrl(DADOS, SERVICE, CLASSES, $state, ionicMaterialInk) {
         var loginCtrl = this;
 
@@ -15,7 +15,7 @@
             loginCtrl.usuario = new CLASSES.Usuario();
             loginCtrl.init = init;
             loginCtrl.autenticar = autenticar;
-            
+
             listTiposUsuario();
         }
 
@@ -23,14 +23,14 @@
             if (DADOS.TIPOS_USUARIO && DADOS.TIPOS_USUARIO.length > 0) {
                 loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
                 loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
-                mock();
+                loginCtrl.mockUser();
             } else {
                 SERVICE.listTiposUsuario().then(function (response) {
                     if (response.data) {
                         DADOS.TIPOS_USUARIO = response.data;
                         loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
                         loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
-                        mock();
+                        loginCtrl.mockUser();
                     }
                 });
             }
@@ -45,10 +45,14 @@
             });
         }
 
-        function mock() {
-            loginCtrl.usuario.login = "21550465";
-            loginCtrl.usuario.senha = "123";
-            // autenticar(loginCtrl.usuario);
+        loginCtrl.mockUser = function () {
+            if (loginCtrl.usuario.perfil == 'ALUNO') {
+                loginCtrl.usuario.login = "21550465";
+                loginCtrl.usuario.senha = "123";
+            } else {
+                loginCtrl.usuario.login = "MA123";
+                loginCtrl.usuario.senha = "123";
+            }
         }
     }
 })();

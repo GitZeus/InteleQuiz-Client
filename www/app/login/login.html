@@ -24,7 +24,8 @@
                         </span>
                         <select required
                                 data-ng-disabled="!loginCtrl.arrayTiposUsuario || loginCtrl.arrayTiposUsuario.length === 0"
-                                data-ng-options="item for item in loginCtrl.arrayTiposUsuario" data-ng-model="loginCtrl.usuario.perfil">
+                                data-ng-options="item for item in loginCtrl.arrayTiposUsuario" data-ng-model="loginCtrl.usuario.perfil"
+                                data-ng-change="loginCtrl.mockUser()">
                         </select>
                     </label>
                 </div>
