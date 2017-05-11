@@ -18,23 +18,32 @@
       manterTreinoCtrl.init = init;
       manterTreinoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
       manterTreinoCtrl.questaoExibida = {};
-      manterTreinoCtrl.questaoExibidaIndice = 0;
-      manterTreinoCtrl.turmaQuiz = $state.params.turmaQuiz;
+      manterTreinoCtrl.publicacao = $state.params.publicacao;
       manterTreinoCtrl.treino = new CLASSES.Treino();
+      manterTreinoCtrl.respostaEscolhida = null;
 
       manterTreinoCtrl.escolherResposta = escolherResposta;
+      manterTreinoCtrl.responderQuestao = responderQuestao;
 
-      startNewTreino(manterTreinoCtrl.usuarioLogado, manterTreinoCtrl.turmaQuiz);
+      checkIsAddOrEdit();
 
       $scope.$broadcast('scroll.refreshComplete');
     }
 
-    function startNewTreino(aluno, turmaQuiz) {
-      if (aluno && aluno.ra && turmaQuiz && turmaQuiz.id) {
-        SERVICE.startNewTreino(aluno.ra, turmaQuiz.id).then(function (response) {
+    function checkIsAddOrEdit() {
+      if ($state.params.novoTreino === true) {
+        startNewTreino(manterTreinoCtrl.usuarioLogado, manterTreinoCtrl.publicacao);;
+      } else {
+        // continueTreino();
+      }
+    }
+
+    function startNewTreino(aluno, publicacao) {
+      if (aluno && aluno.ra && publicacao && publicacao.id) {
+        SERVICE.startNewTreino(aluno.ra, publicacao.id).then(function (response) {
           if (response && response.data) {
             manterTreinoCtrl.treino = response.data;
-            listQuestoesByQuiz(turmaQuiz.quiz);
+            listQuestoesByQuiz(publicacao.quiz);
           }
         });
       }
@@ -42,31 +51,48 @@
 
     function listQuestoesByQuiz(quiz) {
       if (quiz && quiz.id) {
-        console.log(quiz);
         SERVICE.listQuestoesByQuiz(quiz.id).then(function (response) {
           if (response && response.data) {
-            manterTreinoCtrl.turmaQuiz.quiz.questoes = response.data;
-            manterTreinoCtrl.questaoExibida = manterTreinoCtrl.turmaQuiz.quiz.questoes[manterTreinoCtrl.questaoExibidaIndice];
-            console.log(manterTreinoCtrl.turmaQuiz.quiz.questoes);
-            console.log(manterTreinoCtrl.questaoExibida);
-            $timeout(function () {
-              ionicMaterialMotion.blinds({
-                startVelocity: 1000
-              });
-            });
+            manterTreinoCtrl.publicacao.quiz.questoes = response.data;
+            configExibicaoQuestao();
+
           }
         });
       }
     }
 
-    function escolherResposta(resposta) {
-      angular.forEach(manterTreinoCtrl.questaoExibida.respostas, function (value) {
-        if (value.id === resposta.id) {
-          value.escolhida = true;
-        } else {
-          value.escolhida = false;
+    function configExibicaoQuestao() {
+      if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length > 0) {
+        manterTreinoCtrl.questaoExibida = manterTreinoCtrl.publicacao.quiz.questoes[0];
+        manterTreinoCtrl.respostaEscolhida = null;
+        $timeout(function () {
+          ionicMaterialMotion.blinds({
+            startVelocity: 1000
+          });
+        });
+      }
+    }
+
+    function responderQuestao() {
+      if (!manterTreinoCtrl.treino.respostas) {
+        manterTreinoCtrl.treino.respostas = [];
+      }
+      manterTreinoCtrl.treino.respostas.push(manterTreinoCtrl.respostaEscolhida);
+      SERVICE.updateTreino(manterTreinoCtrl.treino).then(function (response) {
+        if (response && response.data) {
+          manterTreinoCtrl.treino = response.data;
+          if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length > 0) {
+            manterTreinoCtrl.publicacao.quiz.questoes.splice(0, 1);
+            configExibicaoQuestao();
+          } else {
+            //show final results
+          }
         }
       });
+    }
+
+    function escolherResposta(resposta) {
+      manterTreinoCtrl.respostaEscolhida = resposta;
     }
   }
 })();

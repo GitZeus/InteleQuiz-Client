@@ -131,13 +131,29 @@
                 url: '/manter-treino',
                 cache: false,
                 params: {
-                    turmaQuiz: null
+                    publicacao: null,
+                    novoTreino: null
                 },
                 views: {
                     'conteudo': {
                         templateUrl: 'app/treino/manter-treino.html',
                         controller: 'manterTreinoCtrl',
                         controllerAs: 'manterTreinoCtrl'
+                    }
+                }
+            })
+
+            .state('menu.ranking-turma', {
+                url: '/ranking-turma',
+                cache: false,
+                params: {
+                    turma: null
+                },
+                views: {
+                    'conteudo': {
+                        templateUrl: 'app/ranking/ranking-turmas.html',
+                        controller: 'rankingTurmaCtrl',
+                        controllerAs: 'rankingTurmaCtrl'
                     }
                 }
             })

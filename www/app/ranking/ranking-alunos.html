@@ -1,0 +1,16 @@
+<ion-view view-title="Ranking de Alunos">
+
+    <ion-content>
+        <ion-refresher on-refresh="rankingTurmaCtrl.init()"></ion-refresher>
+
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="turma in rankingTurmaCtrl.arrayRankingTurmas | orderBy: turma.pontuacao: false track by turma.id">
+            <div class="item item-text-wrap item-badge">
+                {{($index+1) + 'º - ' + turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno}}
+                <span class="item-note"> {{turma.pontuacao + ' xp'}} </span> <br/>
+                <span class="item-note"> {{(turma.aproveitamento | number: 2) + ' %'}} </span>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

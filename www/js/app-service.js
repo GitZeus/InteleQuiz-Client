@@ -11,8 +11,8 @@
 
   function DADOS($log) {
     var data = {
-      //  URL_BASE: "https://intelequiz.herokuapp.com/",
-      URL_BASE: "http://10.2.17.83:8080/",
+       URL_BASE: "https://intelequiz.herokuapp.com/",
+      // URL_BASE: "http://192.168.0.3:8080/",
       USUARIO_LOGADO: {},
       TIPOS_USUARIO: [],
       NIVEIS_QUESTAO: [],
@@ -93,6 +93,15 @@
       },
       startNewTreino: function (ra, turma_quiz_id) {
         return $http.post(DADOS.URL_BASE + 'aluno/' + ra + '/turmaQuiz/' + turma_quiz_id + '/treino').then(success, error);
+      },
+      updateTreino: function (treino) {
+        return $http.put(DADOS.URL_BASE + 'treino/', treino).then(success, error);
+      },
+      listRankingTurmasByProfessor: function (matricula) {
+        return $http.get(DADOS.URL_BASE + 'professor/' + matricula + '/turma/ranking').then(success, error);
+      },
+      listRankingTurmasByAluno: function (ra) {
+        return $http.get(DADOS.URL_BASE + 'aluno/' + ra + '/turma/ranking').then(success, error);
       },
       showToaster: function (message) {
         toaster.pop({
