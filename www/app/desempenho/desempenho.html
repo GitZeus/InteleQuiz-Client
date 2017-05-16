@@ -1,0 +1,17 @@
+<ion-view view-title="Desempenho">
+    <ion-content>
+        <ion-refresher on-refresh="desempenhoCtrl.init()"></ion-refresher>
+
+        <div class="list">
+
+            <div class="item item-input item-select">
+                <span class="input-label">Turma</span>
+                <select class="item-text-wrap" data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno) for turma in desempenhoCtrl.arrayTurma track by turma.id"
+                    data-ng-model="desempenhoCtrl.filtroTurma">
+                </select>
+            </div>
+
+        </div>
+    </ion-content>
+
+</ion-view>

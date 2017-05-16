@@ -7,24 +7,38 @@
   <ion-content>
     <ion-refresher on-refresh="manterTreinoCtrl.init()"></ion-refresher>
 
-    <div class="list card stable-bg animate-blinds">
-      <div class="item item-icon-right">
-        <i class="icon ion-battery-low" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'FACIL'"></i>
-        <i class="icon ion-battery-half" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'MEDIO'"></i>
-        <i class="icon ion-battery-full" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'DIFICIL'"></i>
-      </div>
-      <div class="item item-body">{{manterTreinoCtrl.questaoExibida.texto}}</div>
+    <div data-ng-if="manterTreinoCtrl.isResultadoFinal == false">
+      <div class="list card stable-bg animate-blinds">
+        <div class="item item-icon-right">
+          <i class="icon ion-battery-low" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'FACIL'"></i>
+          <i class="icon ion-battery-half" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'MEDIO'"></i>
+          <i class="icon ion-battery-full" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'DIFICIL'"></i>
+        </div>
+        <div class="item item-body">{{manterTreinoCtrl.questaoExibida.texto}}</div>
 
+        <div class="list">
+          <ion-radio name="rdRespostaVF" data-ng-model="$parent.resposta" data-ng-value="resposta" data-ng-change="manterTreinoCtrl.escolherResposta(resposta)"
+            data-ng-repeat="resposta in manterTreinoCtrl.questaoExibida.respostas track by resposta.id">
+            {{resposta.texto}}
+          </ion-radio>
+        </div>
+
+      </div>
+
+      <button class="button button-assertive button-block" data-ng-click="manterTreinoCtrl.responderQuestao()" data-ng-disabled="!manterTreinoCtrl.respostaEscolhida">Responder</button>
+    </div>
+
+    <div data-ng-if="manterTreinoCtrl.isResultadoFinal == true">
       <div class="list">
-        <ion-radio name="rdRespostaVF" data-ng-model="$parent.resposta" data-ng-value="resposta" data-ng-change="manterTreinoCtrl.escolherResposta(resposta)"
-          data-ng-repeat="resposta in manterTreinoCtrl.questaoExibida.respostas track by resposta.id">
-          {{resposta.texto}}
-        </ion-radio>
+        <div class="item">
+          Pontuação: {{manterTreinoCtrl.resultadoFinal.pontuacao}} xp
+        </div>
+        <div class="item">
+          Aproveitamento: {{manterTreinoCtrl.resultadoFinal.aproveitamento}} %
+        </div>
       </div>
 
     </div>
-
-    <button class="button button-assertive button-block" data-ng-click="manterTreinoCtrl.responderQuestao()" data-ng-disabled="!manterTreinoCtrl.respostaEscolhida">Responder</button>
 
   </ion-content>
 

@@ -30,6 +30,11 @@
                     SERVICE.listRankingTurmasByProfessor(usuario.matricula).then(function (response) {
                         if (response && response.data) {
                             rankingTurmaCtrl.arrayRankingTurmas = response.data;
+                            $timeout(function () {
+                                ionicMaterialMotion.blinds({
+                                    startVelocity: 1000
+                                });
+                            });
                         }
                     });
                 } else if (usuario.perfil === 'ALUNO' && usuario.ra) {
@@ -37,10 +42,10 @@
                         if (response && response.data) {
                             rankingTurmaCtrl.arrayRankingTurmas = response.data;
                             $timeout(function () {
-                            ionicMaterialMotion.blinds({
-                                startVelocity: 1000
+                                ionicMaterialMotion.blinds({
+                                    startVelocity: 1000
+                                });
                             });
-                        });
                         }
                     });
                 }

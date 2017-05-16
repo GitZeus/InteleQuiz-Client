@@ -146,14 +146,38 @@
             .state('menu.ranking-turma', {
                 url: '/ranking-turma',
                 cache: false,
+                views: {
+                    'conteudo': {
+                        templateUrl: 'app/ranking/ranking-turma.html',
+                        controller: 'rankingTurmaCtrl',
+                        controllerAs: 'rankingTurmaCtrl'
+                    }
+                }
+            })
+
+            .state('menu.ranking-aluno', {
+                url: '/ranking-aluno',
+                cache: false,
                 params: {
                     turma: null
                 },
                 views: {
                     'conteudo': {
-                        templateUrl: 'app/ranking/ranking-turmas.html',
-                        controller: 'rankingTurmaCtrl',
-                        controllerAs: 'rankingTurmaCtrl'
+                        templateUrl: 'app/ranking/ranking-aluno.html',
+                        controller: 'rankingAlunoCtrl',
+                        controllerAs: 'rankingAlunoCtrl'
+                    }
+                }
+            })
+
+            .state('menu.desempenho', {
+                url: '/desempenho',
+                cache: false,
+                views: {
+                    'conteudo': {
+                        templateUrl: 'app/desempenho/desempenho.html',
+                        controller: 'desempenhoCtrl',
+                        controllerAs: 'desempenhoCtrl'
                     }
                 }
             })

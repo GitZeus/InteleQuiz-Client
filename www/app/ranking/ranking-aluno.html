@@ -1,0 +1,25 @@
+<ion-view view-title="Ranking de Alunos">
+
+    <ion-nav-bar class="bar-assertive" align-title="center">
+        <ion-nav-back-button></ion-nav-back-button>
+    </ion-nav-bar>
+
+    <ion-header-bar class="bar-subheader bar-dark" align-title="center">
+        <h1 class="title">{{rankingAlunoCtrl.turma.semestre + '/' + rankingAlunoCtrl.turma.ano + '/' + rankingAlunoCtrl.turma.disciplina.sigla
+            + '/' + rankingAlunoCtrl.turma.letra + '/' + rankingAlunoCtrl.turma.turno}}</h1>
+    </ion-header-bar>
+
+    <ion-content>
+        <ion-refresher on-refresh="rankingAlunoCtrl.init()"></ion-refresher>
+
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="aluno in rankingAlunoCtrl.arrayRankingAlunos | orderBy: 'pontuacao' : true track by aluno.ra">
+            <div class="item item-text-wrap item-badge">
+                {{($index+1) + 'º - ' + aluno.nome}}
+                <span class="item-note"> {{aluno.pontuacao + ' xp'}} </span> <br/>
+                <span class="item-note"> {{(aluno.aproveitamento | number: 2) + ' %'}} </span>
+            </div>
+        </div>
+
+    </ion-content>
+
+</ion-view>

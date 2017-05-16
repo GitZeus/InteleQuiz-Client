@@ -24,6 +24,7 @@
 
       manterTreinoCtrl.escolherResposta = escolherResposta;
       manterTreinoCtrl.responderQuestao = responderQuestao;
+      manterTreinoCtrl.isResultadoFinal = false;
 
       checkIsAddOrEdit();
 
@@ -84,11 +85,21 @@
           if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length > 0) {
             manterTreinoCtrl.publicacao.quiz.questoes.splice(0, 1);
             configExibicaoQuestao();
-          } else {
-            //show final results
+            getResultadoFinal();
           }
         }
       });
+    }
+
+    function getResultadoFinal() {
+      if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length == 0) {
+        SERVICE.getTreino(manterTreinoCtrl.treino.id).then(function (response) {
+          if (response && response.data) {
+            manterTreinoCtrl.isResultadoFinal = true;
+            manterTreinoCtrl.resultadoFinal = response.data;
+          }
+        });
+      }
     }
 
     function escolherResposta(resposta) {
