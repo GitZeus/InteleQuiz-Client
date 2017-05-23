@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular.module('intelequiz')
-        .controller('desempenhoCtrl', desempenhoCtrl);
+            .controller('desempenhoCtrl', desempenhoCtrl);
 
     desempenhoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
@@ -15,6 +15,7 @@
 
             desempenhoCtrl.init = init;
             desempenhoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            desempenhoCtrl.listQuizEncerradoByTurma = listQuizEncerradoByTurma;
 
             listTurmasByProfessor(desempenhoCtrl.usuarioLogado);
 
@@ -27,7 +28,16 @@
                     if (response && response.data && response.data.length > 0) {
                         desempenhoCtrl.arrayTurma = response.data;
                         desempenhoCtrl.filtroTurma = desempenhoCtrl.arrayTurma[0];
+                        listQuizEncerradoByTurma(desempenhoCtrl.filtroTurma);
                     }
+                });
+            }
+        }
+
+        function listQuizEncerradoByTurma(turma) {
+            if (turma && turma.id) {
+                SERVICE.listQuizPublicadoByStatusByTurma(turma.id, 'ENCERRADO').then(function (response) {
+                    console.log(response.data);
                 });
             }
         }

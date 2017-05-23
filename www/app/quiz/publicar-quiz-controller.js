@@ -45,15 +45,15 @@
                     if (response.data && response.data.length > 0) {
                         publicarQuizCtrl.arrayTurma = response.data;
                         publicarQuizCtrl.filtroTurma = publicarQuizCtrl.arrayTurma[0];
-                        listQuizPublicadoByTurma(publicarQuizCtrl.filtroTurma);
+                        listQuizPublicadoByStatusByTurma(publicarQuizCtrl.filtroTurma);
                     }
                 });
             }
         }
 
-        function listQuizPublicadoByTurma(turma) {
+        function listQuizPublicadoByStatusByTurma(turma) {
             if (turma && turma.id) {
-                SERVICE.listQuizPublicadoByTurma(turma.id).then(function(response){
+                SERVICE.listQuizPublicadoByStatusByTurma(turma.id).then(function(response){
                     if(response && response.data){
                         publicarQuizCtrl.arrayQuizPublicado = response.data;
                         $timeout(function () {

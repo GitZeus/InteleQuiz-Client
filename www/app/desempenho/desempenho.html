@@ -7,7 +7,8 @@
             <div class="item item-input item-select">
                 <span class="input-label">Turma</span>
                 <select class="item-text-wrap" data-ng-options="turma as (turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno) for turma in desempenhoCtrl.arrayTurma track by turma.id"
-                    data-ng-model="desempenhoCtrl.filtroTurma">
+                    data-ng-model="desempenhoCtrl.filtroTurma"
+                    data-ng-change="desempenhoCtrl.listQuizEncerradoByTurma(desempenhoCtrl.filtroTurma)">
                 </select>
             </div>
 
