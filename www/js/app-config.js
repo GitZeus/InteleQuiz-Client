@@ -1,4 +1,4 @@
-angular.module('intelequiz', ['ionic', 'ionic-material', 'toaster', 'ngAnimate', 'onezone-datepicker'])
+angular.module('intelequiz', ['ionic', 'ionic-material', 'toaster', 'ngAnimate', 'onezone-datepicker','chart.js'])
         .factory('interceptor', ['$q', '$log', 'toaster', function ($q, $log, toaster) {
                 return {
                     'request': function (config) {

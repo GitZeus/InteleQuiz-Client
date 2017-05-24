@@ -42,6 +42,6 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <allow-navigation href="http://*/*" />
-    <engine name="android" spec="~6.1.2" />
     <plugin name="cordova-plugin-whitelist" spec="~1.3.2" />
+    <engine name="android" spec="~6.1.2" />
 </widget>

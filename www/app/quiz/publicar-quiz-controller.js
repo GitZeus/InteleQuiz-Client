@@ -53,7 +53,7 @@
 
         function listQuizPublicadoByStatusByTurma(turma) {
             if (turma && turma.id) {
-                SERVICE.listQuizPublicadoByStatusByTurma(turma.id).then(function(response){
+                SERVICE.listQuizPublicadoByStatusByTurma(turma.id, 'PUBLICADO').then(function(response){
                     if(response && response.data){
                         publicarQuizCtrl.arrayQuizPublicado = response.data;
                         $timeout(function () {

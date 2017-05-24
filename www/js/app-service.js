@@ -2,17 +2,17 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .factory('DADOS', DADOS)
-            .factory('SERVICE', SERVICE);
+        .module('intelequiz')
+        .factory('DADOS', DADOS)
+        .factory('SERVICE', SERVICE);
 
     DADOS.$inject = ['$log'];
     SERVICE.$inject = ['DADOS', '$http', '$log', 'toaster', 'ionicMaterialInk'];
 
     function DADOS($log) {
         var data = {
-//       URL_BASE: "https://intelequiz.herokuapp.com/",
-            URL_BASE: "http://10.61.13.37:8080/",
+            //       URL_BASE: "https://intelequiz.herokuapp.com/",
+            URL_BASE: "http://192.168.0.4:8080/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
@@ -87,6 +87,9 @@
             },
             listQuizPublicadoByStatusByTurma: function (id, status) {
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=' + status).then(success, error);
+            },
+            getDesempenhoByTurma: function (id) {
+                return $http.get(DADOS.URL_BASE + 'desempenho/turma/' + id).then(success, error);
             },
             listQuizEmAndamentoByTurma: function (id) {
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO').then(success, error);
