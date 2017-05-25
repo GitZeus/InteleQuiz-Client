@@ -38,20 +38,41 @@
             if (turma && turma.id) {
                 SERVICE.getDesempenhoByTurma(turma.id).then(function (response) {
                     if (response && response.data) {
-                        configGrafico(response.data);
+                        desempenhoCtrl.desempenho = response.data;
+                        configGraficos(desempenhoCtrl.desempenho);
                     }
                 });
             }
         }
 
-        function configGrafico(desempenho) {
-            desempenhoCtrl.grafico = {};
-            desempenhoCtrl.grafico.data = [desempenho.aproveitamentos, desempenho.envolvimentos];
-            desempenhoCtrl.grafico.labels = desempenho.encerramentos;
-            desempenhoCtrl.grafico.series = ['Aproveitamento', 'Envolvimento'];
-            desempenhoCtrl.grafico.click = function (points, evt) {
-                console.log(points, evt);
+        function configGraficos(desempenho) {
+            desempenhoCtrl.graficoDesempenho = {};
+            desempenhoCtrl.graficoDesempenho.data = [desempenho.aproveitamentos, desempenho.envolvimentos];
+            desempenhoCtrl.graficoDesempenho.labels = desempenho.encerramentos;
+            desempenhoCtrl.graficoDesempenho.series = ['Aproveitamento', 'Envolvimento'];
+            desempenhoCtrl.graficoDesempenho.click = function (points, evt) {
+                if (points && points.length > 0) {
+                    var indice = points[0]._index;
+                    getTemaAtencaoByQuizPublicado(desempenhoCtrl.desempenho.publicacoes[indice]);
+                }
             };
+
+            desempenhoCtrl.graficoMedia = {};
+            desempenhoCtrl.graficoMedia.labels = ['Média Geral'];
+            desempenhoCtrl.graficoMedia.series = ['Aproveitamento', 'Envolvimento'];
+            desempenhoCtrl.graficoMedia.data = [[desempenho.medAproveitamento], [desempenho.medEnvolvimento]];
+        }
+
+        function getTemaAtencaoByQuizPublicado(quizPublicado) {
+            if (quizPublicado && quizPublicado.id) {
+                SERVICE.getTemaAtencaoByQuizPublicado(quizPublicado.id).then(function (response) {
+                    if (response && response.data) {
+                        desempenhoCtrl.graficoTemaAtencao = {};
+                        desempenhoCtrl.graficoTemaAtencao.labels = ['Acertos', 'Erros'];
+                        desempenhoCtrl.graficoTemaAtencao.data = [100 - response.data.percentErros,response.data.percentErros];
+                    }
+                });
+            }
         }
     }
 })();

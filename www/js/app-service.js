@@ -11,8 +11,8 @@
 
     function DADOS($log) {
         var data = {
-            //       URL_BASE: "https://intelequiz.herokuapp.com/",
-            URL_BASE: "http://192.168.0.4:8080/",
+                  URL_BASE: "https://intelequiz.herokuapp.com/",
+            // URL_BASE: "http://192.168.0.4:8080/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
@@ -90,6 +90,9 @@
             },
             getDesempenhoByTurma: function (id) {
                 return $http.get(DADOS.URL_BASE + 'desempenho/turma/' + id).then(success, error);
+            },
+            getTemaAtencaoByQuizPublicado: function (id) {
+                return $http.get(DADOS.URL_BASE + 'quiz/' + id + '/tema').then(success, error);
             },
             listQuizEmAndamentoByTurma: function (id) {
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO').then(success, error);

@@ -10,8 +10,16 @@
                     data-ng-model="desempenhoCtrl.filtroTurma" data-ng-change="desempenhoCtrl.getDesempenhoByTurma(desempenhoCtrl.filtroTurma)">
                 </select>
             </div>
-            <canvas id="line" class="chart chart-line" chart-data="desempenhoCtrl.grafico.data" chart-labels="desempenhoCtrl.grafico.labels"
-                chart-series="desempenhoCtrl.grafico.series" chart-click="desempenhoCtrl.grafico.click">
+
+            <canvas id="base" class="chart-bar" chart-data="desempenhoCtrl.graficoMedia.data" chart-labels="desempenhoCtrl.graficoMedia.labels"
+                chart-series="desempenhoCtrl.graficoMedia.series" chart-colors="['#46BFBD','#2196F3']">
+            </canvas>
+
+            <canvas id="line" class="chart chart-line" chart-data="desempenhoCtrl.graficoDesempenho.data" chart-labels="desempenhoCtrl.graficoDesempenho.labels"
+                chart-series="desempenhoCtrl.graficoDesempenho.series" chart-colors="['#46BFBD','#2196F3']" chart-click="desempenhoCtrl.graficoDesempenho.click">
+            </canvas>
+
+            <canvas id="pie" class="chart chart-pie" chart-data="desempenhoCtrl.graficoTemaAtencao.data" chart-colors="['#46BFBD','#F7464A']" chart-labels="desempenhoCtrl.graficoTemaAtencao.labels" height="150">
             </canvas>
         </div>
 
