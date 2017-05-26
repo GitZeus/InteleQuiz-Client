@@ -20,6 +20,9 @@
         "ion-checkbox": {}
     },
     "attributes": {
+        "chart-labels": {
+            "context": "canvas"
+        },
         "ui-sref": {
             "context": "button"
         }

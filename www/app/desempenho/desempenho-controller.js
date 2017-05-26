@@ -1,7 +1,7 @@
 (function () {
     'use strict';
     angular.module('intelequiz')
-        .controller('desempenhoCtrl', desempenhoCtrl);
+            .controller('desempenhoCtrl', desempenhoCtrl);
 
     desempenhoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
@@ -50,6 +50,23 @@
             desempenhoCtrl.graficoDesempenho.data = [desempenho.aproveitamentos, desempenho.envolvimentos];
             desempenhoCtrl.graficoDesempenho.labels = desempenho.encerramentos;
             desempenhoCtrl.graficoDesempenho.series = ['Aproveitamento', 'Envolvimento'];
+            desempenhoCtrl.graficoDesempenho.options = {
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'y-axis-1',
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: {
+                                max: 100,
+                                min: 0,
+                                stepSize: 20
+                            }
+                        }
+                    ]
+                }
+            }
             desempenhoCtrl.graficoDesempenho.click = function (points, evt) {
                 if (points && points.length > 0) {
                     var indice = points[0]._index;
@@ -61,6 +78,23 @@
             desempenhoCtrl.graficoMedia.labels = ['Média Geral'];
             desempenhoCtrl.graficoMedia.series = ['Aproveitamento', 'Envolvimento'];
             desempenhoCtrl.graficoMedia.data = [[desempenho.medAproveitamento], [desempenho.medEnvolvimento]];
+            desempenhoCtrl.graficoMedia.options = {
+                scales: {
+                    yAxes: [
+                        {
+                            id: 'y-axis-1',
+                            type: 'linear',
+                            display: true,
+                            position: 'left',
+                            ticks: {
+                                max: 100,
+                                min: 0,
+                                stepSize: 20
+                            }
+                        }
+                    ]
+                }
+            }
         }
 
         function getTemaAtencaoByQuizPublicado(quizPublicado) {
@@ -69,7 +103,7 @@
                     if (response && response.data) {
                         desempenhoCtrl.graficoTemaAtencao = {};
                         desempenhoCtrl.graficoTemaAtencao.labels = ['Acertos', 'Erros'];
-                        desempenhoCtrl.graficoTemaAtencao.data = [100 - response.data.percentErros,response.data.percentErros];
+                        desempenhoCtrl.graficoTemaAtencao.data = [100 - response.data.percentErros, response.data.percentErros];
                     }
                 });
             }
