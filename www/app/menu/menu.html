@@ -3,7 +3,6 @@
     <ion-side-menu-content drag-content="false">
 
         <ion-nav-bar class="bar-assertive" align-title="center">
-            <!--<ion-nav-back-button></ion-nav-back-button>-->
             <ion-nav-buttons side="left">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="left"></button>
             </ion-nav-buttons>
@@ -19,20 +18,41 @@
         </ion-header-bar>
         <ion-content>
             <div class="list">
-                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR' || menuCtrl.usuarioLogado.perfil == 'COORDENADOR'">
-                    <a href="#/menu/tema" class="item" menu-close>Tema</a>
-                    <a href="#/menu/questao" class="item" menu-close>Questão</a>
-                    <a href="#/menu/quiz" class="item" menu-close>Quiz</a>
+                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR'">
+                    <a href="#/menu/tema" class="item item-icon-left" menu-close>
+                        <i class="icon ion-pricetags"></i>
+                        Tema
+                    </a>
+                    <a href="#/menu/questao" class="item item-icon-left" menu-close>
+                        <i class="icon ion-help-circled"></i>
+                        Questão
+                    </a>
+                    <a href="#/menu/quiz" class="item item-icon-left" menu-close>
+                        <i class="icon ion-clipboard"></i>
+                        Quiz
+                    </a>
                 </div>
 
                 <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'ALUNO'">
-                    <a href="#/menu/treino" class="item" menu-close>Treino</a>
+                    <a href="#/menu/treino" class="item item-icon-left" menu-close>
+                        <i class="icon ion-ios-speedometer"></i>
+                        Treino
+                    </a>
                 </div>
 
-                <a href="#/menu/ranking-turma" class="item" menu-close>Rankings</a>
-                <a href="#/menu/desempenho" class="item" menu-close>Desempenho</a>
+                <a href="#/menu/ranking-turma" class="item item-icon-left" menu-close>
+                    <i class="icon ion-podium"></i>
+                    Rankings
+                </a>
+                <a href="#/menu/desempenho" class="item item-icon-left" menu-close>
+                    <i class="icon ion-pie-graph"></i>
+                    Desempenho
+                </a>
 
-                <a href="#/login" class="item" menu-close>Sair</a>
+                <a href="#/login" class="item item-icon-left" menu-close>
+                    <i class="icon ion-android-exit"></i>
+                    Sair
+                </a>
             </div>
         </ion-content>
     </ion-side-menu>

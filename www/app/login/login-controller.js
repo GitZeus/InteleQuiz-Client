@@ -41,7 +41,7 @@
             SERVICE.autenticar(usuario).then(function (response) {
                 if (response.data) {
                     DADOS.USUARIO_LOGADO = response.data;
-                    $state.go('menu.home');
+                    $state.go('menu.ranking-turma');
                 }
             });
         }

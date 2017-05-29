@@ -28,11 +28,11 @@
             </button>
         </div>
 
-        <div class="list card stable-bg animate-blinds" data-ng-repeat="turmaQuiz in publicarQuizCtrl.arrayQuizPublicado track by turmaQuiz.id">
-            <div class="item item-body">{{turmaQuiz.quiz.descricao}}</div>
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="publicacao in publicarQuizCtrl.arrayQuizPublicado track by publicacao.id">
+            <div class="item item-body">{{publicacao.quiz.descricao}}</div>
             <div class="item tabs tabs-secondary tabs-icon-left">
-                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{turmaQuiz.tsPublicacao | date : 'dd/MM/yyyy'}} à {{turmaQuiz.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
-                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> {{turmaQuiz.status}} </a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{publicacao.tsPublicacao | date : 'dd/MM/yyyy'}} à {{publicacao.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> {{publicacao.status}} </a>
             </div>
         </div>
 

@@ -4,8 +4,8 @@
     angular
         .module('intelequiz')
         .controller('questaoCtrl', questaoCtrl);
-    questaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope'];
-    function questaoCtrl(DADOS, SERVICE, CLASSES, $state, $scope) {
+    questaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
+    function questaoCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
         var questaoCtrl = this;
 
         init();
@@ -60,6 +60,11 @@
                 SERVICE.listQuestoesByTema(tema.id).then(function (response) {
                     if (response.data) {
                         questaoCtrl.arrayQuestoes = response.data;
+                        $timeout(function () {
+                            ionicMaterialMotion.blinds({
+                                startVelocity: 1000
+                            });
+                        });
                     }
                 });
             }

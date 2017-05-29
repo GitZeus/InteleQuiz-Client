@@ -67,14 +67,14 @@
         }
 
         function publicarQuiz(turma) {
-            var turmaQuiz = new CLASSES.TurmaQuiz();
-            turmaQuiz.turma = turma;
-            turmaQuiz.quiz = publicarQuizCtrl.quiz;
-            turmaQuiz.tsEncerramento = publicarQuizCtrl.tsEncerramento;
+            var publicacao = new CLASSES.Publicacao();
+            publicacao.turma = turma;
+            publicacao.quiz = publicarQuizCtrl.quiz;
+            publicacao.tsEncerramento = publicarQuizCtrl.tsEncerramento;
 
-            console.log(turmaQuiz);
-            if (validarTurmaQuiz(turmaQuiz)) {
-                SERVICE.publicarQuiz(turmaQuiz).then(function (response) {
+            console.log(publicacao);
+            if (validarTurmaQuiz(publicacao)) {
+                SERVICE.publicarQuiz(publicacao).then(function (response) {
                     if (response.message && response.message.type == "success") {
                         $state.go('menu.quiz');
                     }
@@ -82,8 +82,8 @@
             }
         }
 
-        function validarTurmaQuiz(turmaQuiz) {
-            if (!turmaQuiz.turma || !turmaQuiz.turma.id) {
+        function validarTurmaQuiz(publicacao) {
+            if (!publicacao.turma || !publicacao.turma.id) {
                 var message = {
                     type: 'warning',
                     text: 'Selecione uma turma'
@@ -91,7 +91,7 @@
                 SERVICE.showToaster(message);
                 return false;
             }
-            if (!turmaQuiz.quiz || !turmaQuiz.quiz.id) {
+            if (!publicacao.quiz || !publicacao.quiz.id) {
                 var message = {
                     type: 'warning',
                     text: 'Selecione um quiz'
@@ -99,7 +99,7 @@
                 SERVICE.showToaster(message);
                 return false;
             }
-            if (!turmaQuiz.tsEncerramento || turmaQuiz.tsEncerramento === "") {
+            if (!publicacao.tsEncerramento || publicacao.tsEncerramento === "") {
                 var message = {
                     type: 'warning',
                     text: 'Selecione uma data de encerramento'

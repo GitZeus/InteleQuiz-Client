@@ -1,1 +1,11 @@
 /* Empty. Add your own CSS if you like */
+.graficoContainer {
+    background-color: #E0E0E0;
+    margin: 5px;
+    border-radius: 3px 3px;
+    padding: 5px
+}
+
+.background, .background .pane, .background .item, .background .item-complex .item-content{
+    background-color: #000;
+}

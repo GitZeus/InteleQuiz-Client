@@ -16,18 +16,29 @@
             desempenhoCtrl.init = init;
             desempenhoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
             desempenhoCtrl.getDesempenhoByTurma = getDesempenhoByTurma;
-            desempenhoCtrl.barChart = {};
-            desempenhoCtrl.lineChart = {};
-            desempenhoCtrl.pieChart = {};
 
-            listTurmasByProfessor(desempenhoCtrl.usuarioLogado);
+            desempenhoCtrl.mediaGeral = {};
+            desempenhoCtrl.acompanhamentoEvolutivo = {};
+            desempenhoCtrl.criticidade = {};
+            desempenhoCtrl.publicacaoSelecionada = {};
+            desempenhoCtrl.temaSelecionado = {};
+
+            listTurmasByUsuario(desempenhoCtrl.usuarioLogado);
 
             $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listTurmasByProfessor(professor) {
-            if (professor && professor.matricula) {
-                SERVICE.listTurmasByProfessor(professor.matricula).then(function (response) {
+        function listTurmasByUsuario(usuario) {
+            if (usuario.perfil === 'ALUNO' && usuario.ra) {
+                SERVICE.listTurmasByAluno(usuario.ra).then(function (response) {
+                    if (response && response.data && response.data.length > 0) {
+                        desempenhoCtrl.arrayTurma = response.data;
+                        desempenhoCtrl.filtroTurma = desempenhoCtrl.arrayTurma[0];
+                        getDesempenhoByTurma(desempenhoCtrl.filtroTurma);
+                    }
+                });
+            } else if (usuario.perfil === 'PROFESSOR' && usuario.matricula) {
+                SERVICE.listTurmasByProfessor(usuario.matricula).then(function (response) {
                     if (response && response.data && response.data.length > 0) {
                         desempenhoCtrl.arrayTurma = response.data;
                         desempenhoCtrl.filtroTurma = desempenhoCtrl.arrayTurma[0];
@@ -40,163 +51,239 @@
         function getDesempenhoByTurma(turma) {
             limparGraficos();
             if (turma && turma.id) {
-                SERVICE.getDesempenhoByTurma(turma.id).then(function (response) {
-                    if (response && response.data) {
-                        desempenhoCtrl.desempenho = response.data;
-                        configGraficos();
-                    }
-                });
+                if (desempenhoCtrl.usuarioLogado.perfil === 'ALUNO') {
+                    SERVICE.getDesempenhoByTurmaByAluno(turma.id, desempenhoCtrl.usuarioLogado.ra).then(function (response) {
+                        if (response && response.data) {
+                            desempenhoCtrl.desempenho = response.data;
+                            var config1 = {
+                                titulo: 'Média Turma vs Aluno',
+                                categorias: ['Aproveitamento Médio'],
+                                series: [{
+                                    name: 'Turma',
+                                    data: [desempenhoCtrl.desempenho.medAproveitamentoTurma]
+                                }, {
+                                    name: 'Aluno',
+                                    data: [desempenhoCtrl.desempenho.medAproveitamentoAluno]
+                                }]
+                            }
+                            var config2 = {
+                                titulo: 'Evolução Turma vs Aluno',
+                                categorias: desempenhoCtrl.desempenho.encerramentos,
+                                series: [{
+                                    name: 'Turma',
+                                    data: desempenhoCtrl.desempenho.aproveitamentosTurma
+                                }, {
+                                    name: 'Aluno',
+                                    data: desempenhoCtrl.desempenho.aproveitamentosAluno
+                                }]
+                            }
+                            configGraficoMedia(config1);
+                            configGraficoAcompanhamento(config2);
+                        }
+                    });
+                } else if (desempenhoCtrl.usuarioLogado.perfil === 'PROFESSOR') {
+                    SERVICE.getDesempenhoByTurmaByProfessor(turma.id).then(function (response) {
+                        if (response && response.data) {
+                            desempenhoCtrl.desempenho = response.data;
+                            var config1 = {
+                                titulo: 'Média da Turma',
+                                categorias: ['Média'],
+                                series: [{
+                                    name: 'Aproveitamento',
+                                    data: [desempenhoCtrl.desempenho.medAproveitamentoTurma]
+                                }, {
+                                    name: 'Envolvimento',
+                                    data: [desempenhoCtrl.desempenho.medEnvolvimentoTurma]
+                                }]
+                            }
+                            var config2 = {
+                                titulo: 'Evolução da Turma',
+                                categorias: desempenhoCtrl.desempenho.encerramentos,
+                                series: [{
+                                    name: 'Aproveitamento',
+                                    data: desempenhoCtrl.desempenho.aproveitamentosTurma
+                                }, {
+                                    name: 'Envolvimento',
+                                    data: desempenhoCtrl.desempenho.envolvimentosTurma
+                                }]
+                            }
+                            configGraficoMedia(config1);
+                            configGraficoAcompanhamento(config2);
+                        }
+                    });
+                }
             }
+
         }
 
         function limparGraficos() {
-            desempenhoCtrl.barChart.destroy ? desempenhoCtrl.barChart.destroy() : void 0;
-            desempenhoCtrl.lineChart.destroy ? desempenhoCtrl.lineChart.destroy() : void 0;
-            desempenhoCtrl.pieChart.destroy ? desempenhoCtrl.pieChart.destroy() : void 0;
+            desempenhoCtrl.mediaGeral.destroy ? desempenhoCtrl.mediaGeral.destroy() : void 0;
+            desempenhoCtrl.acompanhamentoEvolutivo.destroy ? desempenhoCtrl.acompanhamentoEvolutivo.destroy() : void 0;
+            desempenhoCtrl.criticidade.destroy ? desempenhoCtrl.criticidade.destroy() : void 0;
+            desempenhoCtrl.publicacaoSelecionada = {};
+            desempenhoCtrl.temaSelecionado = {};
+            desempenhoCtrl.arrayQuestoesCriticas = [];
         }
 
-        function configGraficos() {
-            configGraficoMedia();
-            configGraficoAcompanhamento();
-        }
-
-        function configGraficoMedia() {
-            var elemento = document.getElementById('barChart').getContext('2d');
-            desempenhoCtrl.barChart = new Chart(elemento, {
-                type: 'bar',
-                data: {
-                    labels: ['Aproveitamento', 'Envolvimento'],
-                    datasets: [{
-                        label: 'Média',
-                        borderColor: ['#46BFBD', '#2196F3'],
-                        data: [desempenhoCtrl.desempenho.medAproveitamento, desempenhoCtrl.desempenho.medEnvolvimento],
-                    }]
+        function configGraficoMedia(config) {
+            desempenhoCtrl.mediaGeral = Highcharts.chart('mediaGeral', {
+                chart: {
+                    type: 'column'
                 },
-                options: {
-                    scales: {
-                        yAxes: [
-                            {
-                                id: 'y-axis-1',
-                                type: 'linear',
-                                display: true,
-                                position: 'left',
-                                ticks: {
-                                    max: 100,
-                                    min: 0,
-                                    stepSize: 20
-                                }
-                            }
-                        ]
-                    }
-                }
+                title: {
+                    text: config.titulo
+                },
+                xAxis: {
+                    categories: config.categorias
+                },
+                yAxis: {
+                    title: {
+                        text: null
+                    },
+                    min: 0,
+                    max: 100,
+                    tickInterval: 20
+                },
+                tooltip: {
+                    shared: false,
+                    valueSuffix: ' %'
+                },
+                series: config.series
             });
         }
 
-        function configGraficoAcompanhamento() {
-            var elemento = document.getElementById('lineChart').getContext('2d');
-            desempenhoCtrl.lineChart = new Chart(elemento, {
-                type: 'line',
-                data: {
-                    labels: desempenhoCtrl.desempenho.encerramentos,
-                    datasets: [{
-                        label: 'Aproveitamento',
-                        borderColor: '#46BFBD',
-                        data: desempenhoCtrl.desempenho.aproveitamentos,
-                    }, {
-                        label: 'Envolvimento',
-                        borderColor: '#2196F3',
-                        data: desempenhoCtrl.desempenho.envolvimentos,
-                    }]
+        function configGraficoAcompanhamento(config) {
+            var myChart = Highcharts.chart('acompanhamentoEvolutivo', {
+                chart: {
+                    type: 'spline'
                 },
-                options: {
-                    scales: {
-                        yAxes: [
-                            {
-                                id: 'y-axis-1',
-                                type: 'linear',
-                                display: true,
-                                position: 'left',
-                                ticks: {
-                                    max: 100,
-                                    min: 0,
-                                    stepSize: 20
-                                }
+                title: {
+                    text: config.titulo
+                },
+                xAxis: {
+                    categories: config.categorias
+                },
+                yAxis: {
+                    title: {
+                        text: null
+                    },
+                    min: 0,
+                    max: 100,
+                    tickInterval: 20
+                },
+                series: config.series,
+                tooltip: {
+                    shared: true,
+                    valueSuffix: ' %'
+                },
+                plotOptions: {
+                    spline: {
+                        events: {
+                            click: function (e) {
+                                desempenhoCtrl.publicacaoSelecionada = desempenhoCtrl.desempenho.publicacoes[e.point.index];
+                                getTemaCritico(desempenhoCtrl.publicacaoSelecionada, e.point.category);
                             }
-                        ]
-                    },
-                    tooltips: {
-                        intersect: false,
-                        mode: 'nearest'
-                    },
-                    // onHover: function (evt, points) {
-                    //     if (points && points.length > 0) {
-                    //         var indice = points[0]._index;
-                    //         getTemaAtencaoByQuizPublicado(desempenhoCtrl.desempenho.publicacoes[indice]);
-                    //     }
-                    // },
-                    onClick: function (evt, points) {
-                        if (points && points.length > 0) {
-                            var indice = points[0]._index;
-                            getTemaAtencaoByQuizPublicado(desempenhoCtrl.desempenho.publicacoes[indice]);
                         }
                     }
                 }
             });
         }
 
-        function getTemaAtencaoByQuizPublicado(quizPublicado) {
+        function getTemaCritico(quizPublicado, dataEncerramento) {
             if (quizPublicado && quizPublicado.id) {
-                SERVICE.getTemaAtencaoByQuizPublicado(quizPublicado.id).then(function (response) {
-                    if (response && response.data) {
-                        desempenhoCtrl.temaAtencao = response.data;
-                        configGraficoAtencao();
-                    }
-                });
+                if (desempenhoCtrl.usuarioLogado.perfil === 'PROFESSOR') {
+                    SERVICE.getTemaCriticoByPublicacao(quizPublicado.id).then(function (response) {
+                        if (response && response.data) {
+                            desempenhoCtrl.temasCriticos = response.data.temasCriticos;
+                            var data = []
+                            angular.forEach(desempenhoCtrl.temasCriticos, function (value) {
+                                data.push({
+                                    name: value.nome,
+                                    y: value.percentErros
+                                })
+                            });
+                            var config = {
+                                titulo: 'Criticidade da Turma em: ' + dataEncerramento,
+                                series: [{
+                                    name: 'Criticidade',
+                                    colorByPoint: true,
+                                    data: data
+                                }]
+                            }
+                            configGraficoCriticidade(config);
+                        }
+                    });
+                } else if (desempenhoCtrl.usuarioLogado.perfil === 'ALUNO') {
+                    SERVICE.getTemaCriticoByPublicacaoByAluno(quizPublicado.id, desempenhoCtrl.usuarioLogado.ra).then(function (response) {
+                        if (response && response.data) {
+                            desempenhoCtrl.temasCriticos = response.data.temasCriticos;
+                            var data = []
+                            angular.forEach(desempenhoCtrl.temasCriticos, function (value) {
+                                data.push({
+                                    name: value.nome,
+                                    y: value.percentErros
+                                })
+                            });
+                            var config = {
+                                titulo: 'Criticidade do Aluno em: ' + dataEncerramento,
+                                series: [{
+                                    name: 'Criticidade',
+                                    colorByPoint: true,
+                                    data: data
+                                }]
+                            }
+                            configGraficoCriticidade(config);
+                        }
+                    });
+                }
             }
         }
 
-        function configGraficoAtencao() {
-            var elemento = document.getElementById('pieChart').getContext('2d');
-            desempenhoCtrl.pieChart = new Chart(elemento, {
-                type: 'pie',
-                data: {
-                    labels: ['% Acertos', '% Erros'],
-                    datasets: [{
-                        label: 'Aproveitamento',
-                        backgroundColor: ['#46BFBD', '#F7464A'],
-                        borderColor: ['#46BFBD', '#F7464A'],
-                        data: [100 - desempenhoCtrl.temaAtencao.percentErros, desempenhoCtrl.temaAtencao.percentErros],
-                    }]
-                }
+        function configGraficoCriticidade(config) {
+            desempenhoCtrl.criticidade = new Highcharts.chart('temaCritico', {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: config.titulo
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f} %</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: false
+                        },
+                        showInLegend: true,
+                        events: {
+                            click: function (e) {
+                                desempenhoCtrl.temaSelecionado = desempenhoCtrl.temasCriticos[e.point.index];
+                                listQuestoesCriticas(desempenhoCtrl.temaSelecionado, desempenhoCtrl.publicacaoSelecionada);
+                            }
+                        }
+                    }
+                },
+                series: config.series
             });
         }
 
-        // var ctx = document.getElementById('myChart').getContext('2d');
-        // var chart = new Chart(ctx, {
-        //     // The type of chart we want to create
-        //     type: 'pie',
-
-        //     // The data for our dataset
-        //     data: {
-        //         labels: ["January", "February", "March", "April", "May", "June", "July"],
-        //         datasets: [{
-        //             label: "My First dataset",
-        //             // backgroundColor: 'rgb(255, 99, 132)',
-        //             // borderColor: 'rgb(255, 99, 132)',
-        //             data: [0, 10, 5, 2, 20, 30, 45],
-        //         }]
-        //     },
-
-        //     // Configuration options go here
-        //     options: {
-        //         tooltips: {
-        //             intersect: false,
-        //             mode: 'nearest'
-        //         },
-        //         onClick: function () {
-        //             console.log("NEEE");
-        //         }
-        //     }
-        // });
+        function listQuestoesCriticas(tema, publicacao) {
+            if (tema && tema.id && publicacao && publicacao.id) {
+                if (desempenhoCtrl.usuarioLogado.perfil === 'PROFESSOR') {
+                    SERVICE.listQuestoesErradasByPublicacaoByTemaCritico(publicacao.id, tema.id).then(function (response) {
+                        if (response && response.data && response.data.questoesCriticas) {
+                            desempenhoCtrl.arrayQuestoesCriticas = response.data.questoesCriticas;
+                        }
+                    });
+                } else if (desempenhoCtrl.usuarioLogado.perfil === 'ALUNO') {
+                    SERVICE.listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(publicacao.id, desempenhoCtrl.usuarioLogado.ra, tema.id).then(function (response) {
+                        if (response && response.data && response.data.questoesCriticas) {
+                            desempenhoCtrl.arrayQuestoesCriticas = response.data.questoesCriticas;
+                        }
+                    });
+                }
+            }
+        }
     }
 })();

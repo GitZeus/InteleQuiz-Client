@@ -13,7 +13,7 @@
       Questao: Questao,
       Resposta: Resposta,
       Quiz: Quiz,
-      TurmaQuiz: TurmaQuiz,
+      Publicacao: Publicacao,
       Treino: Treino
     };
     return classes;
@@ -57,7 +57,7 @@
       this.status = 0;
     }
 
-    function TurmaQuiz() {
+    function Publicacao() {
       this.turma = {};
       this.quiz = {};
       this.tsPublicacao = "";
@@ -66,7 +66,7 @@
 
     function Treino() {
       this.aluno = {};
-      this.turmaQuiz = {};
+      this.publicacao = {};
       this.tsInicio = "";
       this.tsFim = "";
       this.pontuacao = 0;

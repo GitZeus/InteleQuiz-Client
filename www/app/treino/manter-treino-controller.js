@@ -21,6 +21,7 @@
       manterTreinoCtrl.publicacao = $state.params.publicacao;
       manterTreinoCtrl.treino = new CLASSES.Treino();
       manterTreinoCtrl.respostaEscolhida = null;
+      manterTreinoCtrl.countQuestoes = {};
 
       manterTreinoCtrl.escolherResposta = escolherResposta;
       manterTreinoCtrl.responderQuestao = responderQuestao;
@@ -55,8 +56,8 @@
         SERVICE.listQuestoesByQuiz(quiz.id).then(function (response) {
           if (response && response.data) {
             manterTreinoCtrl.publicacao.quiz.questoes = response.data;
+            manterTreinoCtrl.countQuestoes.total = manterTreinoCtrl.publicacao.quiz.questoes.length;
             configExibicaoQuestao();
-
           }
         });
       }
@@ -65,6 +66,7 @@
     function configExibicaoQuestao() {
       if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length > 0) {
         manterTreinoCtrl.questaoExibida = manterTreinoCtrl.publicacao.quiz.questoes[0];
+        manterTreinoCtrl.countQuestoes.atual ? manterTreinoCtrl.countQuestoes.atual++ : manterTreinoCtrl.countQuestoes.atual = 1;
         manterTreinoCtrl.respostaEscolhida = null;
         $timeout(function () {
           ionicMaterialMotion.blinds({

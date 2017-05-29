@@ -29,7 +29,7 @@
 
         function listTurmasByAluno(aluno) {
             if (aluno && aluno.ra) {
-                SERVICE.listTurmasByAluno(aluno).then(function (response) {
+                SERVICE.listTurmasByAluno(aluno.ra).then(function (response) {
                     if (response.data && response.data.length > 0) {
                         treinoCtrl.arrayTurma = response.data;
                         treinoCtrl.filtroTurma = treinoCtrl.arrayTurma[0];

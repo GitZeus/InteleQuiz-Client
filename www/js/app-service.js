@@ -11,8 +11,8 @@
 
     function DADOS($log) {
         var data = {
-                 URL_BASE: "https://intelequiz.herokuapp.com/",
-            //  URL_BASE: "http://192.168.0.4:8080/",
+            //  URL_BASE: "https://intelequiz.herokuapp.com/",
+            URL_BASE: "http://192.168.0.5:8080/",
             USUARIO_LOGADO: {},
             TIPOS_USUARIO: [],
             NIVEIS_QUESTAO: [],
@@ -26,10 +26,10 @@
     function SERVICE(DADOS, $http, $log, toaster, ionicMaterialInk) {
         var service = {
             autenticar: function (usuario) {
-                return $http.post(DADOS.URL_BASE + 'usuario/autenticacao', usuario).then(success, error);
+                return $http.post(DADOS.URL_BASE + 'usuario', usuario).then(success, error);
             },
             listTiposUsuario: function () {
-                return $http.get(DADOS.URL_BASE + 'usuario/tipo').then(success, error);
+                return $http.get(DADOS.URL_BASE + 'usuario/perfil').then(success, error);
             },
             listDisciplinasByProfessor: function (professor) {
                 return $http.post(DADOS.URL_BASE + 'professor/disciplinas', professor).then(success, error);
@@ -79,26 +79,38 @@
             updateQuiz: function (quiz) {
                 return $http.put(DADOS.URL_BASE + 'quiz/', quiz).then(success, error);
             },
-            listTurmasByAluno: function (aluno) {
-                return $http.get(DADOS.URL_BASE + 'aluno/' + aluno.ra + '/disciplina').then(success, error);
+            listTurmasByAluno: function (ra) {
+                return $http.get(DADOS.URL_BASE + 'aluno/' + ra + '/disciplina').then(success, error);
             },
-            publicarQuiz: function (turmaQuiz) {
-                return $http.post(DADOS.URL_BASE + 'turmaQuiz/', turmaQuiz).then(success, error);
+            publicarQuiz: function (publicacao) {
+                return $http.post(DADOS.URL_BASE + 'publicacao/', publicacao).then(success, error);
             },
             listQuizPublicadoByStatusByTurma: function (id, status) {
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=' + status).then(success, error);
             },
-            getDesempenhoByTurma: function (id) {
-                return $http.get(DADOS.URL_BASE + 'desempenho/turma/' + id).then(success, error);
+            getDesempenhoByTurmaByProfessor: function (id) {
+                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/desempenho').then(success, error);
             },
-            getTemaAtencaoByQuizPublicado: function (id) {
-                return $http.get(DADOS.URL_BASE + 'quiz/' + id + '/tema').then(success, error);
+            getDesempenhoByTurmaByAluno: function (id, ra) {
+                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/aluno/' + ra + '/desempenho').then(success, error);
+            },
+            getTemaCriticoByPublicacao: function (id) {
+                return $http.get(DADOS.URL_BASE + 'publicacao/' + id + '/temaCritico').then(success, error);
+            },
+            getTemaCriticoByPublicacaoByAluno: function (id, ra) {
+                return $http.get(DADOS.URL_BASE + 'publicacao/' + id + '/aluno/' + ra + '/temaCritico').then(success, error);
+            },
+            listQuestoesErradasByPublicacaoByTemaCritico: function (publicacao_id, tema_id) {
+                return $http.get(DADOS.URL_BASE + 'publicacao/' + publicacao_id + '/temaCritico/' + tema_id + '/questoes').then(success, error);
+            },
+            listQuestoesCriticasByPublicacaoByAlunoByTemaCritico: function (publicacao_id, ra, tema_id) {
+                return $http.get(DADOS.URL_BASE + 'publicacao/' + publicacao_id + '/aluno/' + ra + '/temaCritico/' + tema_id + '/questoes').then(success, error);
             },
             listQuizEmAndamentoByTurma: function (id) {
                 return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO').then(success, error);
             },
             startNewTreino: function (ra, turma_quiz_id) {
-                return $http.post(DADOS.URL_BASE + 'aluno/' + ra + '/turmaQuiz/' + turma_quiz_id + '/treino').then(success, error);
+                return $http.post(DADOS.URL_BASE + 'aluno/' + ra + '/publicacao/' + turma_quiz_id + '/treino').then(success, error);
             },
             updateTreino: function (treino) {
                 return $http.put(DADOS.URL_BASE + 'treino/', treino).then(success, error);

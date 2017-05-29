@@ -10,17 +10,16 @@
                     data-ng-model="desempenhoCtrl.filtroTurma" data-ng-change="desempenhoCtrl.getDesempenhoByTurma(desempenhoCtrl.filtroTurma)">
                 </select>
             </div>
-            <div>
-                <canvas id="barChart"></canvas>
+            <div id="mediaGeral" style="width:100%"></div>
+            <div id="acompanhamentoEvolutivo" style="width:100%"></div>
+            <div id="temaCritico" style="width:100%"></div>
+            <div class="item item-divider" data-ng-show="desempenhoCtrl.temaSelecionado.nome">
+                Questões erradas no tema: {{desempenhoCtrl.temaSelecionado.nome}}
             </div>
-            <div>
-                <canvas id="lineChart"><canvas>
-            </div>
-            <div>
-                <canvas id="pieChart" height="150"></canvas>
-            </div>
-            <div>
-                <canvas id="myChart"></canvas>
+            <div class="list card stable-bg" data-ng-repeat="questao in desempenhoCtrl.arrayQuestoesCriticas track by questao.id">
+                <div class="item item-text-wrap item-badge">
+                    {{questao.texto}}
+                </div>
             </div>
         </div>
 

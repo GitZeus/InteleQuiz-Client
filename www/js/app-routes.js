@@ -25,15 +25,6 @@
                 controllerAs: 'menuCtrl'
             })
 
-            .state('menu.home', {
-                url: '/home',
-                views: {
-                    'conteudo': {
-                        templateUrl: 'app/menu/home.html'
-                    }
-                }
-            })
-
             .state('menu.tema', {
                 url: '/tema',
                 cache: false,
