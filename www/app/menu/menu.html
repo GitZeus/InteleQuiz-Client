@@ -13,10 +13,15 @@
     </ion-side-menu-content>
 
     <ion-side-menu side="left">
-        <ion-header-bar class="bar-dark" align-title="center">
-            <h1 class="title">{{menuCtrl.usuarioLogado.nome}}</h1>
+        <ion-header-bar class="dark-bg expanded" style="background-size: 100% 1px; background-position-x: 0%; background-position-y: 0%">
+            <div class="hero" style="height: auto">
+                <div class="content no-header">
+                    <div class="avatar" style="background: url('https://www.espacoaluno.uniceub.br/content/avatar.ashx?162446'); background-size: cover;"></div>
+                    <h3><a class="light">{{menuCtrl.usuarioLogado.nome}}</a></h3>
+                </div>
+            </div>
         </ion-header-bar>
-        <ion-content>
+        <ion-content class="has-expanded-header">
             <div class="list">
                 <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR'">
                     <a href="#/menu/tema" class="item item-icon-left" menu-close>
