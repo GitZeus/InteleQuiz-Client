@@ -11,7 +11,7 @@
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
                 <select class="item-text-wrap" data-ng-options="disciplina as disciplina.nome for disciplina in manterQuizCtrl.arrayDisciplinas track by disciplina.id"
-                    data-ng-model="manterQuizCtrl.quiz.disciplina" data-ng-change="manterQuizCtrl.listTemasByDisciplina(manterQuizCtrl.quiz.disciplina)">
+                    data-ng-model="manterQuizCtrl.quiz.disciplina" data-ng-change="manterQuizCtrl.listTemasByDisciplinaByProfessor(manterQuizCtrl.quiz.disciplina)">
                 </select>
             </div>
 
@@ -24,7 +24,7 @@
             <div class="item item-input item-select" data-ng-if="manterQuizCtrl.arrayDisciplinas && manterQuizCtrl.arrayDisciplinas.length > 0">
                 <span class="input-label" data-ng-class="{'placeholder-icon' : !manterQuizCtrl.arrayTemas || manterQuizCtrl.arrayTemas.length === 0}">Tema</span>
                 <select data-ng-disabled="!manterQuizCtrl.arrayTemas || manterQuizCtrl.arrayTemas.length === 0" data-ng-options="tema as tema.nome for tema in manterQuizCtrl.arrayTemas"
-                    data-ng-model="manterQuizCtrl.filtroTema" data-ng-change="manterQuizCtrl.listQuestoesByTema(manterQuizCtrl.filtroTema)">
+                    data-ng-model="manterQuizCtrl.filtroTema" data-ng-change="manterQuizCtrl.listQuestaoByTema(manterQuizCtrl.filtroTema)">
                 </select>
             </div>
 
@@ -51,12 +51,6 @@
 
         <div class="list">
             <div class="item item-divider">Questões Selecionadas</div>
-            <!--<div class="item item-button-right" data-ng-repeat="questao in manterQuizCtrl.quiz.questoes track by questao.id">
-                {{questao.texto}}
-                <button class="button button-assertive" data-ng-click="manterQuizCtrl.removerQuestaoSelecionada(questao, $index)">
-                    <i class="icon ion-trash-b"></i>
-                </button>
-            </div>-->
         </div>
 
         <div class="list card stable-bg" data-ng-repeat="questao in manterQuizCtrl.quiz.questoes track by questao.id">

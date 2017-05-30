@@ -12,34 +12,34 @@
 
         function init() {
             quizCtrl.init = init;
-            quizCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            quizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             quizCtrl.arrayDisciplinas = [];
             quizCtrl.arrayQuiz = [];
 
-            quizCtrl.listQuizByDisciplina = listQuizByDisciplina;
+            quizCtrl.listQuizByDisciplinaByProfessor = listQuizByDisciplinaByProfessor;
 
-            listDisciplinasByProfessor(quizCtrl.usuarioLogado);
+            listDisciplinaByProfessor(quizCtrl.usuarioLogado);
             $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listDisciplinasByProfessor(professor) {
+        function listDisciplinaByProfessor(professor) {
             quizCtrl.arrayDisciplinas = [];
             if (professor) {
-                SERVICE.listDisciplinasByProfessor(professor).then(function (response) {
+                SERVICE.listDisciplinaByProfessor(professor.matricula).then(function (response) {
                     if (response.data) {
                         DADOS.DISCIPLINAS = response.data;
                         quizCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
                         quizCtrl.filtroDisciplina = quizCtrl.arrayDisciplinas[0] ? quizCtrl.arrayDisciplinas[0] : {};
-                        listQuizByDisciplina(quizCtrl.filtroDisciplina);
+                        listQuizByDisciplinaByProfessor(quizCtrl.filtroDisciplina);
                     }
                 });
             }
         }
 
-        function listQuizByDisciplina(disciplina) {
+        function listQuizByDisciplinaByProfessor(disciplina) {
             quizCtrl.arrayQuiz = [];
             if (disciplina) {
-                SERVICE.listQuizByDisciplina(quizCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
+                SERVICE.listQuizByDisciplinaByProfessor(quizCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
                     if (response.data) {
                         DADOS.QUESTIONARIO = response.data;
                         quizCtrl.arrayQuiz = DADOS.QUESTIONARIO;

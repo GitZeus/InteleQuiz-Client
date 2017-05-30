@@ -13,10 +13,10 @@
     init();
 
     function init() {
-      SERVICE.ionicMaterialInk();
+      SERVICE.displayMaterialInk();
 
       manterTreinoCtrl.init = init;
-      manterTreinoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+      manterTreinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
       manterTreinoCtrl.questaoExibida = {};
       manterTreinoCtrl.publicacao = $state.params.publicacao;
       manterTreinoCtrl.treino = new CLASSES.Treino();
@@ -34,26 +34,26 @@
 
     function checkIsAddOrEdit() {
       if ($state.params.novoTreino === true) {
-        startNewTreino(manterTreinoCtrl.usuarioLogado, manterTreinoCtrl.publicacao);;
+        saveTreino(manterTreinoCtrl.usuarioLogado, manterTreinoCtrl.publicacao);;
       } else {
         // continueTreino();
       }
     }
 
-    function startNewTreino(aluno, publicacao) {
+    function saveTreino(aluno, publicacao) {
       if (aluno && aluno.ra && publicacao && publicacao.id) {
-        SERVICE.startNewTreino(aluno.ra, publicacao.id).then(function (response) {
+        SERVICE.saveTreino(aluno.ra, publicacao.id).then(function (response) {
           if (response && response.data) {
             manterTreinoCtrl.treino = response.data;
-            listQuestoesByQuiz(publicacao.quiz);
+            listQuestaoByQuiz(publicacao.quiz);
           }
         });
       }
     }
 
-    function listQuestoesByQuiz(quiz) {
+    function listQuestaoByQuiz(quiz) {
       if (quiz && quiz.id) {
-        SERVICE.listQuestoesByQuiz(quiz.id).then(function (response) {
+        SERVICE.listQuestaoByQuiz(quiz.id).then(function (response) {
           if (response && response.data) {
             manterTreinoCtrl.publicacao.quiz.questoes = response.data;
             manterTreinoCtrl.countQuestoes.total = manterTreinoCtrl.publicacao.quiz.questoes.length;
@@ -95,7 +95,7 @@
 
     function getResultadoFinal() {
       if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length == 0) {
-        SERVICE.getTreino(manterTreinoCtrl.treino.id).then(function (response) {
+        SERVICE.getTreinoById(manterTreinoCtrl.treino.id).then(function (response) {
           if (response && response.data) {
             manterTreinoCtrl.isResultadoFinal = true;
             manterTreinoCtrl.resultadoFinal = response.data;

@@ -13,23 +13,23 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
 
             treinoCtrl.init = init;
-            treinoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            treinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             treinoCtrl.arrayTurma = [];
             treinoCtrl.arrayQuizDisponivel = [];
 
             treinoCtrl.listTreinosDisponiveis = listTreinosDisponiveis;
 
-            listTurmasByAluno(treinoCtrl.usuarioLogado);
+            listTurmaByAluno(treinoCtrl.usuarioLogado);
 
             $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listTurmasByAluno(aluno) {
+        function listTurmaByAluno(aluno) {
             if (aluno && aluno.ra) {
-                SERVICE.listTurmasByAluno(aluno.ra).then(function (response) {
+                SERVICE.listTurmaByAluno(aluno.ra).then(function (response) {
                     if (response.data && response.data.length > 0) {
                         treinoCtrl.arrayTurma = response.data;
                         treinoCtrl.filtroTurma = treinoCtrl.arrayTurma[0];
@@ -41,7 +41,7 @@
 
         function listTreinosDisponiveis(turma) {
             if(turma && turma.id){
-                SERVICE.listQuizEmAndamentoByTurma(turma.id).then(function (response) {
+                SERVICE.listPublicacaoByStatusByTurma(turma.id, 'PUBLICADO').then(function (response) {
                     if (response && response.data) {
                         treinoCtrl.arrayQuizDisponivel = response.data;
                         $timeout(function () {

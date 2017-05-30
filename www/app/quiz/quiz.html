@@ -12,7 +12,7 @@
             <div class="item item-input item-select">
                 <span class="input-label">Disciplina</span>
                 <select class="item-text-wrap" data-ng-options="disciplina as disciplina.nome for disciplina in quizCtrl.arrayDisciplinas track by disciplina.id"
-                    data-ng-model="quizCtrl.filtroDisciplina" data-ng-change="quizCtrl.listQuizByDisciplina(quizCtrl.filtroDisciplina)">
+                    data-ng-model="quizCtrl.filtroDisciplina" data-ng-change="quizCtrl.listQuizByDisciplinaByProfessor(quizCtrl.filtroDisciplina)">
                 </select>
             </div>
 

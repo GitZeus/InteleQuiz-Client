@@ -11,36 +11,36 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
 
             temaCtrl.init = init;
-            temaCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            temaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             temaCtrl.arrayDisciplinas = [];
             temaCtrl.arrayTemas = [];
 
-            temaCtrl.listTemasByDisciplina = listTemasByDisciplina;
+            temaCtrl.listTemasByDisciplinaByProfessor = listTemasByDisciplinaByProfessor;
             temaCtrl.saveTema = saveTema;
 
-            listDisciplinasByProfessor(temaCtrl.usuarioLogado);
+            listDisciplinaByProfessor(temaCtrl.usuarioLogado);
             $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listDisciplinasByProfessor(professor) {
+        function listDisciplinaByProfessor(professor) {
             if (professor) {
-                SERVICE.listDisciplinasByProfessor(professor).then(function (response) {
+                SERVICE.listDisciplinaByProfessor(professor.matricula).then(function (response) {
                     if (response.data) {
                         temaCtrl.arrayDisciplinas = response.data;
                         temaCtrl.filtroDisciplina = temaCtrl.arrayDisciplinas[0];
-                        temaCtrl.listTemasByDisciplina(temaCtrl.filtroDisciplina);
+                        temaCtrl.listTemasByDisciplinaByProfessor(temaCtrl.filtroDisciplina);
                     }
                 });
             }
         }
 
-        function listTemasByDisciplina(disciplina) {
+        function listTemasByDisciplinaByProfessor(disciplina) {
             temaCtrl.arrayTemas = [];
             if (disciplina) {
-                SERVICE.listTemasByDisciplina(temaCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
+                SERVICE.listTemasByDisciplinaByProfessor(temaCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
                     if (response.data) {
                         temaCtrl.arrayTemas = response.data;
                         $timeout(function () {
@@ -64,7 +64,7 @@
                         if (response.message.type !== "error") {
                             temaCtrl.filtroNomeTema = "";
                         }
-                        temaCtrl.listTemasByDisciplina(temaCtrl.filtroDisciplina);
+                        temaCtrl.listTemasByDisciplinaByProfessor(temaCtrl.filtroDisciplina);
                     }
                 });
             }

@@ -11,10 +11,10 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
 
             desempenhoCtrl.init = init;
-            desempenhoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            desempenhoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             desempenhoCtrl.getDesempenhoByTurma = getDesempenhoByTurma;
 
             desempenhoCtrl.mediaGeral = {};
@@ -30,7 +30,7 @@
 
         function listTurmasByUsuario(usuario) {
             if (usuario.perfil === 'ALUNO' && usuario.ra) {
-                SERVICE.listTurmasByAluno(usuario.ra).then(function (response) {
+                SERVICE.listTurmaByAluno(usuario.ra).then(function (response) {
                     if (response && response.data && response.data.length > 0) {
                         desempenhoCtrl.arrayTurma = response.data;
                         desempenhoCtrl.filtroTurma = desempenhoCtrl.arrayTurma[0];
@@ -38,7 +38,7 @@
                     }
                 });
             } else if (usuario.perfil === 'PROFESSOR' && usuario.matricula) {
-                SERVICE.listTurmasByProfessor(usuario.matricula).then(function (response) {
+                SERVICE.listTurmaByProfessor(usuario.matricula).then(function (response) {
                     if (response && response.data && response.data.length > 0) {
                         desempenhoCtrl.arrayTurma = response.data;
                         desempenhoCtrl.filtroTurma = desempenhoCtrl.arrayTurma[0];
@@ -271,13 +271,13 @@
         function listQuestoesCriticas(tema, publicacao) {
             if (tema && tema.id && publicacao && publicacao.id) {
                 if (desempenhoCtrl.usuarioLogado.perfil === 'PROFESSOR') {
-                    SERVICE.listQuestoesErradasByPublicacaoByTemaCritico(publicacao.id, tema.id).then(function (response) {
+                    SERVICE.listQuestaoCriticaByPublicacaoByTemaCritico(publicacao.id, tema.id).then(function (response) {
                         if (response && response.data && response.data.questoesCriticas) {
                             desempenhoCtrl.arrayQuestoesCriticas = response.data.questoesCriticas;
                         }
                     });
                 } else if (desempenhoCtrl.usuarioLogado.perfil === 'ALUNO') {
-                    SERVICE.listQuestoesCriticasByPublicacaoByAlunoByTemaCritico(publicacao.id, desempenhoCtrl.usuarioLogado.ra, tema.id).then(function (response) {
+                    SERVICE.listQuestaoCriticaByPublicacaoByAlunoByTemaCritico(publicacao.id, desempenhoCtrl.usuarioLogado.ra, tema.id).then(function (response) {
                         if (response && response.data && response.data.questoesCriticas) {
                             desempenhoCtrl.arrayQuestoesCriticas = response.data.questoesCriticas;
                         }

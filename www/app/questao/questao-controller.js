@@ -11,53 +11,53 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
             questaoCtrl.init = init;
-            questaoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            questaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             questaoCtrl.arrayDisciplinas = [];
             questaoCtrl.filtroDisciplina = new CLASSES.Disciplina();
             questaoCtrl.arrayTemas = [];
             questaoCtrl.filtroTema = new CLASSES.Tema();
             questaoCtrl.arrayQuestoes = [];
 
-            questaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
-            questaoCtrl.listQuestoesByTema = listQuestoesByTema;
+            questaoCtrl.listTemasByDisciplinaByProfessor = listTemasByDisciplinaByProfessor;
+            questaoCtrl.listQuestaoByTema = listQuestaoByTema;
 
-            listDisciplinasByProfessor(questaoCtrl.usuarioLogado);
+            listDisciplinaByProfessor(questaoCtrl.usuarioLogado);
             $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listDisciplinasByProfessor(professor) {
+        function listDisciplinaByProfessor(professor) {
             questaoCtrl.arrayTemas = [];
             if (professor) {
-                SERVICE.listDisciplinasByProfessor(questaoCtrl.usuarioLogado).then(function (response) {
+                SERVICE.listDisciplinaByProfessor(questaoCtrl.usuarioLogado.matricula).then(function (response) {
                     if (response.data) {
                         DADOS.DISCIPLINAS = response.data;
                         questaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
                         questaoCtrl.filtroDisciplina = questaoCtrl.arrayDisciplinas[0] ? questaoCtrl.arrayDisciplinas[0] : {};
-                        listTemasByDisciplina(questaoCtrl.filtroDisciplina);
+                        listTemasByDisciplinaByProfessor(questaoCtrl.filtroDisciplina);
                     }
                 });
             }
         }
 
-        function listTemasByDisciplina(disciplina) {
+        function listTemasByDisciplinaByProfessor(disciplina) {
             questaoCtrl.arrayQuestoes = [];
             if (disciplina) {
-                SERVICE.listTemasByDisciplina(questaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
+                SERVICE.listTemasByDisciplinaByProfessor(questaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
                     if (response.data) {
                         questaoCtrl.arrayTemas = response.data;
                         DADOS.TEMAS = questaoCtrl.arrayTemas;
                         questaoCtrl.filtroTema = questaoCtrl.arrayTemas[0] ? questaoCtrl.arrayTemas[0] : {};
-                        listQuestoesByTema(questaoCtrl.filtroTema);
+                        listQuestaoByTema(questaoCtrl.filtroTema);
                     }
                 });
             }
         }
 
-        function listQuestoesByTema(tema) {
+        function listQuestaoByTema(tema) {
             if (tema) {
-                SERVICE.listQuestoesByTema(tema.id).then(function (response) {
+                SERVICE.listQuestaoByTema(tema.id).then(function (response) {
                     if (response.data) {
                         questaoCtrl.arrayQuestoes = response.data;
                         $timeout(function () {

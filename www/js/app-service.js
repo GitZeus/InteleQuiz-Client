@@ -24,121 +24,200 @@
     }
 
     function SERVICE(DADOS, $http, $log, toaster, ionicMaterialInk) {
-        var service = {
-            autenticar: function (usuario) {
-                return $http.post(DADOS.URL_BASE + 'usuario', usuario).then(success, error);
+        var ResourceUsuario = "ResourceUsuario";
+        var ResourceTema = "ResourceTema";
+        var ResourceQuestao = "ResourceQuestao";
+        var ResourceDisciplina = "ResourceDisciplina";
+        var ResourceQuiz = "ResourceQuiz";
+        var ResourcePublicacao = "ResourcePublicacao";
+        var ResourceTurma = "ResourceTurma";
+        var ResourceTreino = "ResourceTreino";
+        var ResourceRanking = "ResourceRanking";
+        var ResourceDesempenho = "ResourceDesempenho";
+
+        var localStorageUtil = {
+            set: function (key, value) {
+                return localStorage.setItem(key, JSON.stringify(value));
             },
-            listTiposUsuario: function () {
-                return $http.get(DADOS.URL_BASE + 'usuario/perfil').then(success, error);
+            get: function (key) {
+                return JSON.parse(localStorage.getItem(key));
             },
-            listDisciplinasByProfessor: function (professor) {
-                return $http.post(DADOS.URL_BASE + 'professor/disciplinas', professor).then(success, error);
-            },
-            listTemasByDisciplina: function (matricula_professor, disciplina_id) {
-                return $http.get(DADOS.URL_BASE + 'professor/' + matricula_professor + '/disciplina/' + disciplina_id + '/temas').then(success, error);
-            },
-            listQuestoesByTema: function (tema_id) {
-                return $http.get(DADOS.URL_BASE + 'tema/' + tema_id + '/questoes').then(success, error);
-            },
-            listTiposQuestao: function () {
-                return $http.get(DADOS.URL_BASE + 'questoes/tipos').then(success, error);
-            },
-            listNiveisQuestao: function () {
-                return $http.get(DADOS.URL_BASE + 'questoes/niveis').then(success, error);
-            },
-            listStatusQuizQuestao: function () {
-                return $http.get(DADOS.URL_BASE + 'questao/status').then(success, error);
-            },
-            listTemasByQuestao: function (questao_id) {
-                return $http.get(DADOS.URL_BASE + 'questao/' + questao_id + '/temas').then(success, error);
-            },
-            saveQuestao: function (questao) {
-                return $http.post(DADOS.URL_BASE + 'questao', questao).then(success, error);
-            },
-            updateQuestao: function (questao) {
-                return $http.put(DADOS.URL_BASE + 'questao', questao).then(success, error);
-            },
-            saveTema: function (tema) {
-                return $http.post(DADOS.URL_BASE + 'tema/', tema).then(success, error);
-            },
-            listQuizByDisciplina: function (matricula_professor, disciplina_id) {
-                return $http.get(DADOS.URL_BASE + 'professor/' + matricula_professor + '/disciplina/' + disciplina_id + '/quiz').then(success, error);
-            },
-            listQuestoesByQuiz: function (quiz_id) {
-                return $http.get(DADOS.URL_BASE + 'quiz/' + quiz_id + '/questao').then(success, error);
-            },
-            listTurmasByProfessor: function (matricula) {
-                return $http.get(DADOS.URL_BASE + 'professor/' + matricula + '/turma').then(success, error);
-            },
-            listTurmasByProfessorByDisciplina: function (matricula, id) {
-                return $http.get(DADOS.URL_BASE + 'professor/' + matricula + '/disciplina/' + id + '/turma').then(success, error);
-            },
-            saveQuiz: function (quiz) {
-                return $http.post(DADOS.URL_BASE + 'quiz/', quiz).then(success, error);
-            },
-            updateQuiz: function (quiz) {
-                return $http.put(DADOS.URL_BASE + 'quiz/', quiz).then(success, error);
-            },
-            listTurmasByAluno: function (ra) {
-                return $http.get(DADOS.URL_BASE + 'aluno/' + ra + '/disciplina').then(success, error);
-            },
-            publicarQuiz: function (publicacao) {
-                return $http.post(DADOS.URL_BASE + 'publicacao/', publicacao).then(success, error);
-            },
-            listQuizPublicadoByStatusByTurma: function (id, status) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=' + status).then(success, error);
-            },
-            getDesempenhoByTurmaByProfessor: function (id) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/desempenho').then(success, error);
-            },
-            getDesempenhoByTurmaByAluno: function (id, ra) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/aluno/' + ra + '/desempenho').then(success, error);
-            },
-            getTemaCriticoByPublicacao: function (id) {
-                return $http.get(DADOS.URL_BASE + 'publicacao/' + id + '/temaCritico').then(success, error);
-            },
-            getTemaCriticoByPublicacaoByAluno: function (id, ra) {
-                return $http.get(DADOS.URL_BASE + 'publicacao/' + id + '/aluno/' + ra + '/temaCritico').then(success, error);
-            },
-            listQuestoesErradasByPublicacaoByTemaCritico: function (publicacao_id, tema_id) {
-                return $http.get(DADOS.URL_BASE + 'publicacao/' + publicacao_id + '/temaCritico/' + tema_id + '/questoes').then(success, error);
-            },
-            listQuestoesCriticasByPublicacaoByAlunoByTemaCritico: function (publicacao_id, ra, tema_id) {
-                return $http.get(DADOS.URL_BASE + 'publicacao/' + publicacao_id + '/aluno/' + ra + '/temaCritico/' + tema_id + '/questoes').then(success, error);
-            },
-            listQuizEmAndamentoByTurma: function (id) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/quiz?status=PUBLICADO').then(success, error);
-            },
-            startNewTreino: function (ra, turma_quiz_id) {
-                return $http.post(DADOS.URL_BASE + 'aluno/' + ra + '/publicacao/' + turma_quiz_id + '/treino').then(success, error);
-            },
-            updateTreino: function (treino) {
-                return $http.put(DADOS.URL_BASE + 'treino/', treino).then(success, error);
-            },
-            listRankingTurmasByProfessor: function (matricula) {
-                return $http.get(DADOS.URL_BASE + 'professor/' + matricula + '/turma/ranking').then(success, error);
-            },
-            listRankingTurmasByAluno: function (ra) {
-                return $http.get(DADOS.URL_BASE + 'aluno/' + ra + '/turma/ranking').then(success, error);
-            },
-            listRankingAlunosByTurma: function (id) {
-                return $http.get(DADOS.URL_BASE + 'turma/' + id + '/aluno/ranking').then(success, error);
-            },
-            getTreino: function (id) {
-                return $http.get(DADOS.URL_BASE + 'treino/' + id).then(success, error);
-            },
-            showToaster: function (message) {
-                toaster.pop({
-                    "type": message.type,
-                    "body": message.text
-                });
-            },
-            ionicMaterialInk: function () {
-                ionicMaterialInk.displayEffect();
+            remove: function (key) {
+                return localStorage.removeItem(key);
             }
+        }
+
+        var service = {
+
+            // ResourceUsuario
+            getUsuarioByLoginSenha: getUsuarioByLoginSenha,
+            listPerfilUsuario: listPerfilUsuario,
+
+            // ResourceTema
+            saveTema: saveTema,
+            listTemasByDisciplinaByProfessor: listTemasByDisciplinaByProfessor,
+            listTemaByQuestao: listTemaByQuestao,
+
+            // ResourceQuestao
+            listTipoQuestao: listTipoQuestao,
+            listNivelQuestao: listNivelQuestao,
+            listStatusQuizQuestao: listStatusQuizQuestao,
+            saveQuestao: saveQuestao,
+            updateQuestao: updateQuestao,
+            listQuestaoByQuiz: listQuestaoByQuiz,
+            listQuestaoByTema: listQuestaoByTema,
+
+            //ResourceDisciplina
+            listDisciplinaByProfessor: listDisciplinaByProfessor,
+
+            // ResourceQuiz
+            saveQuiz: saveQuiz,
+            updateQuiz: updateQuiz,
+            listQuizByDisciplinaByProfessor: listQuizByDisciplinaByProfessor,
+
+            // ResourcePublicacao
+            savePublicacao: savePublicacao,
+            listPublicacaoByStatusByTurma: listPublicacaoByStatusByTurma,
+
+            // ResourceTurma
+            listTurmaByProfessor: listTurmaByProfessor,
+            listTurmaByProfessorByDisciplina: listTurmaByProfessorByDisciplina,
+            listTurmaByAluno: listTurmaByAluno,
+
+            // ResourceTreino
+            saveTreino: saveTreino,
+            updateTreino: updateTreino,
+            getTreinoById: getTreinoById,
+
+            // ResourceRanking
+            getRankingTurmaByProfessor: getRankingTurmaByProfessor,
+            getRankingTurmaByAluno: getRankingTurmaByAluno,
+            getRankingAlunoByTurma: getRankingAlunoByTurma,
+
+            // ResourceDesempenho
+            getDesempenhoByTurmaByProfessor: getDesempenhoByTurmaByProfessor,
+            getDesempenhoByTurmaByAluno: getDesempenhoByTurmaByAluno,
+            getTemaCriticoByPublicacao: getTemaCriticoByPublicacao,
+            getTemaCriticoByPublicacaoByAluno: getTemaCriticoByPublicacaoByAluno,
+            listQuestaoCriticaByPublicacaoByTemaCritico: listQuestaoCriticaByPublicacaoByTemaCritico,
+            listQuestaoCriticaByPublicacaoByAlunoByTemaCritico: listQuestaoCriticaByPublicacaoByAlunoByTemaCritico,
+
+            // Funcoes Utilitarias
+            showToaster: showToaster,
+            displayMaterialInk: displayMaterialInk,
+            localStorageUtil: localStorageUtil
         };
         return service;
 
+        function getUsuarioByLoginSenha(usuario) {
+            return $http.post(DADOS.URL_BASE + ResourceUsuario + '/usuario', usuario).then(success, error);
+        }
+        function listPerfilUsuario() {
+            return $http.get(DADOS.URL_BASE + ResourceUsuario + '/usuario/perfil').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function saveTema(tema) {
+            return $http.post(DADOS.URL_BASE + ResourceTema + '/tema/', tema).then(success, error);
+        }
+        function listTemasByDisciplinaByProfessor(matricula, id) {
+            return $http.get(DADOS.URL_BASE + ResourceTema + '/professor/' + matricula + '/disciplina/' + id + '/tema').then(success, error);
+        }
+        function listTemaByQuestao(id) {
+            return $http.get(DADOS.URL_BASE + ResourceTema + '/questao/' + id + '/tema').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function listTipoQuestao() {
+            return $http.get(DADOS.URL_BASE + ResourceQuestao + '/questao/tipo').then(success, error);
+        }
+        function listNivelQuestao() {
+            return $http.get(DADOS.URL_BASE + ResourceQuestao + '/questao/nivel').then(success, error);
+        }
+        function listStatusQuizQuestao() {
+            return $http.get(DADOS.URL_BASE + ResourceQuestao + '/questao/status').then(success, error);
+        }
+        function saveQuestao(questao) {
+            return $http.post(DADOS.URL_BASE + ResourceQuestao + '/questao', questao).then(success, error);
+        }
+        function updateQuestao(questao) {
+            return $http.put(DADOS.URL_BASE + ResourceQuestao + '/questao', questao).then(success, error);
+        }
+        function listQuestaoByQuiz(id) {
+            return $http.get(DADOS.URL_BASE + ResourceQuestao + '/quiz/' + id + '/questao').then(success, error);
+        }
+        function listQuestaoByTema(id) {
+            return $http.get(DADOS.URL_BASE + ResourceQuestao + '/tema/' + id + '/questao').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function listDisciplinaByProfessor(matricula) {
+            return $http.get(DADOS.URL_BASE + ResourceDisciplina + '/professor/' + matricula + '/disciplina').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function saveQuiz(quiz) {
+            return $http.post(DADOS.URL_BASE + ResourceQuiz + '/quiz/', quiz).then(success, error);
+        }
+        function updateQuiz(quiz) {
+            return $http.put(DADOS.URL_BASE + ResourceQuiz + '/quiz/', quiz).then(success, error);
+        }
+        function listQuizByDisciplinaByProfessor(matricula, id) {
+            return $http.get(DADOS.URL_BASE + ResourceQuiz + '/professor/' + matricula + '/disciplina/' + id + '/quiz').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function savePublicacao(publicacao) {
+            return $http.post(DADOS.URL_BASE + ResourcePublicacao + '/publicacao/', publicacao).then(success, error);
+        }
+        function listPublicacaoByStatusByTurma(id, status) {
+            return $http.get(DADOS.URL_BASE + ResourcePublicacao + '/turma/' + id + '/quiz?status=' + status).then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function listTurmaByProfessor(matricula) {
+            return $http.get(DADOS.URL_BASE + ResourceTurma + '/professor/' + matricula + '/turma').then(success, error);
+        }
+        function listTurmaByProfessorByDisciplina(matricula, id) {
+            return $http.get(DADOS.URL_BASE + ResourceTurma + '/professor/' + matricula + '/disciplina/' + id + '/turma').then(success, error);
+        }
+        function listTurmaByAluno(ra) {
+            return $http.get(DADOS.URL_BASE + ResourceTurma + '/aluno/' + ra + '/turma').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function saveTreino(ra, id) {
+            return $http.post(DADOS.URL_BASE + ResourceTreino + '/aluno/' + ra + '/publicacao/' + id + '/treino').then(success, error);
+        }
+        function updateTreino(treino) {
+            return $http.put(DADOS.URL_BASE + ResourceTreino + '/treino/', treino).then(success, error);
+        }
+        function getTreinoById(id) {
+            return $http.get(DADOS.URL_BASE + ResourceTreino + '/treino/' + id).then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function getRankingTurmaByProfessor(matricula) {
+            return $http.get(DADOS.URL_BASE + ResourceRanking + '/professor/' + matricula + '/turma/ranking').then(success, error);
+        }
+        function getRankingTurmaByAluno(ra) {
+            return $http.get(DADOS.URL_BASE + ResourceRanking + '/aluno/' + ra + '/turma/ranking').then(success, error);
+        }
+        function getRankingAlunoByTurma(id) {
+            return $http.get(DADOS.URL_BASE + ResourceRanking + '/turma/' + id + '/aluno/ranking').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
+        function getDesempenhoByTurmaByProfessor(id) {
+            return $http.get(DADOS.URL_BASE + ResourceDesempenho + '/turma/' + id + '/desempenho').then(success, error);
+        }
+        function getDesempenhoByTurmaByAluno(id, ra) {
+            return $http.get(DADOS.URL_BASE + ResourceDesempenho + '/turma/' + id + '/aluno/' + ra + '/desempenho').then(success, error);
+        }
+        function getTemaCriticoByPublicacao(id) {
+            return $http.get(DADOS.URL_BASE + ResourceDesempenho + '/publicacao/' + id + '/temaCritico').then(success, error);
+        }
+        function getTemaCriticoByPublicacaoByAluno(id, ra) {
+            return $http.get(DADOS.URL_BASE + ResourceDesempenho + '/publicacao/' + id + '/aluno/' + ra + '/temaCritico').then(success, error);
+        }
+        function listQuestaoCriticaByPublicacaoByTemaCritico(publicacao_id, tema_id) {
+            return $http.get(DADOS.URL_BASE + ResourceDesempenho + '/publicacao/' + publicacao_id + '/temaCritico/' + tema_id + '/questao').then(success, error);
+        }
+        function listQuestaoCriticaByPublicacaoByAlunoByTemaCritico(publicacao_id, ra, tema_id) {
+            return $http.get(DADOS.URL_BASE + ResourceDesempenho + '/publicacao/' + publicacao_id + '/aluno/' + ra + '/temaCritico/' + tema_id + '/questao').then(success, error);
+        }
+        ////////////////////////////////////////////////////////////////////////////////////////////////////
         function success(response) {
             $log.info(response);
             return response.data;
@@ -148,6 +227,17 @@
             $log.error(response);
             response.data = null;
             return response;
+        }
+
+        function showToaster(message) {
+            toaster.pop({
+                "type": message.type,
+                "body": message.text
+            });
+        }
+
+        function displayMaterialInk() {
+            ionicMaterialInk.displayEffect();
         }
     }
 })();

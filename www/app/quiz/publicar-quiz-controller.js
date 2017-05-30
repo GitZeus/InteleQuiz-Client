@@ -12,15 +12,15 @@
 
         function init() {
             publicarQuizCtrl.init = init;
-            publicarQuizCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            publicarQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             publicarQuizCtrl.arrayTurma = [];
             publicarQuizCtrl.arrayQuizPublicado = [];
             publicarQuizCtrl.quiz = $state.params.quiz;
 
             publicarQuizCtrl.selecionarData = selecionarData;
-            publicarQuizCtrl.publicarQuiz = publicarQuiz;
+            publicarQuizCtrl.savePublicacao = savePublicacao;
             configDatepicker();
-            listTurmasByProfessorByDisciplina(publicarQuizCtrl.usuarioLogado, publicarQuizCtrl.quiz);
+            listTurmaByProfessorByDisciplina(publicarQuizCtrl.usuarioLogado, publicarQuizCtrl.quiz);
 
             $scope.$broadcast('scroll.refreshComplete');
         }
@@ -39,21 +39,21 @@
             ionicDatePicker.openDatePicker(ipObj1);
         }
 
-        function listTurmasByProfessorByDisciplina(professor, quiz) {
+        function listTurmaByProfessorByDisciplina(professor, quiz) {
             if (professor && professor.matricula && quiz && quiz.disciplina && quiz.disciplina.id) {
-                SERVICE.listTurmasByProfessorByDisciplina(publicarQuizCtrl.usuarioLogado.matricula, quiz.disciplina.id).then(function (response) {
+                SERVICE.listTurmaByProfessorByDisciplina(publicarQuizCtrl.usuarioLogado.matricula, quiz.disciplina.id).then(function (response) {
                     if (response.data && response.data.length > 0) {
                         publicarQuizCtrl.arrayTurma = response.data;
                         publicarQuizCtrl.filtroTurma = publicarQuizCtrl.arrayTurma[0];
-                        listQuizPublicadoByStatusByTurma(publicarQuizCtrl.filtroTurma);
+                        listPublicacaoByStatusByTurma(publicarQuizCtrl.filtroTurma);
                     }
                 });
             }
         }
 
-        function listQuizPublicadoByStatusByTurma(turma) {
+        function listPublicacaoByStatusByTurma(turma) {
             if (turma && turma.id) {
-                SERVICE.listQuizPublicadoByStatusByTurma(turma.id, 'PUBLICADO').then(function(response){
+                SERVICE.listPublicacaoByStatusByTurma(turma.id, 'PUBLICADO').then(function(response){
                     if(response && response.data){
                         publicarQuizCtrl.arrayQuizPublicado = response.data;
                         $timeout(function () {
@@ -66,7 +66,7 @@
             }
         }
 
-        function publicarQuiz(turma) {
+        function savePublicacao(turma) {
             var publicacao = new CLASSES.Publicacao();
             publicacao.turma = turma;
             publicacao.quiz = publicarQuizCtrl.quiz;
@@ -74,7 +74,7 @@
 
             console.log(publicacao);
             if (validarTurmaQuiz(publicacao)) {
-                SERVICE.publicarQuiz(publicacao).then(function (response) {
+                SERVICE.savePublicacao(publicacao).then(function (response) {
                     if (response.message && response.message.type == "success") {
                         $state.go('menu.quiz');
                     }

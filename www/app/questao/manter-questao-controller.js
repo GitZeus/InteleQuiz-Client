@@ -13,25 +13,25 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
-            manterQuestaoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            SERVICE.displayMaterialInk();
+            manterQuestaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             manterQuestaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS || [];
             manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.arrayDisciplinas[0];
             manterQuestaoCtrl.arrayTemas = [];
 
-            manterQuestaoCtrl.listTemasByDisciplina = listTemasByDisciplina;
+            manterQuestaoCtrl.listTemasByDisciplinaByProfessor = listTemasByDisciplinaByProfessor;
             manterQuestaoCtrl.selecionarRespostaCerta = selecionarRespostaCerta;
             manterQuestaoCtrl.salvarQuestao = salvarQuestao;
 
             manterQuestaoCtrl.functionCount = 0;
-            listTiposQuestao();
-            listNiveisQuestao();
+            listTipoQuestao();
+            listNivelQuestao();
             listStatusQuizQuestao();
-            listTemasByDisciplina(manterQuestaoCtrl.filtroDisciplina);
+            listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
         }
 
-        function listTiposQuestao() {
-            SERVICE.listTiposQuestao().then(function (response) {
+        function listTipoQuestao() {
+            SERVICE.listTipoQuestao().then(function (response) {
                 if (response.data) {
                     manterQuestaoCtrl.arrayTiposQuestao = response.data;
                     checkIsAddOrEdit();
@@ -39,8 +39,8 @@
             });
         }
 
-        function listNiveisQuestao() {
-            SERVICE.listNiveisQuestao().then(function (response) {
+        function listNivelQuestao() {
+            SERVICE.listNivelQuestao().then(function (response) {
                 if (response.data) {
                     manterQuestaoCtrl.arrayNiveisQuestao = response.data;
                     checkIsAddOrEdit();
@@ -57,21 +57,15 @@
             });
         }
 
-        function listTemasByDisciplina(disciplina) {
+        function listTemasByDisciplinaByProfessor(disciplina) {
             manterQuestaoCtrl.arrayTemas = [];
             if (disciplina && disciplina.id) {
-                SERVICE.listTemasByDisciplina(manterQuestaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
+                SERVICE.listTemasByDisciplinaByProfessor(manterQuestaoCtrl.usuarioLogado.matricula, disciplina.id).then(function (response) {
                     if (response.data) {
                         manterQuestaoCtrl.arrayTemas = response.data;
                         checkIsAddOrEdit();
                     }
                 });
-            } else {
-                var message = {
-                    type: 'warning',
-                    text: 'Erro ao recuperar o ID da disciplina'
-                };
-                SERVICE.showToaster(message);
             }
         }
 
@@ -81,7 +75,7 @@
                 if ($state.params.questao) {
                     manterQuestaoCtrl.questao = $state.params.questao;
                     console.log(manterQuestaoCtrl.questao);
-                    listTemasByQuestao(manterQuestaoCtrl.questao);
+                    listTemaByQuestao(manterQuestaoCtrl.questao);
                 } else {
                     manterQuestaoCtrl.questao = new CLASSES.Questao();
                     manterQuestaoCtrl.questao.tipo = manterQuestaoCtrl.arrayTiposQuestao[0];
@@ -101,8 +95,8 @@
             return respostasTpl;
         }
 
-        function listTemasByQuestao(questao) {
-            SERVICE.listTemasByQuestao(questao.id).then(function (response) {
+        function listTemaByQuestao(questao) {
+            SERVICE.listTemaByQuestao(questao.id).then(function (response) {
                 if (response.data) {
                     manterQuestaoCtrl.questao.temas = response.data;
                     angular.forEach(manterQuestaoCtrl.questao.temas, function (temaQuestao) {

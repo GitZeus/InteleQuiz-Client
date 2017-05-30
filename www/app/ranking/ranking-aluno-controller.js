@@ -13,21 +13,21 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
 
             rankingAlunoCtrl.init = init;
-            rankingAlunoCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            rankingAlunoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             rankingAlunoCtrl.arrayRankingAlunos = [];
             rankingAlunoCtrl.turma = $state.params.turma;
 
-            listRankingAlunosByTurma(rankingAlunoCtrl.turma);
+            getRankingAlunoByTurma(rankingAlunoCtrl.turma);
 
             $scope.$broadcast('scroll.refreshComplete');
         }
 
-        function listRankingAlunosByTurma(turma) {
+        function getRankingAlunoByTurma(turma) {
             if (turma && turma.id) {
-                SERVICE.listRankingAlunosByTurma(turma.id).then(function (response) {
+                SERVICE.getRankingAlunoByTurma(turma.id).then(function (response) {
                     if (response && response.data) {
                         rankingAlunoCtrl.arrayRankingAlunos = response.data;
                         $timeout(function () {

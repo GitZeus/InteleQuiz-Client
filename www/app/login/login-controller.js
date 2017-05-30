@@ -11,22 +11,29 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
             loginCtrl.usuario = new CLASSES.Usuario();
             loginCtrl.init = init;
             loginCtrl.autenticar = autenticar;
             loginCtrl.mockUser = mockUser;
-
-            listTiposUsuario();
+            verificaUsuarioLogado();
         }
 
-        function listTiposUsuario() {
+        function verificaUsuarioLogado() {
+            if (SERVICE.localStorageUtil.get('USUARIO_LOGADO')) {
+                $state.go('menu.ranking-turma');
+            }else{
+                listPerfilUsuario();
+            }
+        }
+
+        function listPerfilUsuario() {
             if (DADOS.TIPOS_USUARIO && DADOS.TIPOS_USUARIO.length > 0) {
                 loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
                 loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
                 mockUser();
             } else {
-                SERVICE.listTiposUsuario().then(function (response) {
+                SERVICE.listPerfilUsuario().then(function (response) {
                     if (response.data) {
                         DADOS.TIPOS_USUARIO = response.data;
                         loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
@@ -38,15 +45,16 @@
         }
 
         function autenticar(usuario) {
-            SERVICE.autenticar(usuario).then(function (response) {
+            SERVICE.getUsuarioByLoginSenha(usuario).then(function (response) {
                 if (response.data) {
                     DADOS.USUARIO_LOGADO = response.data;
+                    SERVICE.localStorageUtil.set('USUARIO_LOGADO', response.data);
                     $state.go('menu.ranking-turma');
                 }
             });
         }
 
-        function mockUser () {
+        function mockUser() {
             if (loginCtrl.usuario.perfil == 'ALUNO') {
                 loginCtrl.usuario.login = "21550465";
                 loginCtrl.usuario.senha = "123";

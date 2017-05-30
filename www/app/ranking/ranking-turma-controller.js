@@ -13,10 +13,10 @@
         init();
 
         function init() {
-            SERVICE.ionicMaterialInk();
+            SERVICE.displayMaterialInk();
 
             rankingTurmaCtrl.init = init;
-            rankingTurmaCtrl.usuarioLogado = DADOS.USUARIO_LOGADO;
+            rankingTurmaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
             rankingTurmaCtrl.arrayRankingTurmas = [];
 
             listRankingTurmasByUsuario(rankingTurmaCtrl.usuarioLogado);
@@ -27,7 +27,7 @@
         function listRankingTurmasByUsuario(usuario) {
             if (usuario) {
                 if (usuario.perfil === 'PROFESSOR' && usuario.matricula) {
-                    SERVICE.listRankingTurmasByProfessor(usuario.matricula).then(function (response) {
+                    SERVICE.getRankingTurmaByProfessor(usuario.matricula).then(function (response) {
                         if (response && response.data) {
                             rankingTurmaCtrl.arrayRankingTurmas = response.data;
                             $timeout(function () {
@@ -38,7 +38,7 @@
                         }
                     });
                 } else if (usuario.perfil === 'ALUNO' && usuario.ra) {
-                    SERVICE.listRankingTurmasByAluno(usuario.ra).then(function (response) {
+                    SERVICE.getRankingTurmaByAluno(usuario.ra).then(function (response) {
                         if (response && response.data) {
                             rankingTurmaCtrl.arrayRankingTurmas = response.data;
                             $timeout(function () {

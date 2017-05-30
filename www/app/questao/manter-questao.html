@@ -14,7 +14,7 @@
                     </div>
                     <select data-ng-options="disciplina as disciplina.nome for disciplina in manterQuestaoCtrl.arrayDisciplinas"
                             data-ng-model="manterQuestaoCtrl.filtroDisciplina"
-                            data-ng-change="manterQuestaoCtrl.arrayTemasByDisciplina(manterQuestaoCtrl.filtroDisciplina)"></select>
+                            data-ng-change="manterQuestaoCtrl.listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina)"></select>
                 </div>
                 <div class="item item-input item-select">
                     <div class="input-label">
