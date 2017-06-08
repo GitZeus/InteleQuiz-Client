@@ -17,6 +17,9 @@
     "AngularJS-Toaster": "angularjs-toaster#^2.1.0",
     "onezone-datepicker": "*",
     "angular-chart.js": "^1.1.1",
-    "highcharts": "^5.0.12"
+    "highcharts": "^5.0.12",
+    "moment": "2.10.6",
+    "angular-timer": "^1.3.5",
+    "bootstrap": "^3.3.7"
   }
 }
