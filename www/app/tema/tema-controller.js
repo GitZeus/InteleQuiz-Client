@@ -74,10 +74,20 @@
             if (!tema.nome || tema.nome.length === 0) {
                 var message = {
                     type: 'warning',
-                    text: 'Digite um nome para o tema'
+                    text: 'Informe um nome para o tema'
                 };
                 SERVICE.showToaster(message);
                 return false;
+            }
+            for (var i = 0; i < temaCtrl.arrayTemas.length; i++) {
+                if (temaCtrl.arrayTemas[i].nome == tema.nome) {
+                    var message = {
+                        type: 'warning',
+                        text: 'Já existe um tema com este nome'
+                    };
+                    SERVICE.showToaster(message);
+                    return false;
+                }
             }
             return true;
         }

@@ -176,7 +176,7 @@
             if (!questao.texto || questao.texto.length === 0) {
                 var message = {
                     type: 'warning',
-                    text: 'Digite o texto da questão'
+                    text: 'Informe um texto para a questão'
                 };
                 SERVICE.showToaster(message);
                 return false;

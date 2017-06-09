@@ -4,9 +4,9 @@
         <ion-refresher on-refresh="manterTreinoCtrl.init()"></ion-refresher>
 
         <div data-ng-if="manterTreinoCtrl.isResultadoFinal === false">
-            <timer countdown="10" interval="1000" autostart="false" finish-callback="manterTreinoCtrl.pularQuestao()">
+            <timer countdown="manterTreinoCtrl.countdown" interval="1000" autostart="false" finish-callback="manterTreinoCtrl.pularQuestao()">
                 <div class="progress">
-                    <div class="progress-bar" style="width: {{100 - progressBar}}%;">
+                    <div class="progress-bar progress-bar-danger progress-bar-striped active" style="width: {{0  + (countdown * 100 / countdownattr)}}%;">
                         <span style="position: absolute; display: block; width: 100%; color: black;">{{countdown}}</span>
                     </div>
                 </div>
@@ -28,7 +28,7 @@
 
             <div class="list">
                 <ion-radio name="rdRespostaVF" data-ng-model="$parent.resposta" data-ng-value="resposta" data-ng-change="manterTreinoCtrl.escolherResposta(resposta)"
-                           data-ng-repeat="resposta in manterTreinoCtrl.questaoExibida.respostas track by resposta.id">
+                    data-ng-repeat="resposta in manterTreinoCtrl.questaoExibida.respostas track by resposta.id">
                     {{resposta.texto}}
                 </ion-radio>
             </div>

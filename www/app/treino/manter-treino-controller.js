@@ -70,9 +70,10 @@
                 manterTreinoCtrl.questaoExibida = manterTreinoCtrl.publicacao.quiz.questoes[0];
                 manterTreinoCtrl.countQuestoes.atual ? manterTreinoCtrl.countQuestoes.atual++ : manterTreinoCtrl.countQuestoes.atual = 1;
                 manterTreinoCtrl.respostaEscolhida = null;
-
-                $scope.tempo = 10;
-                $scope.startTimer();
+                
+                manterTreinoCtrl.countdown = 10;
+                resetTimer();
+                startTimer();
 
                 $timeout(function () {
                     ionicMaterialMotion.blinds({
@@ -117,15 +118,16 @@
         function pularQuestao() {
             manterTreinoCtrl.publicacao.quiz.questoes.splice(0, 1);
             configExibicaoQuestao();
+            getResultadoFinal();
         }
 
-        $scope.startTimer = function () {
+        function startTimer () {
             $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
         };
 
-        $scope.resetTimer = function () {
-            $scope.$broadcast('timer-reset');
+        function resetTimer () {
+            $scope.$broadcast('timer-set-countdown', manterTreinoCtrl.countdown + 1);
             $scope.timerRunning = false;
         };
     }

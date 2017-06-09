@@ -4,8 +4,8 @@
     angular
         .module('intelequiz')
         .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', 'ionicMaterialInk'];
-    function loginCtrl(DADOS, SERVICE, CLASSES, $state, ionicMaterialInk) {
+    loginCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', 'ionicMaterialInk', '$scope'];
+    function loginCtrl(DADOS, SERVICE, CLASSES, $state, ionicMaterialInk, $scope) {
         var loginCtrl = this;
 
         init();
@@ -22,7 +22,7 @@
         function verificaUsuarioLogado() {
             if (SERVICE.localStorageUtil.get('USUARIO_LOGADO')) {
                 $state.go('menu.ranking-turma');
-            }else{
+            } else {
                 listPerfilUsuario();
             }
         }
