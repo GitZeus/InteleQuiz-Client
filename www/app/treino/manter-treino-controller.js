@@ -2,8 +2,8 @@
     'use strict';
 
     angular
-            .module('intelequiz')
-            .controller('manterTreinoCtrl', manterTreinoCtrl)
+        .module('intelequiz')
+        .controller('manterTreinoCtrl', manterTreinoCtrl)
 
     manterTreinoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
@@ -70,7 +70,7 @@
                 manterTreinoCtrl.questaoExibida = manterTreinoCtrl.publicacao.quiz.questoes[0];
                 manterTreinoCtrl.countQuestoes.atual ? manterTreinoCtrl.countQuestoes.atual++ : manterTreinoCtrl.countQuestoes.atual = 1;
                 manterTreinoCtrl.respostaEscolhida = null;
-                
+
                 manterTreinoCtrl.countdown = 10;
                 resetTimer();
                 startTimer();
@@ -84,10 +84,14 @@
         }
 
         function responderQuestao() {
-            if (!manterTreinoCtrl.treino.respostas) {
-                manterTreinoCtrl.treino.respostas = [];
+            if (!manterTreinoCtrl.treino.gabaritos) {
+                manterTreinoCtrl.treino.gabaritos = [];
             }
-            manterTreinoCtrl.treino.respostas.push(manterTreinoCtrl.respostaEscolhida);
+            manterTreinoCtrl.treino.gabaritos.push({
+                questao_id: manterTreinoCtrl.questaoExibida.id,
+                treino_id: manterTreinoCtrl.treino.id,
+                resposta_id: manterTreinoCtrl.respostaEscolhida.id,
+            });
             SERVICE.updateTreino(manterTreinoCtrl.treino).then(function (response) {
                 if (response && response.data) {
                     manterTreinoCtrl.treino = response.data;
@@ -121,12 +125,12 @@
             getResultadoFinal();
         }
 
-        function startTimer () {
+        function startTimer() {
             $scope.$broadcast('timer-start');
             $scope.timerRunning = true;
         };
 
-        function resetTimer () {
+        function resetTimer() {
             $scope.$broadcast('timer-set-countdown', manterTreinoCtrl.countdown + 1);
             $scope.timerRunning = false;
         };

@@ -193,7 +193,7 @@
             if (!quiz.disciplina || quiz.disciplina == {}) {
                 var message = {
                     type: 'warning',
-                    text: 'Selecione uma disciplina para o questionário'
+                    text: 'Selecione uma disciplina para o quiz'
                 };
                 SERVICE.showToaster(message);
                 return false;
@@ -201,7 +201,7 @@
             if (!quiz.questoes || quiz.questoes.length == 0) {
                 var message = {
                     type: 'warning',
-                    text: 'Selecione ao menos uma questão para o questionário'
+                    text: 'Selecione ao menos uma questão para o quiz'
                 };
                 SERVICE.showToaster(message);
                 return false;
@@ -209,7 +209,7 @@
             if (!quiz.descricao || quiz.descricao.length == 0) {
                 var message = {
                     type: 'warning',
-                    text: 'Digite uma descrição para o questionário'
+                    text: 'Digite uma descrição para o quiz'
                 };
                 SERVICE.showToaster(message);
                 return false;
