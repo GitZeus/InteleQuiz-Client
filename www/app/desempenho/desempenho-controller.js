@@ -203,9 +203,9 @@
                                 })
                             });
                             var config = {
-                                titulo: 'Criticidade da Turma em: ' + dataEncerramento,
+                                titulo: 'Diagnóstico da Turma em: ' + dataEncerramento,
                                 series: [{
-                                    name: 'Criticidade',
+                                    name: 'Diagnóstico',
                                     colorByPoint: true,
                                     data: data
                                 }]
@@ -225,9 +225,9 @@
                                 })
                             });
                             var config = {
-                                titulo: 'Criticidade do Aluno em: ' + dataEncerramento,
+                                titulo: 'Diagnóstico do Aluno em: ' + dataEncerramento,
                                 series: [{
-                                    name: 'Criticidade',
+                                    name: 'Diagnóstico',
                                     colorByPoint: true,
                                     data: data
                                 }]

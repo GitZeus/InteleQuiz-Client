@@ -12,11 +12,15 @@
     <ion-content>
         <ion-refresher on-refresh="rankingAlunoCtrl.init()"></ion-refresher>
 
-        <div class="list card stable-bg animate-blinds" data-ng-repeat="aluno in rankingAlunoCtrl.arrayRankingAlunos | orderBy: 'pontuacao' : true track by aluno.ra">
-            <div class="item item-text-wrap item-badge">
-                {{($index+1) + 'º - ' + aluno.nome}}
-                <span class="item-note"> {{aluno.pontuacao + ' xp'}} </span> <br/>
-                <span class="item-note"> {{(aluno.aproveitamento | number: 2) + ' %'}} </span>
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="aluno in rankingAlunoCtrl.arrayRankingAlunos | orderBy: 'pontuacao' : true track by aluno.aluno.ra">
+            <div class="item item-avatar">
+                <img src='img/elizeu.jpg'data-ng-if="aluno.aluno.ra == '21550465'"/>
+                <img src='img/thayllan.jpg'data-ng-if="aluno.aluno.ra == '21550466'"/>
+                <img src='img/leandro.jpg'data-ng-if="aluno.aluno.ra == '21550467'"/>
+                <img src='img/pablo.jpg'data-ng-if="aluno.aluno.ra == '21550468'"/>
+                <h2>{{($index+1) + 'º - ' + aluno.aluno.nome}} </h2>
+                <p>Pontuação: {{aluno.pontuacao + ' xp'}}</p>
+                <p>Aproveitamento: {{(aluno.aproveitamento | number: 2) + ' %'}}</p>
             </div>
         </div>
 
