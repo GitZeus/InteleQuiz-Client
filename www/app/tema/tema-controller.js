@@ -14,7 +14,7 @@
             SERVICE.displayMaterialInk();
 
             temaCtrl.init = init;
-            temaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            temaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             temaCtrl.arrayDisciplinas = [];
             temaCtrl.arrayTemas = [];
 
@@ -22,18 +22,28 @@
             temaCtrl.saveTema = saveTema;
 
             listDisciplinaByProfessor(temaCtrl.usuarioLogado);
+            
             $scope.$broadcast('scroll.refreshComplete');
         }
 
         function listDisciplinaByProfessor(professor) {
             if (professor) {
-                SERVICE.listDisciplinaByProfessor(professor.matricula).then(function (response) {
-                    if (response.data) {
-                        temaCtrl.arrayDisciplinas = response.data;
-                        temaCtrl.filtroDisciplina = temaCtrl.arrayDisciplinas[0];
-                        temaCtrl.listTemasByDisciplinaByProfessor(temaCtrl.filtroDisciplina);
-                    }
-                });
+                if (DADOS.arr_disciplina && DADOS.arr_disciplina.length > 0) {
+                    _montarDisciplinas(DADOS.arr_disciplina);
+                } else {
+                    SERVICE.listDisciplinaByProfessor(professor.matricula).then(function (response) {
+                        DADOS.arr_disciplina = response.data;
+                        _montarDisciplinas(DADOS.arr_disciplina);
+                    });
+                }
+            }
+        }
+
+        function _montarDisciplinas(array) {
+            if (array && array.length > 0) {
+                temaCtrl.arrayDisciplinas = array;
+                temaCtrl.filtroDisciplina = temaCtrl.arrayDisciplinas[0];
+                temaCtrl.listTemasByDisciplinaByProfessor(temaCtrl.filtroDisciplina);
             }
         }
 

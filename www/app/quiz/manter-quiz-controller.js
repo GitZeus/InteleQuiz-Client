@@ -11,7 +11,7 @@
         init();
 
         function init() {
-            manterQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            manterQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             manterQuizCtrl.arrayDisciplinas = [];
             manterQuizCtrl.filtroDisciplina = new CLASSES.Disciplina();
             manterQuizCtrl.arrayTemas = [];
@@ -75,14 +75,20 @@
         }
 
         function listNivelQuestao() {
-            SERVICE.listNivelQuestao().then(function (response) {
-                if (response.data) {
-                    DADOS.NIVEIS_QUESTAO = response.data;
-                    manterQuizCtrl.arrayNiveisQuestao = DADOS.NIVEIS_QUESTAO;
-                    manterQuizCtrl.filtroNivel = manterQuizCtrl.arrayNiveisQuestao[0] ? manterQuizCtrl.arrayNiveisQuestao[0] : {};
-                    checkIsAddOrEdit();
-                }
-            });
+            if (DADOS.arr_nivel_questao && DADOS.arr_nivel_questao.length > 0) {
+                manterQuizCtrl.arrayNiveisQuestao = DADOS.arr_nivel_questao;
+                manterQuizCtrl.filtroNivel = manterQuizCtrl.arrayNiveisQuestao[0] ? manterQuizCtrl.arrayNiveisQuestao[0] : {};
+                checkIsAddOrEdit();
+            } else {
+                SERVICE.listNivelQuestao().then(function (response) {
+                    if (response.data) {
+                        DADOS.arr_nivel_questao = response.data;
+                        manterQuizCtrl.arrayNiveisQuestao = DADOS.arr_nivel_questao;
+                        manterQuizCtrl.filtroNivel = manterQuizCtrl.arrayNiveisQuestao[0] ? manterQuizCtrl.arrayNiveisQuestao[0] : {};
+                        checkIsAddOrEdit();
+                    }
+                });
+            }
         }
 
         function checkIsAddOrEdit() {

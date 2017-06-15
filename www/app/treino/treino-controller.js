@@ -16,7 +16,7 @@
             SERVICE.displayMaterialInk();
 
             treinoCtrl.init = init;
-            treinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            treinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             treinoCtrl.arrayTurma = [];
             treinoCtrl.arrayQuizDisponivel = [];
 

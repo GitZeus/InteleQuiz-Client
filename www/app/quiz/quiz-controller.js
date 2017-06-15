@@ -12,7 +12,7 @@
 
         function init() {
             quizCtrl.init = init;
-            quizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            quizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             quizCtrl.arrayDisciplinas = [];
             quizCtrl.arrayQuiz = [];
 

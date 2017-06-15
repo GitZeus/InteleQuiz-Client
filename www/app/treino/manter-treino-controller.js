@@ -16,7 +16,7 @@
             SERVICE.displayMaterialInk();
 
             manterTreinoCtrl.init = init;
-            manterTreinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            manterTreinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             manterTreinoCtrl.questaoExibida = {};
             manterTreinoCtrl.publicacao = $state.params.publicacao;
             manterTreinoCtrl.treino = new CLASSES.Treino();

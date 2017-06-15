@@ -12,12 +12,12 @@
 
         function init() {
             SERVICE.displayMaterialInk();
-            menuCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            menuCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             menuCtrl.logout = logout;
         }
 
         function logout() {
-            SERVICE.localStorageUtil.remove('USUARIO_LOGADO');
+            SERVICE.localStorageUtil.remove('obj_usuario_logado');
             $state.go('login');
         }
     }

@@ -12,8 +12,9 @@
 
         function init() {
             SERVICE.displayMaterialInk();
+
             questaoCtrl.init = init;
-            questaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            questaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             questaoCtrl.arrayDisciplinas = [];
             questaoCtrl.filtroDisciplina = new CLASSES.Disciplina();
             questaoCtrl.arrayTemas = [];
@@ -24,20 +25,29 @@
             questaoCtrl.listQuestaoByTema = listQuestaoByTema;
 
             listDisciplinaByProfessor(questaoCtrl.usuarioLogado);
+
             $scope.$broadcast('scroll.refreshComplete');
         }
 
         function listDisciplinaByProfessor(professor) {
             questaoCtrl.arrayTemas = [];
             if (professor) {
-                SERVICE.listDisciplinaByProfessor(questaoCtrl.usuarioLogado.matricula).then(function (response) {
-                    if (response.data) {
-                        DADOS.DISCIPLINAS = response.data;
-                        questaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS;
-                        questaoCtrl.filtroDisciplina = questaoCtrl.arrayDisciplinas[0] ? questaoCtrl.arrayDisciplinas[0] : {};
-                        listTemasByDisciplinaByProfessor(questaoCtrl.filtroDisciplina);
-                    }
-                });
+                if (DADOS.arr_disciplina && DADOS.arr_disciplina.length > 0) {
+                    _montarDisciplinas(DADOS.arr_disciplina);
+                } else {
+                    SERVICE.listDisciplinaByProfessor(professor.matricula).then(function (response) {
+                        DADOS.arr_disciplina = response.data;
+                        _montarDisciplinas(DADOS.arr_disciplina);
+                    });
+                }
+            }
+        }
+
+        function _montarDisciplinas(array) {
+            if (array && array.length > 0) {
+                questaoCtrl.arrayDisciplinas = array;
+                questaoCtrl.filtroDisciplina = questaoCtrl.arrayDisciplinas[0];
+                questaoCtrl.listTemasByDisciplinaByProfessor(questaoCtrl.filtroDisciplina);
             }
         }
 

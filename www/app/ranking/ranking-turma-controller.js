@@ -16,7 +16,7 @@
             SERVICE.displayMaterialInk();
 
             rankingTurmaCtrl.init = init;
-            rankingTurmaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            rankingTurmaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             rankingTurmaCtrl.arrayRankingTurmas = [];
 
             listRankingTurmasByUsuario(rankingTurmaCtrl.usuarioLogado);
@@ -26,7 +26,7 @@
 
         function listRankingTurmasByUsuario(usuario) {
             if (usuario) {
-                if (usuario.perfil === 'PROFESSOR' && usuario.matricula) {
+                if (usuario.perfil === 'Professor' && usuario.matricula) {
                     SERVICE.getRankingTurmaByProfessor(usuario.matricula).then(function (response) {
                         if (response && response.data) {
                             rankingTurmaCtrl.arrayRankingTurmas = response.data;
@@ -37,7 +37,7 @@
                             });
                         }
                     });
-                } else if (usuario.perfil === 'ALUNO' && usuario.ra) {
+                } else if (usuario.perfil === 'Aluno' && usuario.ra) {
                     SERVICE.getRankingTurmaByAluno(usuario.ra).then(function (response) {
                         if (response && response.data) {
                             rankingTurmaCtrl.arrayRankingTurmas = response.data;

@@ -22,12 +22,13 @@
                     <div class="avatar" style="background: url('img/leandro.jpg'); background-size: cover;" data-ng-if="menuCtrl.usuarioLogado.ra == '21550467'"></div>
                     <div class="avatar" style="background: url('img/pablo.jpg'); background-size: cover;" data-ng-if="menuCtrl.usuarioLogado.ra == '21550468'"></div>
                     <h3><a class="light">{{menuCtrl.usuarioLogado.nome}}</a></h3>
+                    <h5><a class="light">{{menuCtrl.usuarioLogado.perfil}}</a></h5>
                 </div>
             </div>
         </ion-header-bar>
         <ion-content class="has-expanded-header">
             <div class="list">
-                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'PROFESSOR'">
+                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'Professor'">
                     <a href="#/menu/tema" class="item item-icon-left" menu-close>
                         <i class="icon ion-pricetags"></i>
                         Tema
@@ -42,7 +43,7 @@
                     </a>
                 </div>
 
-                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'ALUNO'">
+                <div data-ng-if="menuCtrl.usuarioLogado.perfil == 'Aluno'">
                     <a href="#/menu/treino" class="item item-icon-left" menu-close>
                         <i class="icon ion-ios-speedometer"></i>
                         Treino

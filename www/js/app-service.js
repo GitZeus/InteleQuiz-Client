@@ -12,12 +12,8 @@
     function DADOS($log) {
         var data = {
             URL_BASE: "https://intelequiz.herokuapp.com/",
-            //  URL_BASE: "http://192.168.0.2:8080/",
-            USUARIO_LOGADO: {},
-            TIPOS_USUARIO: [],
-            NIVEIS_QUESTAO: [],
-            TIPOS_QUESTAO: [],
-            STATUS_QUIZ_QUESTAO: []
+            //  URL_BASE: "http://192.168.0.5:8080/",
+            obj_usuario_logado: {},
         };
         $log.info("DADOS: ", data);
         return data;

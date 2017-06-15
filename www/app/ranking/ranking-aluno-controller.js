@@ -16,7 +16,7 @@
             SERVICE.displayMaterialInk();
 
             rankingAlunoCtrl.init = init;
-            rankingAlunoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            rankingAlunoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             rankingAlunoCtrl.arrayRankingAlunos = [];
             rankingAlunoCtrl.turma = $state.params.turma;
 

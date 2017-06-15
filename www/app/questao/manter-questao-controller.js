@@ -2,8 +2,8 @@
 (function () {
     'use strict';
     angular
-            .module('intelequiz')
-            .controller('manterQuestaoCtrl', manterQuestaoCtrl);
+        .module('intelequiz')
+        .controller('manterQuestaoCtrl', manterQuestaoCtrl);
 
     manterQuestaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
 
@@ -14,47 +14,79 @@
 
         function init() {
             SERVICE.displayMaterialInk();
-            manterQuestaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
-            manterQuestaoCtrl.arrayDisciplinas = DADOS.DISCIPLINAS || [];
-            manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.arrayDisciplinas[0];
-            manterQuestaoCtrl.arrayTemas = [];
 
+            manterQuestaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             manterQuestaoCtrl.listTemasByDisciplinaByProfessor = listTemasByDisciplinaByProfessor;
             manterQuestaoCtrl.selecionarRespostaCerta = selecionarRespostaCerta;
             manterQuestaoCtrl.salvarQuestao = salvarQuestao;
 
             manterQuestaoCtrl.functionCount = 0;
+            listDisciplinaByProfessor(manterQuestaoCtrl.usuarioLogado);
             listTipoQuestao();
             listNivelQuestao();
-            listStatusQuizQuestao();
             listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
         }
 
-        function listTipoQuestao() {
-            SERVICE.listTipoQuestao().then(function (response) {
-                if (response.data) {
-                    manterQuestaoCtrl.arrayTiposQuestao = response.data;
-                    checkIsAddOrEdit();
+        function listDisciplinaByProfessor(professor) {
+            if (professor) {
+                if (DADOS.arr_disciplina && DADOS.arr_disciplina.length > 0) {
+                    _montarDisciplinas(DADOS.arr_disciplina);
+                } else {
+                    SERVICE.listDisciplinaByProfessor(professor.matricula).then(function (response) {
+                        DADOS.arr_disciplina = response.data;
+                        _montarDisciplinas(DADOS.arr_disciplina);
+                    });
                 }
-            });
+            }
+        }
+
+        function _montarDisciplinas(array) {
+            if (array && array.length > 0) {
+                manterQuestaoCtrl.arrayDisciplinas = array;
+                manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.arrayDisciplinas[0];
+                manterQuestaoCtrl.listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
+                checkIsAddOrEdit();
+            }
+        }
+
+        function listTipoQuestao() {
+            if (DADOS.arr_tipo_questao && DADOS.arr_tipo_questao.length > 0) {
+                _montarTipoQuestao(DADOS.arr_tipo_questao);
+            } else {
+                SERVICE.listTipoQuestao().then(function (response) {
+                    if (response.data) {
+                        DADOS.arr_tipo_questao = response.data;
+                        _montarTipoQuestao(DADOS.arr_tipo_questao);
+                    }
+                });
+            }
+        }
+
+        function _montarTipoQuestao(array) {
+            if (array && array.length > 0) {
+                manterQuestaoCtrl.arrayTiposQuestao = array;
+                checkIsAddOrEdit();
+            }
         }
 
         function listNivelQuestao() {
-            SERVICE.listNivelQuestao().then(function (response) {
-                if (response.data) {
-                    manterQuestaoCtrl.arrayNiveisQuestao = response.data;
-                    checkIsAddOrEdit();
-                }
-            });
+            if (DADOS.arr_nivel_questao && DADOS.arr_nivel_questao.length > 0) {
+                _montarNivelQuestao(DADOS.arr_nivel_questao);
+            } else {
+                SERVICE.listNivelQuestao().then(function (response) {
+                    if (response.data) {
+                        DADOS.arr_nivel_questao = response.data;
+                        _montarNivelQuestao(DADOS.arr_nivel_questao);
+                    }
+                });
+            }
         }
 
-        function listStatusQuizQuestao() {
-            SERVICE.listStatusQuizQuestao().then(function (response) {
-                if (response.data) {
-                    manterQuestaoCtrl.arrayStatusQuizQuestao = response.data;
-                    checkIsAddOrEdit();
-                }
-            });
+        function _montarNivelQuestao(array) {
+            if (array && array.length > 0) {
+                manterQuestaoCtrl.arrayNiveisQuestao = array;
+                checkIsAddOrEdit();
+            }
         }
 
         function listTemasByDisciplinaByProfessor(disciplina) {
@@ -74,7 +106,6 @@
             if (manterQuestaoCtrl.functionCount === 4) {
                 if ($state.params.questao) {
                     manterQuestaoCtrl.questao = $state.params.questao;
-                    console.log(manterQuestaoCtrl.questao);
                     listTemaByQuestao(manterQuestaoCtrl.questao);
                 } else {
                     manterQuestaoCtrl.questao = new CLASSES.Questao();
@@ -88,9 +119,9 @@
         function getTemplateRespostas() {
             var respostasTpl = [];
             if (manterQuestaoCtrl.questao.tipo === 'VERDADEIRO_FALSO') {
-                respostasTpl = [{texto: "Verdadeiro", certa: true}, {texto: "Falso", certa: false}];
+                respostasTpl = [{ texto: "Verdadeiro", certa: true }, { texto: "Falso", certa: false }];
             } else {
-                respostasTpl = [{texto: "", certa: false}, {texto: "", certa: false}, {texto: "", certa: false}, {texto: "", certa: false}];
+                respostasTpl = [{ texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }];
             }
             return respostasTpl;
         }
@@ -130,10 +161,7 @@
                 }
             });
 
-            angular.forEach(manterQuestaoCtrl.arrayStatusQuizQuestao, function (value) {
-                if (value === 'CADASTRADO')
-                    manterQuestaoCtrl.questao.status = value;
-            });
+            manterQuestaoCtrl.questao.status = 'CADASTRADO';
 
             if (validarQuestao(manterQuestaoCtrl.questao)) {
                 if (!manterQuestaoCtrl.questao.id) {

@@ -12,7 +12,7 @@
 
         function init() {
             publicarQuizCtrl.init = init;
-            publicarQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('USUARIO_LOGADO');
+            publicarQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
             publicarQuizCtrl.arrayTurma = [];
             publicarQuizCtrl.arrayQuizPublicado = [];
             publicarQuizCtrl.quiz = $state.params.quiz;

@@ -20,7 +20,7 @@
         }
 
         function verificaUsuarioLogado() {
-            if (SERVICE.localStorageUtil.get('USUARIO_LOGADO')) {
+            if (SERVICE.localStorageUtil.get('obj_usuario_logado')) {
                 $state.go('menu.ranking-turma');
             } else {
                 listPerfilUsuario();
@@ -28,15 +28,15 @@
         }
 
         function listPerfilUsuario() {
-            if (DADOS.TIPOS_USUARIO && DADOS.TIPOS_USUARIO.length > 0) {
-                loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
+            if (DADOS.arr_tipo_usuario && DADOS.arr_tipo_usuario.length > 0) {
+                loginCtrl.arrayTiposUsuario = DADOS.arr_tipo_usuario;
                 loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
                 mockUser();
             } else {
                 SERVICE.listPerfilUsuario().then(function (response) {
                     if (response.data) {
-                        DADOS.TIPOS_USUARIO = response.data;
-                        loginCtrl.arrayTiposUsuario = DADOS.TIPOS_USUARIO;
+                        DADOS.arr_tipo_usuario = response.data;
+                        loginCtrl.arrayTiposUsuario = DADOS.arr_tipo_usuario;
                         loginCtrl.usuario.perfil = loginCtrl.arrayTiposUsuario[0];
                         loginCtrl.mockUser();
                     }
@@ -47,15 +47,15 @@
         function autenticar(usuario) {
             SERVICE.getUsuarioByLoginSenha(usuario).then(function (response) {
                 if (response.data) {
-                    DADOS.USUARIO_LOGADO = response.data;
-                    SERVICE.localStorageUtil.set('USUARIO_LOGADO', response.data);
+                    DADOS.obj_usuario_logado = response.data;
+                    SERVICE.localStorageUtil.set('obj_usuario_logado', response.data);
                     $state.go('menu.ranking-turma');
                 }
             });
         }
 
         function mockUser() {
-            if (loginCtrl.usuario.perfil == 'ALUNO') {
+            if (loginCtrl.usuario.perfil == 'Aluno') {
                 loginCtrl.usuario.login = "21550465";
                 loginCtrl.usuario.senha = "123";
             } else {
