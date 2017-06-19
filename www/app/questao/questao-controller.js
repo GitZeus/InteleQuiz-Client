@@ -4,17 +4,17 @@
     angular
         .module('intelequiz')
         .controller('questaoCtrl', questaoCtrl);
-    questaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
-    function questaoCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
+    questaoCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
+    function questaoCtrl(DADOS, UTIL, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
         var questaoCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
             questaoCtrl.init = init;
-            questaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            questaoCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             questaoCtrl.arrayDisciplinas = [];
             questaoCtrl.filtroDisciplina = new CLASSES.Disciplina();
             questaoCtrl.arrayTemas = [];

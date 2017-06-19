@@ -12,7 +12,7 @@
                     <div class="input-label">
                         Disciplina
                     </div>
-                    <select data-ng-options="disciplina as disciplina.nome for disciplina in manterQuestaoCtrl.arrayDisciplinas"
+                    <select data-ng-options="disciplina as disciplina.nome for disciplina in manterQuestaoCtrl.arrayDisciplinas track by disciplina.id"
                             data-ng-model="manterQuestaoCtrl.filtroDisciplina"
                             data-ng-change="manterQuestaoCtrl.listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina)"></select>
                 </div>
@@ -36,7 +36,7 @@
                     <input type="text" placeholder="Texto da Questão"  data-ng-model="manterQuestaoCtrl.questao.texto">
                 </div>
                 <!--VERDADEIRO/FALSO-->
-                <ion-list data-ng-if="manterQuestaoCtrl.questao.tipo == 'VERDADEIRO_FALSO'">
+                <ion-list data-ng-if="manterQuestaoCtrl.questao.tipo == 'Verdadeiro ou Falso'">
                     <ion-radio name="rdRespostaVF"
                                data-ng-model="resposta.certa"
                                data-ng-value="true"
@@ -49,7 +49,7 @@
 
             <div class="list">
                 <div class="item item-divider">Temas por disciplina</div>
-                <ion-checkbox data-ng-repeat="tema in manterQuestaoCtrl.arrayTemas" data-ng-model="tema.checked">
+                <ion-checkbox data-ng-repeat="tema in manterQuestaoCtrl.arrayTemas track by tema.id" data-ng-model="tema.checked">
                     {{tema.nome}}
                 </ion-checkbox>
             </div>

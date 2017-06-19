@@ -5,17 +5,17 @@
         .module('intelequiz')
         .controller('manterQuestaoCtrl', manterQuestaoCtrl);
 
-    manterQuestaoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
+    manterQuestaoCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$state'];
 
-    function manterQuestaoCtrl(DADOS, SERVICE, CLASSES, $state) {
+    function manterQuestaoCtrl(DADOS, UTIL, SERVICE, CLASSES, $state) {
         var manterQuestaoCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
-            manterQuestaoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            manterQuestaoCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             manterQuestaoCtrl.listTemasByDisciplinaByProfessor = listTemasByDisciplinaByProfessor;
             manterQuestaoCtrl.selecionarRespostaCerta = selecionarRespostaCerta;
             manterQuestaoCtrl.salvarQuestao = salvarQuestao;
@@ -24,7 +24,6 @@
             listDisciplinaByProfessor(manterQuestaoCtrl.usuarioLogado);
             listTipoQuestao();
             listNivelQuestao();
-            listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
         }
 
         function listDisciplinaByProfessor(professor) {
@@ -43,8 +42,6 @@
         function _montarDisciplinas(array) {
             if (array && array.length > 0) {
                 manterQuestaoCtrl.arrayDisciplinas = array;
-                manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.arrayDisciplinas[0];
-                manterQuestaoCtrl.listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
                 checkIsAddOrEdit();
             }
         }
@@ -103,22 +100,27 @@
 
         function checkIsAddOrEdit() {
             manterQuestaoCtrl.functionCount++;
-            if (manterQuestaoCtrl.functionCount === 4) {
+            if (manterQuestaoCtrl.functionCount === 3) {
+                console.log($state.params.questao);
                 if ($state.params.questao) {
                     manterQuestaoCtrl.questao = $state.params.questao;
+                    manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.questao.temas[0].disciplina;
+                    listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
                     listTemaByQuestao(manterQuestaoCtrl.questao);
                 } else {
                     manterQuestaoCtrl.questao = new CLASSES.Questao();
                     manterQuestaoCtrl.questao.tipo = manterQuestaoCtrl.arrayTiposQuestao[0];
                     manterQuestaoCtrl.questao.nivel = manterQuestaoCtrl.arrayNiveisQuestao[0];
                     manterQuestaoCtrl.questao.respostas = getTemplateRespostas();
+                    manterQuestaoCtrl.filtroDisciplina = manterQuestaoCtrl.arrayDisciplinas[0];
+                    listTemasByDisciplinaByProfessor(manterQuestaoCtrl.filtroDisciplina);
                 }
             }
         }
 
         function getTemplateRespostas() {
             var respostasTpl = [];
-            if (manterQuestaoCtrl.questao.tipo === 'VERDADEIRO_FALSO') {
+            if (manterQuestaoCtrl.questao.tipo === 'Verdadeiro ou Falso') {
                 respostasTpl = [{ texto: "Verdadeiro", certa: true }, { texto: "Falso", certa: false }];
             } else {
                 respostasTpl = [{ texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }, { texto: "", certa: false }];
@@ -130,38 +132,36 @@
             SERVICE.listTemaByQuestao(questao.id).then(function (response) {
                 if (response.data) {
                     manterQuestaoCtrl.questao.temas = response.data;
-                    angular.forEach(manterQuestaoCtrl.questao.temas, function (temaQuestao) {
-                        angular.forEach(manterQuestaoCtrl.arrayTemas, function (tema) {
-                            if (temaQuestao.id === tema.id) {
-                                tema.checked = true;
+                    for (var i = 0; i < manterQuestaoCtrl.questao.temas.length; i++) {
+                        for (var j = 0; j < manterQuestaoCtrl.arrayTemas.length; j++) {
+                            if (manterQuestaoCtrl.questao.temas[i].id === manterQuestaoCtrl.arrayTemas[j].id) {
+                                manterQuestaoCtrl.arrayTemas[j].checked = true;
                             }
-                        });
-                    });
+                        }
+                    }
                 }
             });
         }
 
         function selecionarRespostaCerta(resposta) {
-            angular.forEach(manterQuestaoCtrl.questao.respostas, function (value) {
-                if (value.texto === resposta.texto) {
-                    value.certa = true;
+            for (var i = 0; i < manterQuestaoCtrl.questao.respostas.length; i++) {
+                if (manterQuestaoCtrl.questao.respostas[i].texto === resposta.texto) {
+                    manterQuestaoCtrl.questao.respostas[i].certa = true;
                 } else {
-                    value.certa = false;
+                    manterQuestaoCtrl.questao.respostas[i].certa = false;
                 }
-            });
+            }
         }
 
         function salvarQuestao() {
             manterQuestaoCtrl.questao.temas = [];
-            angular.forEach(manterQuestaoCtrl.arrayTemas, function (value) {
-                if (value.checked) {
-                    var tema = angular.copy(value);
+            for (var i = 0; i < manterQuestaoCtrl.arrayTemas.length; i++) {
+                if (manterQuestaoCtrl.arrayTemas[i].checked) {
+                    var tema = angular.copy(manterQuestaoCtrl.arrayTemas[i]);
                     delete tema.checked;
                     manterQuestaoCtrl.questao.temas.push(tema);
                 }
-            });
-
-            manterQuestaoCtrl.questao.status = 'CADASTRADO';
+            }
 
             if (validarQuestao(manterQuestaoCtrl.questao)) {
                 if (!manterQuestaoCtrl.questao.id) {
@@ -185,28 +185,12 @@
         }
 
         function validarQuestao(questao) {
-            if (!questao.tipo || questao.tipo.length === 0) {
-                var message = {
-                    type: 'warning',
-                    text: 'Selecione o tipo da questão'
-                };
-                SERVICE.showToaster(message);
-                return false;
-            }
-            if (!questao.nivel || questao.nivel.length === 0) {
-                var message = {
-                    type: 'warning',
-                    text: 'Selecione o nível da questão'
-                };
-                SERVICE.showToaster(message);
-                return false;
-            }
             if (!questao.texto || questao.texto.length === 0) {
                 var message = {
                     type: 'warning',
                     text: 'Informe um texto para a questão'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             if (!questao.respostas || questao.respostas.length === 0) {
@@ -214,21 +198,21 @@
                     type: 'warning',
                     text: 'Informe as respostas da questão'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             } else {
                 var respostaCerta = 0;
-                angular.forEach(questao.respostas, function (value) {
-                    if (value.certa === true) {
+                for (var i = 0; i < questao.respostas.length; i++) {
+                    if (questao.respostas[i].certa === true) {
                         respostaCerta++;
                     }
-                });
+                }
                 if (respostaCerta === 0) {
                     var message = {
                         type: 'warning',
                         text: 'Marque ao menos uma resposta como certa'
                     };
-                    SERVICE.showToaster(message);
+                    UTIL.showToaster(message);
                     return false;
                 }
             }
@@ -237,7 +221,7 @@
                     type: 'warning',
                     text: 'Selecione ao menos um tema'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             return true;

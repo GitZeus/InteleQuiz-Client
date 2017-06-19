@@ -4,15 +4,15 @@
     angular
         .module('intelequiz')
         .controller('quizCtrl', quizCtrl);
-    quizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
-    function quizCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
+    quizCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
+    function quizCtrl(DADOS, UTIL, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
         var quizCtrl = this;
 
         init();
 
         function init() {
             quizCtrl.init = init;
-            quizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            quizCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             quizCtrl.arrayDisciplinas = [];
             quizCtrl.arrayQuiz = [];
 

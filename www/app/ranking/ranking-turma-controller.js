@@ -5,18 +5,18 @@
         .module('intelequiz')
         .controller('rankingTurmaCtrl', rankingTurmaCtrl)
 
-    rankingTurmaCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
+    rankingTurmaCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
-    function rankingTurmaCtrl(DADOS, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
+    function rankingTurmaCtrl(DADOS, UTIL, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
         var rankingTurmaCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
             rankingTurmaCtrl.init = init;
-            rankingTurmaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            rankingTurmaCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             rankingTurmaCtrl.arrayRankingTurmas = [];
 
             listRankingTurmasByUsuario(rankingTurmaCtrl.usuarioLogado);

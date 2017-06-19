@@ -5,18 +5,18 @@
         .module('intelequiz')
         .controller('rankingAlunoCtrl', rankingAlunoCtrl)
 
-    rankingAlunoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
+    rankingAlunoCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
-    function rankingAlunoCtrl(DADOS, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
+    function rankingAlunoCtrl(DADOS, UTIL, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
         var rankingAlunoCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
             rankingAlunoCtrl.init = init;
-            rankingAlunoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            rankingAlunoCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             rankingAlunoCtrl.arrayRankingAlunos = [];
             rankingAlunoCtrl.turma = $state.params.turma;
 

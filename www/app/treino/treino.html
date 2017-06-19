@@ -18,7 +18,29 @@
             <div class="item item-body">{{publicacao.quiz.descricao}}</div>
             <div class="item tabs tabs-secondary tabs-icon-left">
                 <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{publicacao.tsPublicacao | date : 'dd/MM/yyyy'}} à {{publicacao.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
-                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.realizar-treino({publicacao: publicacao, novoTreino: true})"> <i class="icon ion-forward"></i> Realizar </a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.realizar-treino({publicacao: publicacao, acao: 'comecar'})"> <i class="icon ion-forward"></i> Realizar </a>
+            </div>
+        </div>
+
+        <div class="list">
+            <div class="item item-divider">Pendentes</div>
+        </div>
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="treino in treinoCtrl.arrayTreinoPendente track by treino.id">
+            <div class="item item-body">{{treino.publicacao.quiz.descricao}}</div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{treino.publicacao.tsPublicacao | date : 'dd/MM/yyyy'}} à {{treino.publicacao.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.realizar-treino({publicacao: publicacao, treino: treino, acao: 'continuar'})"> <i class="icon ion-forward"></i> Continuar  </a>
+            </div>
+        </div>
+        
+        <div class="list">
+            <div class="item item-divider">Realizados</div>
+        </div>
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="treino in treinoCtrl.arrayTreinoRealizado track by treino.id">
+            <div class="item item-body">{{treino.publicacao.quiz.descricao}}</div>
+            <div class="item tabs tabs-secondary tabs-icon-left">
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5"> <i class="icon ion-calendar"></i> {{treino.publicacao.tsPublicacao | date : 'dd/MM/yyyy'}} à {{treino.publicacao.tsEncerramento | date : 'dd/MM/yyyy'}}</a>
+                <a class="tab-item" data-ink-color="#336699" data-ink-opacity="0.5" data-ui-sref="menu.realizar-treino({publicacao: publicacao, acao: 'revisar'})"> <i class="icon ion-forward"></i> Revisar  </a>
             </div>
         </div>
 

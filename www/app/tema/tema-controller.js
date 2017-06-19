@@ -4,17 +4,17 @@
     angular
         .module('intelequiz')
         .controller('temaCtrl', temaCtrl);
-    temaCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', 'ionicMaterialMotion', '$timeout'];
-    function temaCtrl(DADOS, SERVICE, CLASSES, $scope, ionicMaterialMotion, $timeout) {
+    temaCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$scope', 'ionicMaterialMotion', '$timeout'];
+    function temaCtrl(DADOS, UTIL, SERVICE, CLASSES, $scope, ionicMaterialMotion, $timeout) {
         var temaCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
             temaCtrl.init = init;
-            temaCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            temaCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             temaCtrl.arrayDisciplinas = [];
             temaCtrl.arrayTemas = [];
 
@@ -22,7 +22,7 @@
             temaCtrl.saveTema = saveTema;
 
             listDisciplinaByProfessor(temaCtrl.usuarioLogado);
-            
+
             $scope.$broadcast('scroll.refreshComplete');
         }
 
@@ -86,18 +86,8 @@
                     type: 'warning',
                     text: 'Informe um nome para o tema'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
-            }
-            for (var i = 0; i < temaCtrl.arrayTemas.length; i++) {
-                if (temaCtrl.arrayTemas[i].nome == tema.nome) {
-                    var message = {
-                        type: 'warning',
-                        text: 'Já existe um tema com este nome'
-                    };
-                    SERVICE.showToaster(message);
-                    return false;
-                }
             }
             return true;
         }

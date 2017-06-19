@@ -4,14 +4,14 @@
     angular
         .module('intelequiz')
         .controller('manterQuizCtrl', manterQuizCtrl);
-    manterQuizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state'];
-    function manterQuizCtrl(DADOS, SERVICE, CLASSES, $state) {
+    manterQuizCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$state'];
+    function manterQuizCtrl(DADOS, UTIL, SERVICE, CLASSES, $state) {
         var manterQuizCtrl = this;
 
         init();
 
         function init() {
-            manterQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            manterQuizCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             manterQuizCtrl.arrayDisciplinas = [];
             manterQuizCtrl.filtroDisciplina = new CLASSES.Disciplina();
             manterQuizCtrl.arrayTemas = [];
@@ -69,7 +69,7 @@
                     type: 'error',
                     text: 'Falha ao recuperar o id do tema'
                 }
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return;
             }
         }
@@ -110,7 +110,7 @@
                     type: 'error',
                     text: 'Falha ao recuperar o id do quiz'
                 }
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return;
             }
             SERVICE.listQuestaoByQuiz(quiz.id).then(function (response) {
@@ -123,26 +123,26 @@
 
         function checkQuestoesDisponiveis() {
             if (manterQuizCtrl.quiz && manterQuizCtrl.quiz.questoes) {
-                angular.forEach(manterQuizCtrl.quiz.questoes, function (selecionada) {
-                    angular.forEach(manterQuizCtrl.arrayQuestoes, function (disponivel) {
-                        if (disponivel.id === selecionada.id) {
-                            disponivel.checked = true;
+                for (var i = 0; i < manterQuizCtrl.quiz.questoes.length; i++) {
+                    for (var j = 0; j < manterQuizCtrl.arrayQuestoes.length; j++) {
+                        if (manterQuizCtrl.arrayQuestoes[j].id === manterQuizCtrl.quiz.questoes[i].id) {
+                            manterQuizCtrl.arrayQuestoes[j].checked = true;
                         }
-                    });
-                });
+                    }
+                }
             }
         }
 
         function selecionarQuestao(questao) {
             var questaoJaIncluida = false;
-            angular.forEach(manterQuizCtrl.quiz.questoes, function (value, index) {
-                if (value.id === questao.id) {
+            for (var i = 0; i < manterQuizCtrl.quiz.questoes.length; i++) {
+                if (manterQuizCtrl.quiz.questoes[i].id === questao.id) {
                     questaoJaIncluida = true;
                     if (questao.checked === false) {
-                        manterQuizCtrl.quiz.questoes.splice(index, 1);
+                        manterQuizCtrl.quiz.questoes.splice(i, 1);
                     }
                 }
-            });
+            }
             if (questao.checked === true && questaoJaIncluida === false) {
                 manterQuizCtrl.quiz.questoes.push(questao);
             }
@@ -150,23 +150,22 @@
 
         function removerQuestaoSelecionada(questao, indice) {
             manterQuizCtrl.quiz.questoes.splice(indice, 1);
-            angular.forEach(manterQuizCtrl.arrayQuestoes, function (disponivel) {
-                if (disponivel.id === questao.id) {
-                    disponivel.checked = false;
+            for (var i = 0; i < manterQuizCtrl.arrayQuestoes.length; i++) {
+                if (manterQuizCtrl.arrayQuestoes[i].id === questao.id) {
+                    manterQuizCtrl.arrayQuestoes[i].checked = false;
                 }
-            });
+            }
         }
 
         function salvarQuiz() {
 
-            angular.forEach(manterQuizCtrl.quiz.questoes, function (value) {
-                delete value.checked;
-            })
+            for (var i = 0; i < manterQuizCtrl.quiz.questoes.length; i++) {
+                delete manterQuizCtrl.quiz.questoes[i].checked;
+            }
 
             manterQuizCtrl.quiz.professor = manterQuizCtrl.usuarioLogado;
 
             if (validarQuiz(manterQuizCtrl.quiz)) {
-                console.log("QUESTIONARIO: ", manterQuizCtrl.quiz);
                 if (!manterQuizCtrl.quiz.id) {
                     SERVICE.saveQuiz(manterQuizCtrl.quiz).then(function (response) {
                         if (response && response.message) {
@@ -193,7 +192,7 @@
                     type: 'warning',
                     text: 'Falha ao obter o usuário logado'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             if (!quiz.disciplina || quiz.disciplina == {}) {
@@ -201,7 +200,7 @@
                     type: 'warning',
                     text: 'Selecione uma disciplina para o quiz'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             if (!quiz.questoes || quiz.questoes.length == 0) {
@@ -209,7 +208,7 @@
                     type: 'warning',
                     text: 'Selecione ao menos uma questão para o quiz'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             if (!quiz.descricao || quiz.descricao.length == 0) {
@@ -217,7 +216,7 @@
                     type: 'warning',
                     text: 'Digite uma descrição para o quiz'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             return true;

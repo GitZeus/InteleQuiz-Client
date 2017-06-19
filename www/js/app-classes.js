@@ -39,7 +39,7 @@
       this.tipo = "";
       this.nivel = "";
       this.texto = "";
-      this.status = "";
+      // this.status = "";
       this.respostas = [];
       this.temas = [];
     }

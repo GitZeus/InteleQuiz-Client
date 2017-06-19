@@ -4,14 +4,14 @@
     angular
         .module('intelequiz')
         .controller('loginCtrl', loginCtrl);
-    loginCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', 'ionicMaterialInk', '$scope'];
-    function loginCtrl(DADOS, SERVICE, CLASSES, $state, ionicMaterialInk, $scope) {
+    loginCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$state', 'ionicMaterialInk', '$scope'];
+    function loginCtrl(DADOS, UTIL, SERVICE, CLASSES, $state, ionicMaterialInk, $scope) {
         var loginCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
             loginCtrl.usuario = new CLASSES.Usuario();
             loginCtrl.init = init;
             loginCtrl.autenticar = autenticar;
@@ -20,7 +20,7 @@
         }
 
         function verificaUsuarioLogado() {
-            if (SERVICE.localStorageUtil.get('obj_usuario_logado')) {
+            if (UTIL.localStorage.get('obj_usuario_logado')) {
                 $state.go('menu.ranking-turma');
             } else {
                 listPerfilUsuario();
@@ -48,7 +48,7 @@
             SERVICE.getUsuarioByLoginSenha(usuario).then(function (response) {
                 if (response.data) {
                     DADOS.obj_usuario_logado = response.data;
-                    SERVICE.localStorageUtil.set('obj_usuario_logado', response.data);
+                    UTIL.localStorage.set('obj_usuario_logado', response.data);
                     $state.go('menu.ranking-turma');
                 }
             });

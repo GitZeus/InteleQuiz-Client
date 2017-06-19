@@ -3,18 +3,18 @@
     angular.module('intelequiz')
         .controller('desempenhoCtrl', desempenhoCtrl);
 
-    desempenhoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
+    desempenhoCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
-    function desempenhoCtrl(DADOS, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
+    function desempenhoCtrl(DADOS, UTIL, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
         var desempenhoCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
             desempenhoCtrl.init = init;
-            desempenhoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            desempenhoCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             desempenhoCtrl.getDesempenhoByTurma = getDesempenhoByTurma;
 
             desempenhoCtrl.mediaGeral = {};
@@ -195,13 +195,13 @@
                     SERVICE.getTemaCriticoByPublicacao(quizPublicado.id).then(function (response) {
                         if (response && response.data) {
                             desempenhoCtrl.temasCriticos = response.data.temasCriticos;
-                            var data = []
-                            angular.forEach(desempenhoCtrl.temasCriticos, function (value) {
+                            var data = [];
+                            for (var i = 0; i < desempenhoCtrl.temasCriticos.length; i++) {
                                 data.push({
-                                    name: value.nome,
-                                    y: value.percentErros
+                                    name: desempenhoCtrl.temasCriticos[i].nome,
+                                    y: desempenhoCtrl.temasCriticos[i].percentErros
                                 })
-                            });
+                            }
                             var config = {
                                 titulo: 'Diagnóstico da Turma em: ' + dataEncerramento,
                                 series: [{
@@ -217,13 +217,13 @@
                     SERVICE.getTemaCriticoByPublicacaoByAluno(quizPublicado.id, desempenhoCtrl.usuarioLogado.ra).then(function (response) {
                         if (response && response.data) {
                             desempenhoCtrl.temasCriticos = response.data.temasCriticos;
-                            var data = []
-                            angular.forEach(desempenhoCtrl.temasCriticos, function (value) {
+                            var data = [];
+                            for (var i = 0; i < desempenhoCtrl.temasCriticos.length; i++) {
                                 data.push({
-                                    name: value.nome,
-                                    y: value.percentErros
+                                    name: desempenhoCtrl.temasCriticos[i].nome,
+                                    y: desempenhoCtrl.temasCriticos[i].percentErros
                                 })
-                            });
+                            }
                             var config = {
                                 titulo: 'Diagnóstico do Aluno em: ' + dataEncerramento,
                                 series: [{

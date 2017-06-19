@@ -32,14 +32,12 @@
                 templateUrl: 'templates/combo-disciplina.tpl.html',
                 link: function (scope) {
                     setTimeout(function () {
-                        console.log("Link", scope.disciplinas);
                         scope.filtroDisciplina = scope.disciplinas[0];
                         scope.$apply();
                     })
                 },
                 controller: function ($scope) {
                     // setTimeout(function () {
-                        console.log("Controller", $scope.disciplinas);
                     //     $scope.filtroDisciplina = $scope.disciplinas[0];
                     //     $scope.$apply();
                     // }, 3000)

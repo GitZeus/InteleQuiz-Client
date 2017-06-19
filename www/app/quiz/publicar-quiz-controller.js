@@ -4,39 +4,24 @@
     angular
         .module('intelequiz')
         .controller('publicarQuizCtrl', publicarQuizCtrl);
-    publicarQuizCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
-    function publicarQuizCtrl(DADOS, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
+    publicarQuizCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$state', '$scope', '$timeout', 'ionicMaterialMotion'];
+    function publicarQuizCtrl(DADOS, UTIL, SERVICE, CLASSES, $state, $scope, $timeout, ionicMaterialMotion) {
         var publicarQuizCtrl = this;
 
         init();
 
         function init() {
             publicarQuizCtrl.init = init;
-            publicarQuizCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            publicarQuizCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             publicarQuizCtrl.arrayTurma = [];
             publicarQuizCtrl.arrayQuizPublicado = [];
             publicarQuizCtrl.quiz = $state.params.quiz;
 
-            publicarQuizCtrl.selecionarData = selecionarData;
             publicarQuizCtrl.savePublicacao = savePublicacao;
             configDatepicker();
             listTurmaByProfessorByDisciplina(publicarQuizCtrl.usuarioLogado, publicarQuizCtrl.quiz);
 
             $scope.$broadcast('scroll.refreshComplete');
-        }
-
-        function selecionarData() {
-            var ipObj1 = {
-                callback: function (val) {  //Mandatory
-                    publicarQuizCtrl.tsEncerramento = val;
-                },
-                from: new Date(),           //Optional
-                inputDate: new Date(),      //Optional
-                closeOnSelect: true,        //Optional
-                dateFormat: 'dd MMMM yyyy',
-                templateType: 'popup'       //Optional
-            };
-            ionicDatePicker.openDatePicker(ipObj1);
         }
 
         function listTurmaByProfessorByDisciplina(professor, quiz) {
@@ -53,7 +38,7 @@
 
         function listPublicacaoByStatusByTurma(turma) {
             if (turma && turma.id) {
-                SERVICE.listPublicacaoByStatusByTurma(turma.id, 'PUBLICADO').then(function(response){
+                SERVICE.listPublicacaoByStatusByTurma(turma.id, 'Publicado').then(function(response){
                     if(response && response.data){
                         publicarQuizCtrl.arrayQuizPublicado = response.data;
                         $timeout(function () {
@@ -72,7 +57,6 @@
             publicacao.quiz = publicarQuizCtrl.quiz;
             publicacao.tsEncerramento = publicarQuizCtrl.tsEncerramento;
 
-            console.log(publicacao);
             if (validarTurmaQuiz(publicacao)) {
                 SERVICE.savePublicacao(publicacao).then(function (response) {
                     if (response.message && response.message.type == "success") {
@@ -88,7 +72,7 @@
                     type: 'warning',
                     text: 'Selecione uma turma'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             if (!publicacao.quiz || !publicacao.quiz.id) {
@@ -96,7 +80,7 @@
                     type: 'warning',
                     text: 'Selecione um quiz'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             if (!publicacao.tsEncerramento || publicacao.tsEncerramento === "") {
@@ -104,7 +88,7 @@
                     type: 'warning',
                     text: 'Selecione uma data de encerramento'
                 };
-                SERVICE.showToaster(message);
+                UTIL.showToaster(message);
                 return false;
             }
             return true;
@@ -112,20 +96,19 @@
 
 
         function configDatepicker() {
-            var startDate = new Date();
-            startDate.setDate(startDate.getDate() + 1);
+            var dataInicio = new Date();
+            var dataSugerida = new Date().setDate(dataInicio.getDate() + 1);
             var dataFim = new Date();
-            dataFim.setDate(dataFim.getDate() + 15);
-            
-            publicarQuizCtrl.tsEncerramento = startDate;
+            dataFim.setDate(dataFim.getDate() + 14)
 
+            publicarQuizCtrl.tsEncerramento = dataSugerida;
             publicarQuizCtrl.onezoneDatepicker = {
-                date: startDate, // MANDATORY                     
+                date: dataSugerida, // MANDATORY                     
                 mondayFirst: false,
                 months: ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'],
                 daysOfTheWeek: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
-                // startDate: new Date(),
-                // endDate: dataFim,
+                // startDate: dataInicio,
+                endDate: dataFim,
                 disablePastDays: true,
                 disableSwipe: false,
                 disableWeekend: false,
@@ -133,7 +116,7 @@
                 // disableDaysOfWeek: disableDaysOfWeek,
                 showDatepicker: false,
                 showTodayButton: true,
-                calendarMode: false,
+                calendarMode: true,
                 hideCancelButton: false,
                 hideSetButton: false,
                 // highlights: highlights,

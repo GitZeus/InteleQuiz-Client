@@ -5,21 +5,19 @@
         .module('intelequiz')
         .controller('manterTreinoCtrl', manterTreinoCtrl)
 
-    manterTreinoCtrl.$inject = ['DADOS', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
+    manterTreinoCtrl.$inject = ['DADOS', 'UTIL', 'SERVICE', 'CLASSES', '$scope', '$state', '$timeout', 'ionicMaterialMotion'];
 
-    function manterTreinoCtrl(DADOS, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
+    function manterTreinoCtrl(DADOS, UTIL, SERVICE, CLASSES, $scope, $state, $timeout, ionicMaterialMotion) {
         var manterTreinoCtrl = this;
 
         init();
 
         function init() {
-            SERVICE.displayMaterialInk();
+            UTIL.displayMaterialInk();
 
             manterTreinoCtrl.init = init;
-            manterTreinoCtrl.usuarioLogado = SERVICE.localStorageUtil.get('obj_usuario_logado');
+            manterTreinoCtrl.usuarioLogado = UTIL.localStorage.get('obj_usuario_logado');
             manterTreinoCtrl.questaoExibida = {};
-            manterTreinoCtrl.publicacao = $state.params.publicacao;
-            manterTreinoCtrl.treino = new CLASSES.Treino();
             manterTreinoCtrl.respostaEscolhida = null;
             manterTreinoCtrl.countQuestoes = {};
 
@@ -34,11 +32,16 @@
         }
 
         function checkIsAddOrEdit() {
-            if ($state.params.novoTreino === true) {
+            if ($state.params.acao === 'comecar') {
+                manterTreinoCtrl.publicacao = $state.params.publicacao;
+                manterTreinoCtrl.treino = new CLASSES.Treino();
                 saveTreino(manterTreinoCtrl.usuarioLogado, manterTreinoCtrl.publicacao);
-                ;
-            } else {
-                // continueTreino();
+            } else if ($state.params.acao === 'continuar') {
+                manterTreinoCtrl.treino = $state.params.treino;
+                manterTreinoCtrl.publicacao = manterTreinoCtrl.treino.publicacao;
+                listQuestaoContinuacaoByTreino(manterTreinoCtrl.treino);
+            } else if ($state.params.acao === 'revisar') {
+
             }
         }
 
@@ -56,6 +59,18 @@
         function listQuestaoByQuiz(quiz) {
             if (quiz && quiz.id) {
                 SERVICE.listQuestaoByQuiz(quiz.id).then(function (response) {
+                    if (response && response.data) {
+                        manterTreinoCtrl.publicacao.quiz.questoes = response.data;
+                        manterTreinoCtrl.countQuestoes.total = manterTreinoCtrl.publicacao.quiz.questoes.length;
+                        configExibicaoQuestao();
+                    }
+                });
+            }
+        }
+
+        function listQuestaoContinuacaoByTreino(treino) {
+            if (treino && treino.id) {
+                SERVICE.listQuestaoContinuacaoByTreino(treino.id).then(function (response) {
                     if (response && response.data) {
                         manterTreinoCtrl.publicacao.quiz.questoes = response.data;
                         manterTreinoCtrl.countQuestoes.total = manterTreinoCtrl.publicacao.quiz.questoes.length;
@@ -84,15 +99,14 @@
         }
 
         function responderQuestao() {
-            if (!manterTreinoCtrl.treino.gabaritos) {
-                manterTreinoCtrl.treino.gabaritos = [];
-            }
-            manterTreinoCtrl.treino.gabaritos.push({
+            $scope.$broadcast('timer-stop');
+            $scope.timerRunning = false;
+            var gabarito = {
                 questao_id: manterTreinoCtrl.questaoExibida.id,
                 treino_id: manterTreinoCtrl.treino.id,
                 resposta_id: manterTreinoCtrl.respostaEscolhida.id,
-            });
-            SERVICE.updateTreino(manterTreinoCtrl.treino).then(function (response) {
+            }
+            SERVICE.updateTreino(gabarito).then(function (response) {
                 if (response && response.data) {
                     manterTreinoCtrl.treino = response.data;
                     if (manterTreinoCtrl.publicacao.quiz.questoes && manterTreinoCtrl.publicacao.quiz.questoes.length > 0) {

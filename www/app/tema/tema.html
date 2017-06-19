@@ -23,7 +23,7 @@
         <div class="list">
             <div class="item item-divider">Temas por disciplina</div>
         </div>
-        <div class="list card stable-bg animate-blinds" data-ng-repeat="tema in temaCtrl.arrayTemas| filter : {'nome' : temaCtrl.filtroNomeTema} | orderBy: 'nome'">
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="tema in temaCtrl.arrayTemas| filter : {'nome' : temaCtrl.filtroNomeTema} | orderBy: 'nome' track by tema.id">
             <div class="item item-text-wrap item-badge">
                 {{tema.nome}}
             </div>

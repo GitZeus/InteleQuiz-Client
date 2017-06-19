@@ -123,7 +123,8 @@
                 cache: false,
                 params: {
                     publicacao: null,
-                    novoTreino: null
+                    treino: null,
+                    acao: null
                 },
                 views: {
                     'conteudo': {

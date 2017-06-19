@@ -1,5 +1,9 @@
 <ion-view view-title="Realizar Treino">
 
+    <ion-nav-bar class="bar-assertive" align-title="center">
+        <ion-nav-back-button></ion-nav-back-button>
+    </ion-nav-bar>
+
     <ion-content class="padding">
         <ion-refresher on-refresh="manterTreinoCtrl.init()"></ion-refresher>
 
@@ -15,9 +19,9 @@
                 <div class="item item-icon-right">
                     <div data-ng-if="manterTreinoCtrl.questaoExibida.texto">
                         Questão {{manterTreinoCtrl.countQuestoes.atual + "/" + manterTreinoCtrl.countQuestoes.total}}
-                        <i class="icon ion-battery-low" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'FACIL'"></i>
-                        <i class="icon ion-battery-half" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'MEDIO'"></i>
-                        <i class="icon ion-battery-full" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'DIFICIL'"></i>
+                        <i class="icon ion-battery-low" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'Fácil'"></i>
+                        <i class="icon ion-battery-half" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'Médio'"></i>
+                        <i class="icon ion-battery-full" data-ng-if="manterTreinoCtrl.questaoExibida.nivel == 'Dificil'"></i>
                     </div>
                 </div>
             </div>
