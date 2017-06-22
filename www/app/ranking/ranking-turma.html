@@ -3,7 +3,7 @@
     <ion-content>
         <ion-refresher on-refresh="rankingTurmaCtrl.init()"></ion-refresher>
 
-        <div class="list card stable-bg animate-blinds" data-ng-repeat="turma in rankingTurmaCtrl.arrayRankingTurmas | orderBy: 'pontuacao' : true track by turma.id">
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="turma in rankingTurmaCtrl.arrayRankingTurmas | orderBy: ['pontuacao','aproveitamento'] : true track by turma.id">
             <div class="item item-text-wrap item-badge" data-ui-sref="menu.ranking-aluno({turma: turma})">
                 <h2>{{($index+1) + 'º - ' + turma.semestre + '/' + turma.ano + '/' + turma.disciplina.sigla + '/' + turma.letra + '/' + turma.turno}} </h2>
                 <p>Pontuação: {{turma.pontuacao + ' xp'}}</p>

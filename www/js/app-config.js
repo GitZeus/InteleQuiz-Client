@@ -39,7 +39,7 @@ function customInterceptor($q, $log, UTIL) {
 
 function customRun($rootScope, $ionicPlatform) {
     $rootScope.URL_BASE = "https://intelequiz.herokuapp.com/";
-    // $rootScope.URL_BASE = "http://192.168.0.2:8080/";
+    // $rootScope.URL_BASE = "http://169.254.229.181:8080/";
 
     $ionicPlatform.ready(function () {
         if (window.cordova && window.cordova.plugins.Keyboard) {

@@ -12,7 +12,7 @@
     <ion-content>
         <ion-refresher on-refresh="rankingAlunoCtrl.init()"></ion-refresher>
 
-        <div class="list card stable-bg animate-blinds" data-ng-repeat="aluno in rankingAlunoCtrl.arrayRankingAlunos | orderBy: 'pontuacao' : true track by aluno.aluno.ra">
+        <div class="list card stable-bg animate-blinds" data-ng-repeat="aluno in rankingAlunoCtrl.arrayRankingAlunos | orderBy: ['pontuacao','aproveitamento'] : true track by aluno.aluno.ra">
             <div class="item item-avatar">
                 <img src='img/elizeu.jpg'data-ng-if="aluno.aluno.ra == '21550465'"/>
                 <img src='img/thayllan.jpg'data-ng-if="aluno.aluno.ra == '21550466'"/>

@@ -85,8 +85,13 @@
                 manterTreinoCtrl.questaoExibida = manterTreinoCtrl.publicacao.quiz.questoes[0];
                 manterTreinoCtrl.countQuestoes.atual ? manterTreinoCtrl.countQuestoes.atual++ : manterTreinoCtrl.countQuestoes.atual = 1;
                 manterTreinoCtrl.respostaEscolhida = null;
-
-                manterTreinoCtrl.countdown = 10;
+                if (manterTreinoCtrl.questaoExibida.nivel == 'Médio') {
+                    manterTreinoCtrl.countdown = 15;
+                } else if (manterTreinoCtrl.questaoExibida.nivel == 'Dificil') {
+                    manterTreinoCtrl.countdown = 20;
+                } else {
+                    manterTreinoCtrl.countdown = 10;
+                }
                 resetTimer();
                 startTimer();
 
